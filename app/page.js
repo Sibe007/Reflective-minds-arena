@@ -45,13 +45,11 @@ export default async function HomePage() {
             </div>
           </div>
           <div className="hero-figure">
-            <div style={{
-              width: "100%", height: "100%", display: "flex",
-              alignItems: "center", justifyContent: "center",
-              fontFamily: "var(--font-display)", color: "rgba(217,162,78,.4)",
-              fontSize: ".85rem", letterSpacing: ".06em"
-            }}>
-              Author Portrait
+            <<img
+  src="/author.jpg"
+  alt="Solomon B. Ibe"
+  style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}
+/>
             </div>
             <div className="cap">Solomon B. Ibe — Lagos, Nigeria</div>
           </div>
