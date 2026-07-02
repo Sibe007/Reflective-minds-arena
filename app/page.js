@@ -11,7 +11,6 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* ===== HERO ===== */}
       <section className="hero">
         <div className="container">
           <div>
@@ -45,12 +44,11 @@ export default async function HomePage() {
             </div>
           </div>
           <div className="hero-figure">
-            <<img
-  src="/author.jpg"
-  alt="Solomon B. Ibe"
-  style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}
-/>
-            </div>
+            <img
+              src="/author.jpg"
+              alt="Solomon B. Ibe"
+              style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}
+            />
             <div className="cap">Solomon B. Ibe — Lagos, Nigeria</div>
           </div>
         </div>
@@ -63,7 +61,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ===== PULL QUOTE ===== */}
       <section style={{ background: "var(--green-deep)", padding: "70px 0" }}>
         <div className="container" style={{ maxWidth: 760, textAlign: "center" }}>
           <p style={{
@@ -83,7 +80,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ===== FEATURED BOOKS ===== */}
       <section className="section">
         <div className="container">
           <div className="section-head">
@@ -167,7 +163,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ===== AUTHOR STATEMENT ===== */}
       <section className="section" style={{ background: "var(--sand)" }}>
         <div className="container" style={{ maxWidth: 760 }}>
           <span className="eyebrow">Why I Write</span>
@@ -191,7 +186,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ===== LATEST BLOG POSTS ===== */}
       <section className="section">
         <div className="container">
           <div className="section-head">
@@ -226,7 +220,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ===== NEWSLETTER ===== */}
       <section className="section newsletter">
         <div className="container nl-box">
           <span className="eyebrow">Join the Conversation</span>
