@@ -38,3 +38,9 @@ export async function getBookBySlug(slug) {
     { slug }
   );
 }
+export async function getSitePage(pageId) {
+  return client.fetch(
+    `*[_type == "sitePage" && pageId == $pageId][0]`,
+    { pageId }
+  );
+}

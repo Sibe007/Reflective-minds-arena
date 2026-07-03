@@ -1,36 +1,43 @@
 import Link from "next/link";
-import { getAllPosts, getAllBooks } from "../sanity/queries";
+import { getAllPosts, getAllBooks, getSitePage } from "../sanity/queries";
 import { urlFor } from "../sanity/image";
 
 export const revalidate = 30;
 
 export default async function HomePage() {
-  const [posts, books] = await Promise.all([getAllPosts(), getAllBooks()]);
-  const featuredBook = books.find((b) => b.featured) || books[0];
+  const [posts, books, page] = await Promise.all([
+    getAllPosts(), getAllBooks(), getSitePage("home")
+  ]);
   const latestPosts = posts.slice(0, 3);
+
+  const eyebrow = page?.homeEyebrow || "Nigerian Author | Exploring Belief, Culture, Identity, and Human Freedom";
+  const heading = page?.homeHeading || "The Stories We Inherit. The Truths We Choose.";
+  const subheading = page?.homeSubheading || "Through fiction and nonfiction, I explore the forces that shape human lives: belief, fear, culture, memory, suffering, resilience, and the courage required to think for oneself.";
+  const intro = page?.homeIntro || "I am Solomon B. Ibe, a Nigerian writer whose work draws deeply from Igbo culture, African oral storytelling traditions, philosophy, and the enduring questions of human existence.";
+  const quote = page?.homeQuote || "The most powerful prisons are rarely built with walls. They are built with beliefs we never realize we were taught to protect.";
+  const whyIWrite1 = page?.homeWhyIWrite || "I write because every society tells stories about what is possible, what is acceptable, and who we are permitted to become. Some of these stories preserve wisdom. Others preserve obedience.";
+  const whyIWrite2 = page?.homeWhyIWrite2 || "My work exists at the intersection of philosophy, African cultural memory, spirituality, and the human struggle for meaning.";
+  const whyIWrite3 = page?.homeWhyIWrite3 || "What becomes possible when a person dares to step beyond the boundaries they were taught to accept?";
 
   return (
     <>
       <section className="hero">
         <div className="container">
           <div>
-            <span className="eyebrow hero-eyebrow">
-              Nigerian Author | Exploring Belief, Culture, Identity, and Human Freedom
-            </span>
+            <span className="eyebrow hero-eyebrow">{eyebrow}</span>
             <h1>
-              The Stories We Inherit.<br />
-              <em>The Truths We Choose.</em>
+              {heading.includes(".") ? (
+                <>
+                  {heading.split(".")[0]}.<br />
+                  <em>{heading.split(".").slice(1).join(".").trim()}</em>
+                </>
+              ) : (
+                <em>{heading}</em>
+              )}
             </h1>
-            <p className="hero-sub">
-              Through fiction and nonfiction, I explore the forces that shape human lives:
-              belief, fear, culture, memory, suffering, resilience, and the courage
-              required to think for oneself.
-            </p>
+            <p className="hero-sub">{subheading}</p>
             <p style={{ color: "rgba(245,237,225,.72)", fontSize: "1rem", maxWidth: "54ch", marginBottom: 32 }}>
-              I am Solomon B. Ibe, a Nigerian writer whose work draws deeply from Igbo culture,
-              African oral storytelling traditions, philosophy, and the enduring questions of
-              human existence. My writing examines how individuals and societies construct meaning,
-              maintain authority, endure suffering, and pursue transformation.
+              {intro}
             </p>
             <div className="hero-ctas">
               <Link href="/books">
@@ -44,11 +51,19 @@ export default async function HomePage() {
             </div>
           </div>
           <div className="hero-figure">
-            <img
-              src="/author.jpg"
-              alt="Solomon B. Ibe"
-              style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}
-            />
+            {page?.homeAuthorPhoto ? (
+              <img
+                src={urlFor(page.homeAuthorPhoto).width(800).url()}
+                alt="Solomon B. Ibe"
+                style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}
+              />
+            ) : (
+              <img
+                src="/author.jpg"
+                alt="Solomon B. Ibe"
+                style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}
+              />
+            )}
             <div className="cap">Solomon B. Ibe — Lagos, Nigeria</div>
           </div>
         </div>
@@ -68,8 +83,7 @@ export default async function HomePage() {
             fontSize: "clamp(1.3rem, 2.4vw, 1.85rem)", color: "var(--parchment)",
             lineHeight: 1.5, margin: "0 0 20px"
           }}>
-            "The most powerful prisons are rarely built with walls. They are built
-            with beliefs we never realize we were taught to protect."
+            "{quote}"
           </p>
           <span style={{
             fontFamily: "var(--font-ui)", fontSize: ".82rem",
@@ -101,7 +115,6 @@ export default async function HomePage() {
                 <h3>The Architecture of Belief</h3>
                 <p className="post-excerpt">
                   How Societies Build the Minds Inside Them — and What It Costs to Think for Yourself.
-                  An examination of how belief is constructed, authority maintained, and obedience quietly moralized.
                 </p>
                 <div style={{ display: "flex", gap: 10, marginTop: 12, flexWrap: "wrap" }}>
                   <Link href="/books/the-architecture-of-belief">
@@ -122,9 +135,8 @@ export default async function HomePage() {
                 <div className="post-cat">Psychology &amp; Philosophy</div>
                 <h3>No Enemy but Fear</h3>
                 <p className="post-excerpt">
-                  Fear is rarely the enemy we believe it to be. This work explores the psychological,
-                  cultural, and existential dimensions of fear — and the cost of letting it define
-                  the boundaries of human possibility.
+                  Fear is rarely the enemy we believe it to be. An exploration of the psychological
+                  and existential dimensions of fear.
                 </p>
                 <div style={{ display: "flex", gap: 10, marginTop: 12, flexWrap: "wrap" }}>
                   <Link href="/books/no-enemy-but-fear">
@@ -145,9 +157,8 @@ export default async function HomePage() {
                 <div className="post-cat">Literary Fiction</div>
                 <h3>The Evolution of Man</h3>
                 <p className="post-excerpt">
-                  In a southeastern Nigerian forest, two broken souls discover that suffering does not
-                  always end a life — sometimes, it transforms one. A novel about loss, healing,
-                  resilience, and the redemptive power of human connection.
+                  In a southeastern Nigerian forest, two broken souls discover that suffering
+                  does not always end a life — sometimes, it transforms one.
                 </p>
                 <div style={{ display: "flex", gap: 10, marginTop: 12, flexWrap: "wrap" }}>
                   <Link href="/books/the-evolution-of-man">
@@ -167,19 +178,9 @@ export default async function HomePage() {
         <div className="container" style={{ maxWidth: 760 }}>
           <span className="eyebrow">Why I Write</span>
           <h2 style={{ marginTop: 14 }}>The question beneath every book</h2>
-          <p style={{ fontSize: "1.08rem", opacity: 0.82, marginTop: 20 }}>
-            I write because every society tells stories about what is possible, what is acceptable,
-            and who we are permitted to become. Some of these stories preserve wisdom. Others preserve obedience.
-          </p>
-          <p style={{ fontSize: "1.08rem", opacity: 0.82 }}>
-            My work exists at the intersection of philosophy, African cultural memory, spirituality,
-            and the human struggle for meaning. I am interested not merely in telling stories, but in
-            examining the structures beneath them: the beliefs we inherit, the fears we normalize,
-            and the truths we discover only when we begin to question.
-          </p>
-          <p style={{ fontSize: "1.08rem", opacity: 0.82 }}>
-            What becomes possible when a person dares to step beyond the boundaries they were taught to accept?
-          </p>
+          <p style={{ fontSize: "1.08rem", opacity: 0.82, marginTop: 20 }}>{whyIWrite1}</p>
+          <p style={{ fontSize: "1.08rem", opacity: 0.82 }}>{whyIWrite2}</p>
+          <p style={{ fontSize: "1.08rem", opacity: 0.82 }}>{whyIWrite3}</p>
           <Link href="/about">
             <button className="btn btn-dark" style={{ marginTop: 10 }}>More About the Author</button>
           </Link>
