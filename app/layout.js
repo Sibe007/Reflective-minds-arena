@@ -17,6 +17,9 @@ export const metadata = {
     locale: "en_NG",
     type: "website",
   },
+  verification: {
+    google: "G-HMX7W3538K",
+  },
 };
 
 export default function RootLayout({ children }) {
@@ -28,7 +31,13 @@ export default function RootLayout({ children }) {
           href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=Inter:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />
-        {/* Google Analytics */}
+      </head>
+      <body>
+        <CartProvider>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </CartProvider>
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-HMX7W3538K"
           strategy="afterInteractive"
@@ -41,13 +50,6 @@ export default function RootLayout({ children }) {
             gtag('config', 'G-HMX7W3538K');
           `}
         </Script>
-      </head>
-      <body>
-        <CartProvider>
-          <Header />
-          <main>{children}</main>
-          <Footer />
-        </CartProvider>
       </body>
     </html>
   );
