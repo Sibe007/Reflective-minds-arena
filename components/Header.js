@@ -23,18 +23,23 @@ export default function Header() {
     <>
       <header className="site-header">
         <div className="container">
-          <Link href="/" className="logo">
-            <Link href="/" className="logo" style={{ display: "flex", alignItems: "center", gap: 12 }}>
-  <img
-    src="/logo.png"
-    alt="Reflective Minds Arena"
-    style={{ height: 48, width: "auto", objectFit: "contain" }}
-  />
-  <div>
-    Solomon B. Ibe
-    <span>Author &amp; Publisher</span>
-  </div>
-</Link>
+          <Link href="/" className="logo" style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <img
+              src="/logo.png"
+              alt="Reflective Minds Arena"
+              style={{ height: 48, width: "auto", objectFit: "contain" }}
+            />
+            <div>
+              Solomon B. Ibe
+              <span>Author &amp; Publisher</span>
+            </div>
+          </Link>
+          <ul className="nav-links">
+            {NAV.map(([href, label]) => (
+              <li key={href}>
+                <Link href={href}>
+                  <button type="button">{label}</button>
+                </Link>
               </li>
             ))}
           </ul>
