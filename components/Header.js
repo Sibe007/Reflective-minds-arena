@@ -27,7 +27,7 @@ export default function Header() {
             <img
               src="/logo.png"
               alt="Reflective Minds Arena"
-              style={{ height: 48, width: "auto", objectFit: "contain" }}
+              style={{ height: 60, width: "auto", objectFit: "contain" }}
             />
             <div>
               Solomon B. Ibe
