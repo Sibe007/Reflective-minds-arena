@@ -23,13 +23,18 @@ export default function Header() {
     <>
       <header className="site-header">
         <div className="container">
-          <Link href="/" className="logo" style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
             <img
               src="/logo.png"
-              alt="Reflective Minds Arena"
-              style={{ height: 70, width: "auto", objectFit: "contain" }}
+              alt="Reflective Minds Arena Logo"
+              style={{
+                height: 40,
+                width: "auto",
+                objectFit: "contain",
+                flexShrink: 0,
+              }}
             />
-            <div>
+            <div className="logo">
               Solomon B. Ibe
               <span>Author &amp; Publisher</span>
             </div>
