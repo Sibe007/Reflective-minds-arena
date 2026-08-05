@@ -11,8 +11,11 @@ const NAV = [
   ["/books", "Books"],
   ["/blog", "Blog"],
   ["/store", "Store"],
+  ["/resources", "Resources"],
+  ["/events", "Events"],
   ["/contact", "Contact"],
 ];
+
 
 export default function Header() {
   const { count } = useCart();

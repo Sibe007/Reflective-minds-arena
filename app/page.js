@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { getAllPosts, getAllBooks, getSitePage } from "../sanity/queries";
+import { getAllPosts, getSitePage } from "../sanity/queries";
 import { urlFor } from "../sanity/image";
 
 export const revalidate = 30;
 
 export default async function HomePage() {
-  const [posts, books, page] = await Promise.all([
-    getAllPosts(), getAllBooks(), getSitePage("home")
+  const [posts, page] = await Promise.all([
+    getAllPosts(), getSitePage("home")
   ]);
   const latestPosts = posts.slice(0, 3);
 
@@ -15,12 +15,10 @@ export default async function HomePage() {
   const subheading = page?.homeSubheading || "Through fiction and nonfiction, I explore the forces that shape human lives: belief, fear, culture, memory, suffering, resilience, and the courage required to think for oneself.";
   const intro = page?.homeIntro || "I am Solomon B. Ibe, a Nigerian writer whose work draws deeply from Igbo culture, African oral storytelling traditions, philosophy, and the enduring questions of human existence.";
   const quote = page?.homeQuote || "The most powerful prisons are rarely built with walls. They are built with beliefs we never realize we were taught to protect.";
-  const whyIWrite1 = page?.homeWhyIWrite || "I write because every society tells stories about what is possible, what is acceptable, and who we are permitted to become. Some of these stories preserve wisdom. Others preserve obedience.";
-  const whyIWrite2 = page?.homeWhyIWrite2 || "My work exists at the intersection of philosophy, African cultural memory, spirituality, and the human struggle for meaning.";
-  const whyIWrite3 = page?.homeWhyIWrite3 || "What becomes possible when a person dares to step beyond the boundaries they were taught to accept?";
 
   return (
     <>
+      {/* ===== HERO ===== */}
       <section className="hero">
         <div className="container">
           <div>
@@ -46,6 +44,11 @@ export default async function HomePage() {
               <Link href="/about">
                 <button className="btn btn-outline" style={{ color: "var(--parchment)" }}>
                   About the Author
+                </button>
+              </Link>
+              <Link href="/store">
+                <button className="btn btn-ghost" style={{ color: "var(--gold-bright)" }}>
+                  Visit Store →
                 </button>
               </Link>
             </div>
@@ -76,6 +79,7 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ===== PULL QUOTE ===== */}
       <section style={{ background: "var(--green-deep)", padding: "70px 0" }}>
         <div className="container" style={{ maxWidth: 760, textAlign: "center" }}>
           <p style={{
@@ -91,102 +95,17 @@ export default async function HomePage() {
           }}>
             — Solomon B. Ibe
           </span>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="container">
-          <div className="section-head">
-            <div>
-              <span className="eyebrow">Featured Books</span>
-              <h2 style={{ marginTop: 14 }}>Three books. One question asked many ways.</h2>
-            </div>
-            <Link href="/books">
-              <button className="btn btn-ghost">View all books →</button>
+          <div style={{ marginTop: 28 }}>
+            <Link href="/about">
+              <button className="btn btn-outline" style={{ color: "var(--parchment)" }}>
+                Read More About the Author
+              </button>
             </Link>
           </div>
-          <div className="grid-3">
-            <div className="post-card">
-              <div className="post-thumb" style={{ background: "linear-gradient(135deg, #274233, #0F1A14)" }}>
-                <span>Nonfiction</span>
-              </div>
-              <div className="post-body">
-                <div className="post-cat">Philosophy &amp; Society</div>
-                <h3>The Architecture of Belief</h3>
-                <p className="post-excerpt">
-                  How Societies Build the Minds Inside Them — and What It Costs to Think for Yourself.
-                </p>
-                <div style={{ display: "flex", gap: 10, marginTop: 12, flexWrap: "wrap" }}>
-                  <Link href="/books/the-architecture-of-belief">
-                    <button className="btn btn-ghost" style={{ padding: "8px 0" }}>Learn More →</button>
-                  </Link>
-                  <Link href="/store">
-                    <button className="btn btn-dark btn-sm">Buy the Book</button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            <div className="post-card">
-              <div className="post-thumb" style={{ background: "linear-gradient(135deg, #3D1F1F, #1A0F0F)" }}>
-                <span>Nonfiction</span>
-              </div>
-              <div className="post-body">
-                <div className="post-cat">Psychology &amp; Philosophy</div>
-                <h3>No Enemy but Fear</h3>
-                <p className="post-excerpt">
-                  Fear is rarely the enemy we believe it to be. An exploration of the psychological
-                  and existential dimensions of fear.
-                </p>
-                <div style={{ display: "flex", gap: 10, marginTop: 12, flexWrap: "wrap" }}>
-                  <Link href="/books/no-enemy-but-fear">
-                    <button className="btn btn-ghost" style={{ padding: "8px 0" }}>Learn More →</button>
-                  </Link>
-                  <Link href="/store">
-                    <button className="btn btn-dark btn-sm">Buy the Book</button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            <div className="post-card">
-              <div className="post-thumb" style={{ background: "linear-gradient(135deg, #1A2E22, #274233)" }}>
-                <span>Fiction</span>
-              </div>
-              <div className="post-body">
-                <div className="post-cat">Literary Fiction</div>
-                <h3>The Evolution of Man</h3>
-                <p className="post-excerpt">
-                  In a southeastern Nigerian forest, two broken souls discover that suffering
-                  does not always end a life — sometimes, it transforms one.
-                </p>
-                <div style={{ display: "flex", gap: 10, marginTop: 12, flexWrap: "wrap" }}>
-                  <Link href="/books/the-evolution-of-man">
-                    <button className="btn btn-ghost" style={{ padding: "8px 0" }}>Learn More →</button>
-                  </Link>
-                  <Link href="/store">
-                    <button className="btn btn-dark btn-sm">Buy the Book</button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
-      <section className="section" style={{ background: "var(--sand)" }}>
-        <div className="container" style={{ maxWidth: 760 }}>
-          <span className="eyebrow">Why I Write</span>
-          <h2 style={{ marginTop: 14 }}>The question beneath every book</h2>
-          <p style={{ fontSize: "1.08rem", opacity: 0.82, marginTop: 20 }}>{whyIWrite1}</p>
-          <p style={{ fontSize: "1.08rem", opacity: 0.82 }}>{whyIWrite2}</p>
-          <p style={{ fontSize: "1.08rem", opacity: 0.82 }}>{whyIWrite3}</p>
-          <Link href="/about">
-            <button className="btn btn-dark" style={{ marginTop: 10 }}>More About the Author</button>
-          </Link>
-        </div>
-      </section>
-
+      {/* ===== LATEST BLOG POSTS ===== */}
       <section className="section">
         <div className="container">
           <div className="section-head">
@@ -221,6 +140,7 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ===== NEWSLETTER ===== */}
       <section className="section newsletter">
         <div className="container nl-box">
           <span className="eyebrow">Join the Conversation</span>
