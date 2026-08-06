@@ -24,5 +24,15 @@ export default {
   ],
   preview: {
     select: { title: "title", subtitle: "subtitle", media: "coverImage" },
-  },
-};
+  {
+      name: "selarEbookUrl",
+      title: "Selar eBook Buy Link",
+      type: "url",
+      description: "Paste your Selar product link for the eBook version. Example: https://selar.co/xxxxxxxx",
+    },
+    {
+      name: "selarAudioUrl",
+      title: "Selar Audiobook Buy Link",
+      type: "url",
+      description: "Paste your Selar product link for the Audiobook version. Example: https://selar.co/xxxxxxxx",
+    },
