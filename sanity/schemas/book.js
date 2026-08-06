@@ -20,11 +20,7 @@ export default {
       title: "Stripe Price ID",
       type: "string",
       description: "Paste the Price ID from your Stripe dashboard for this product (e.g. price_1AbC...). Leave blank until Stripe is set up.",
-    },
-  ],
-  preview: {
-    select: { title: "title", subtitle: "subtitle", media: "coverImage" },
-  {
+    {
       name: "selarEbookUrl",
       title: "Selar eBook Buy Link",
       type: "url",
