@@ -13,7 +13,7 @@ export default async function StorePage() {
         <div className="container">
           <div className="breadcrumb">Home / Store</div>
           <h1>Digital Store</h1>
-          <p>eBooks and Audiobooks — delivered instantly to your email after purchase.</p>
+          <p>eBooks and Audiobooks delivered instantly to your email after purchase.</p>
         </div>
       </section>
 
@@ -43,7 +43,9 @@ export default async function StorePage() {
                     <div>
                       <span className="eyebrow">{book.category}</span>
                       <h2 style={{ marginTop: 10 }}>{book.title}</h2>
-                      {book.subtitle && <h3 style={{ opacity: 0.6, fontWeight: 400, fontStyle: "italic" }}>{book.subtitle}</h3>}
+                      {book.subtitle && (
+                        <h3 style={{ opacity: 0.6, fontWeight: 400, fontStyle: "italic" }}>{book.subtitle}</h3>
+                      )}
                       <p style={{ opacity: 0.78, marginTop: 16 }}>{book.blurb}</p>
                       <div style={{ marginTop: 28, display: "flex", flexDirection: "column", gap: 16 }}>
                         <div style={{ border: "1px solid var(--line)", borderRadius: 2, padding: "20px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 14, background: "var(--sand)" }}>
