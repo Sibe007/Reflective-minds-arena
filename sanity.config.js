@@ -47,7 +47,9 @@ export default defineConfig({
                       ),
                   ])
               ),
+
             S.divider(),
+
             S.listItem()
               .title("📝 Blog Posts")
               .child(
@@ -70,7 +72,9 @@ export default defineConfig({
                       ),
                   ])
               ),
+
             S.divider(),
+
             S.listItem()
               .title("📚 Books")
               .child(
@@ -89,6 +93,54 @@ export default defineConfig({
                       .child(
                         S.documentTypeList("book")
                           .title("All Books")
+                      ),
+                  ])
+              ),
+
+            S.divider(),
+
+            S.listItem()
+              .title("📦 Resources")
+              .child(
+                S.list()
+                  .title("Resources")
+                  .items([
+                    S.listItem()
+                      .title("➕ Add a New Resource")
+                      .child(
+                        S.document()
+                          .schemaType("resource")
+                          .title("New Resource")
+                      ),
+                    S.listItem()
+                      .title("📋 View & Edit All Resources")
+                      .child(
+                        S.documentTypeList("resource")
+                          .title("All Resources")
+                      ),
+                  ])
+              ),
+
+            S.divider(),
+
+            S.listItem()
+              .title("📅 Events")
+              .child(
+                S.list()
+                  .title("Events")
+                  .items([
+                    S.listItem()
+                      .title("➕ Add a New Event")
+                      .child(
+                        S.document()
+                          .schemaType("event")
+                          .title("New Event")
+                      ),
+                    S.listItem()
+                      .title("📋 View & Edit All Events")
+                      .child(
+                        S.documentTypeList("event")
+                          .title("All Events")
                       ),
                   ])
               ),
