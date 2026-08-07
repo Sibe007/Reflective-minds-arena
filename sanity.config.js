@@ -17,16 +17,16 @@ export default defineConfig({
           .items([
             S.listItem()
               .title("🏠 Home Page")
-              .child(S.document().schemaType("homePage").documentId("home-page").title("🏠 Edit Home Page")),
+              .child(S.document().schemaType("homePage").documentId("home-page").title("🏠 Home Page")),
             S.listItem()
               .title("👤 About Page")
-              .child(S.document().schemaType("aboutPage").documentId("about-page").title("👤 Edit About Page")),
+              .child(S.document().schemaType("aboutPage").documentId("about-page").title("👤 About Page")),
             S.listItem()
               .title("📖 My Story")
-              .child(S.document().schemaType("aboutPage").documentId("about-page").title("📖 Edit My Story")),
+              .child(S.document().schemaType("myStoryPage").documentId("my-story-page").title("📖 My Story")),
             S.listItem()
               .title("📬 Contact Page")
-              .child(S.document().schemaType("contactPage").documentId("contact-page").title("📬 Edit Contact Page")),
+              .child(S.document().schemaType("contactPage").documentId("contact-page").title("📬 Contact Page")),
             S.divider(),
             S.listItem()
               .title("📝 Blog Posts")

@@ -1,14 +1,15 @@
-import { getAboutPage } from "../../sanity/queries";
+import { getMyStoryPage } from "../../sanity/queries";
 import { urlFor } from "../../sanity/image";
 import Link from "next/link";
 
 export const revalidate = 30;
 
 export default async function MyStoryPage() {
-  const page = await getAboutPage();
+  const page = await getMyStoryPage();
 
   const bio1 = page?.bio1 || "";
   const bio2 = page?.bio2 || "";
+  const bio3 = page?.bio3 || "";
   const pullQuote = page?.pullQuote || "";
   const influences = page?.influences || [];
   const awards = page?.awards || [];
@@ -25,6 +26,7 @@ export default async function MyStoryPage() {
 
       <section className="section">
         <div className="container" style={{ maxWidth: 860 }}>
+
           <div style={{ display: "grid", gridTemplateColumns: "280px 1fr", gap: 48, alignItems: "start" }}>
             <div className="portrait reveal">
               {page?.photo ? (
@@ -34,28 +36,33 @@ export default async function MyStoryPage() {
               )}
             </div>
             <div className="reveal">
-              <span className="eyebrow">Biography</span>
+              <span className="eyebrow">My Journey</span>
               <h2 style={{ marginTop: 14 }}>Solomon B. Ibe</h2>
               {bio1 ? (
                 <p style={{ fontSize: "1.05rem", opacity: 0.82, lineHeight: 1.8 }}>{bio1}</p>
               ) : (
-                <p style={{ opacity: 0.5 }}>Add your biography in Studio — About Page — Biography Paragraph 1.</p>
+                <p style={{ opacity: 0.5 }}>Add your story in Studio — click My Story — fill in the paragraphs — click Publish.</p>
               )}
-              {bio2 && <p style={{ fontSize: "1.05rem", opacity: 0.82, lineHeight: 1.8 }}>{bio2}</p>}
+              {bio2 && <p style={{ fontSize: "1.05rem", opacity: 0.82, lineHeight: 1.8, marginTop: 16 }}>{bio2}</p>}
+              {bio3 && <p style={{ fontSize: "1.05rem", opacity: 0.82, lineHeight: 1.8, marginTop: 16 }}>{bio3}</p>}
             </div>
           </div>
 
-          {pullQuote && <div className="pull-quote reveal" style={{ marginTop: 56 }}>{pullQuote}</div>}
+          {pullQuote && (
+            <div className="pull-quote reveal" style={{ marginTop: 56 }}>{pullQuote}</div>
+          )}
 
           <div className="reveal" style={{ marginTop: 60 }}>
             <span className="eyebrow">Literary Influences</span>
             <h2 style={{ marginTop: 14 }}>Writers who shaped my thinking</h2>
             {influences.length > 0 ? (
               <div className="influence-row" style={{ marginTop: 24 }}>
-                {influences.map((name, i) => <span className="influence-tag" key={i}>{name}</span>)}
+                {influences.map((name, i) => (
+                  <span className="influence-tag" key={i}>{name}</span>
+                ))}
               </div>
             ) : (
-              <p style={{ opacity: 0.5, marginTop: 16 }}>Add your literary influences in Studio — About Page — Literary Influences.</p>
+              <p style={{ opacity: 0.5, marginTop: 16 }}>Add your influences in Studio — My Story — Writers Who Influenced You.</p>
             )}
           </div>
 
@@ -64,10 +71,12 @@ export default async function MyStoryPage() {
             <h2 style={{ marginTop: 14 }}>Awards and Publications</h2>
             {awards.length > 0 ? (
               <ul className="award-list" style={{ marginTop: 20 }}>
-                {awards.map((a, i) => <li key={i}><span>{a.title}</span><span className="yr">{a.year}</span></li>)}
+                {awards.map((a, i) => (
+                  <li key={i}><span>{a.title}</span><span className="yr">{a.year}</span></li>
+                ))}
               </ul>
             ) : (
-              <p style={{ opacity: 0.5, marginTop: 16 }}>Add your awards in Studio — About Page — Awards and Publications.</p>
+              <p style={{ opacity: 0.5, marginTop: 16 }}>Add your awards in Studio — My Story — Awards and Publications.</p>
             )}
           </div>
 
@@ -75,6 +84,7 @@ export default async function MyStoryPage() {
             <Link href="/books"><button className="btn btn-primary">Browse My Books</button></Link>
             <Link href="/contact"><button className="btn btn-outline">Get in Touch</button></Link>
           </div>
+
         </div>
       </section>
     </>

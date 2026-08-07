@@ -24,6 +24,10 @@ export async function getAboutPage() {
   return client.fetch(`*[_type == "aboutPage" && _id == "about-page"][0]`);
 }
 
+export async function getMyStoryPage() {
+  return client.fetch(`*[_type == "myStoryPage" && _id == "my-story-page"][0]`);
+}
+
 export async function getContactPage() {
   return client.fetch(`*[_type == "contactPage" && _id == "contact-page"][0]`);
 }
