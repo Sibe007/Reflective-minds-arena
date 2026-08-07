@@ -8,6 +8,7 @@ import CartDrawer from "./CartDrawer";
 const NAV = [
   ["/", "Home"],
   ["/about", "About"],
+  ["/my-story", "My Story"],
   ["/books", "Books"],
   ["/blog", "Blog"],
   ["/store", "Store"],
@@ -15,7 +16,6 @@ const NAV = [
   ["/events", "Events"],
   ["/contact", "Contact"],
 ];
-
 
 export default function Header() {
   const { count } = useCart();
@@ -27,16 +27,7 @@ export default function Header() {
       <header className="site-header">
         <div className="container">
           <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
-            <img
-              src="/logo.png"
-              alt="Reflective Minds Arena Logo"
-              style={{
-                height: 40,
-                width: "auto",
-                objectFit: "contain",
-                flexShrink: 0,
-              }}
-            />
+            <img src="/logo.png" alt="Reflective Minds Arena Logo" style={{ height: 40, width: "auto", objectFit: "contain", flexShrink: 0 }} />
             <div className="logo">
               Solomon B. Ibe
               <span>Author &amp; Publisher</span>
@@ -52,19 +43,11 @@ export default function Header() {
             ))}
           </ul>
           <div className="header-actions">
-            <button
-              className="icon-btn"
-              aria-label="Cart"
-              onClick={() => setCartOpen(true)}
-            >
+            <button className="icon-btn" aria-label="Cart" onClick={() => setCartOpen(true)}>
               🛍️
               {count > 0 && <span className="cart-count">{count}</span>}
             </button>
-            <button
-              className="icon-btn mobile-toggle"
-              aria-label="Menu"
-              onClick={() => setMobileOpen((v) => !v)}
-            >
+            <button className="icon-btn mobile-toggle" aria-label="Menu" onClick={() => setMobileOpen((v) => !v)}>
               ☰
             </button>
           </div>
