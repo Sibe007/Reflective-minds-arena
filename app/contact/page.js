@@ -50,9 +50,7 @@ export default async function ContactPage() {
               </div>
               {(instagram || twitter || facebook) && (
                 <div style={{ marginTop: 32 }}>
-                  <strong style={{ fontFamily: "var(--font-ui)", fontSize: ".85rem", letterSpacing: ".04em", textTransform: "uppercase" }}>
-                    Follow along
-                  </strong>
+                  <strong style={{ fontFamily: "var(--font-ui)", fontSize: ".85rem", letterSpacing: ".04em", textTransform: "uppercase" }}>Follow along</strong>
                   <div className="social-row" style={{ marginTop: 14 }}>
                     {instagram && <a href={instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram">IG</a>}
                     {twitter && <a href={twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter">X</a>}
