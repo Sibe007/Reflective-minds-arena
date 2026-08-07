@@ -23,7 +23,8 @@ export async function getAllBooks() {
   return client.fetch(
     `*[_type == "book"] | order(featured desc){
       _id, title, "slug": slug.current, subtitle, coverImage, blurb,
-      price, oldPrice, format, category, featured, stripePriceId
+      price, oldPrice, format, category, featured, stripePriceId,
+      selarEbookUrl, selarAudioUrl
     }`
   );
 }
@@ -33,20 +34,23 @@ export async function getBookBySlug(slug) {
     `*[_type == "book" && slug.current == $slug][0]{
       _id, title, "slug": slug.current, subtitle, coverImage, blurb,
       longDescription, sampleChapter, price, oldPrice, format, category,
-      featured, stripePriceId
+      featured, stripePriceId, selarEbookUrl, selarAudioUrl
     }`,
     { slug }
   );
 }
 
 export async function getSitePage(pageId) {
-  const byDocId = await client.fetch(
-    `*[_type == "sitePage" && _id == $docId][0]`,
-    { docId: `${pageId}-page` }
-  );
-  if (byDocId) return byDocId;
   return client.fetch(
-    `*[_type == "sitePage" && pageId == $pageId][0]`,
-    { pageId }
+    `*[_type == "sitePage" && (
+      _id == $docId ||
+      _id == $draftId ||
+      pageId == $pageId
+    )][0]`,
+    {
+      docId: pageId + "-page",
+      draftId: "drafts." + pageId + "-page",
+      pageId: pageId,
+    }
   );
 }
