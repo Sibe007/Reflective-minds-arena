@@ -1,17 +1,19 @@
-import { getSitePage } from "../../sanity/queries";
+import { getContactPage } from "../../sanity/queries";
 import ContactForm from "../../components/ContactForm";
 
 export const revalidate = 30;
 
 export default async function ContactPage() {
-  const page = await getSitePage("contact-page");
+  const page = await getContactPage();
 
-  const email = page?.contactEmail || "hello@reflectivemindsarena.com.ng";
-  const location = page?.contactLocation || "Lagos, Nigeria";
-  const responseTime = page?.contactResponseTime || "Within 2-3 business days";
-  const instagram = page?.contactInstagram || null;
-  const twitter = page?.contactTwitter || null;
-  const facebook = page?.contactFacebook || null;
+  const email = page?.email || "hello@reflectivemindsarena.com.ng";
+  const phone = page?.phone || "";
+  const location = page?.location || "Lagos, Nigeria";
+  const responseTime = page?.responseTime || "Within 2-3 business days";
+  const instagram = page?.instagram || null;
+  const twitter = page?.twitter || null;
+  const facebook = page?.facebook || null;
+  const whatsapp = page?.whatsapp || null;
 
   return (
     <>
@@ -34,6 +36,15 @@ export default async function ContactPage() {
                   <p style={{ margin: "4px 0 0", opacity: 0.7 }}>{email}</p>
                 </div>
               </div>
+              {phone && (
+                <div className="contact-info-item">
+                  <div>📞</div>
+                  <div>
+                    <strong style={{ fontFamily: "var(--font-ui)" }}>Phone</strong>
+                    <p style={{ margin: "4px 0 0", opacity: 0.7 }}>{phone}</p>
+                  </div>
+                </div>
+              )}
               <div className="contact-info-item">
                 <div>📍</div>
                 <div>
@@ -48,6 +59,15 @@ export default async function ContactPage() {
                   <p style={{ margin: "4px 0 0", opacity: 0.7 }}>{responseTime}</p>
                 </div>
               </div>
+              {whatsapp && (
+                <div className="contact-info-item">
+                  <div>💬</div>
+                  <div>
+                    <strong style={{ fontFamily: "var(--font-ui)" }}>WhatsApp</strong>
+                    <p style={{ margin: "4px 0 0", opacity: 0.7 }}>{whatsapp}</p>
+                  </div>
+                </div>
+              )}
               {(instagram || twitter || facebook) && (
                 <div style={{ marginTop: 32 }}>
                   <strong style={{ fontFamily: "var(--font-ui)", fontSize: ".85rem", letterSpacing: ".04em", textTransform: "uppercase" }}>Follow along</strong>

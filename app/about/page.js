@@ -1,22 +1,22 @@
-import { getSitePage } from "../../sanity/queries";
+import { getAboutPage } from "../../sanity/queries";
 import { urlFor } from "../../sanity/image";
 import Link from "next/link";
 
 export const revalidate = 30;
 
 export default async function AboutPage() {
-  const page = await getSitePage("about-page");
+  const page = await getAboutPage();
 
-  const heading = page?.aboutHeading || "About Solomon B. Ibe";
-  const subheading = page?.aboutSubheading || "Nigerian author, Interior Architect, and independent publisher based in Lagos.";
-  const bio1 = page?.aboutBio || "";
-  const bio2 = page?.aboutBio2 || "";
-  const pullQuote = page?.aboutPullQuote || "I did not become a writer to be understood. I became one to make sure certain things were not lost.";
-  const influences = page?.aboutInfluences || ["Chinua Achebe", "Chimamanda Ngozi Adichie", "Wole Soyinka", "Ben Okri", "James Baldwin", "Frantz Fanon", "Toni Morrison"];
-  const awards = page?.aboutAwards || [];
-  const whyIWrite1 = page?.homeWhyIWrite || "I write because every society tells stories about what is possible, what is acceptable, and who we are permitted to become.";
-  const whyIWrite2 = page?.homeWhyIWrite2 || "My work exists at the intersection of philosophy, African cultural memory, spirituality, and the human struggle for meaning.";
-  const whyIWrite3 = page?.homeWhyIWrite3 || "What becomes possible when a person dares to step beyond the boundaries they were taught to accept?";
+  const heading = page?.heading || "About Solomon B. Ibe";
+  const subheading = page?.subheading || "Nigerian author, Interior Architect, and independent publisher based in Lagos.";
+  const bio1 = page?.bio1 || "";
+  const bio2 = page?.bio2 || "";
+  const pullQuote = page?.pullQuote || "I did not become a writer to be understood. I became one to make sure certain things were not lost.";
+  const whyIWrite1 = page?.whyIWrite1 || "I write because every society tells stories about what is possible, what is acceptable, and who we are permitted to become.";
+  const whyIWrite2 = page?.whyIWrite2 || "My work exists at the intersection of philosophy, African cultural memory, spirituality, and the human struggle for meaning.";
+  const whyIWrite3 = page?.whyIWrite3 || "What becomes possible when a person dares to step beyond the boundaries they were taught to accept?";
+  const influences = page?.influences || ["Chinua Achebe", "Chimamanda Ngozi Adichie", "Wole Soyinka", "Ben Okri", "James Baldwin", "Frantz Fanon", "Toni Morrison"];
+  const awards = page?.awards || [];
 
   return (
     <>
@@ -32,8 +32,8 @@ export default async function AboutPage() {
         <div className="container">
           <div className="about-hero">
             <div className="portrait reveal">
-              {page?.aboutPhoto ? (
-                <img src={urlFor(page.aboutPhoto).width(600).url()} alt="Solomon B. Ibe" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              {page?.photo ? (
+                <img src={urlFor(page.photo).width(600).url()} alt="Solomon B. Ibe" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               ) : (
                 <img src="/author.jpg" alt="Solomon B. Ibe" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
               )}
@@ -44,7 +44,7 @@ export default async function AboutPage() {
               {bio1 ? (
                 <p style={{ fontSize: "1.05rem", opacity: 0.82, lineHeight: 1.8 }}>{bio1}</p>
               ) : (
-                <p style={{ opacity: 0.5 }}>Add your biography in Studio — Edit My Pages — About Page.</p>
+                <p style={{ opacity: 0.5 }}>Add your biography in Studio — About Page — Biography Paragraph 1.</p>
               )}
               {bio2 && <p style={{ fontSize: "1.05rem", opacity: 0.82, lineHeight: 1.8 }}>{bio2}</p>}
               <div className="hero-ctas" style={{ marginTop: 24 }}>
@@ -92,7 +92,6 @@ export default async function AboutPage() {
               <Link href="/events"><button className="btn btn-outline" style={{ color: "var(--parchment)", borderColor: "var(--parchment)" }}>View Events</button></Link>
             </div>
           </div>
-
         </div>
       </section>
     </>

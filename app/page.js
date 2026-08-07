@@ -1,18 +1,18 @@
 import Link from "next/link";
-import { getAllPosts, getSitePage } from "../sanity/queries";
+import { getAllPosts, getHomePage } from "../sanity/queries";
 import { urlFor } from "../sanity/image";
 
 export const revalidate = 30;
 
 export default async function HomePage() {
-  const [posts, page] = await Promise.all([getAllPosts(), getSitePage("home-page")]);
+  const [posts, page] = await Promise.all([getAllPosts(), getHomePage()]);
   const latestPosts = posts.slice(0, 3);
 
-  const eyebrow = page?.homeEyebrow || "Nigerian Author | Exploring Belief, Culture, Identity, and Human Freedom";
-  const heading = page?.homeHeading || "The Stories We Inherit. The Truths We Choose.";
-  const subheading = page?.homeSubheading || "Through fiction and nonfiction, I explore the forces that shape human lives: belief, fear, culture, memory, suffering, resilience, and the courage required to think for oneself.";
-  const intro = page?.homeIntro || "I am Solomon B. Ibe, a Nigerian author and Interior Architect based in Lagos, Nigeria.";
-  const quote = page?.homeQuote || "The most powerful prisons are rarely built with walls. They are built with beliefs we never realize we were taught to protect.";
+  const eyebrow = page?.eyebrow || "Nigerian Author | Exploring Belief, Culture, Identity, and Human Freedom";
+  const heading = page?.heading || "The Stories We Inherit. The Truths We Choose.";
+  const subheading = page?.subheading || "Through fiction and nonfiction, I explore the forces that shape human lives.";
+  const intro = page?.intro || "I am Solomon B. Ibe, a Nigerian author and Interior Architect based in Lagos, Nigeria.";
+  const quote = page?.quote || "The most powerful prisons are rarely built with walls. They are built with beliefs we never realize we were taught to protect.";
 
   return (
     <>
@@ -34,8 +34,8 @@ export default async function HomePage() {
             </div>
           </div>
           <div className="hero-figure">
-            {page?.homeAuthorPhoto ? (
-              <img src={urlFor(page.homeAuthorPhoto).width(800).url()} alt="Solomon B. Ibe" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
+            {page?.authorPhoto ? (
+              <img src={urlFor(page.authorPhoto).width(800).url()} alt="Solomon B. Ibe" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
             ) : (
               <img src="/author.jpg" alt="Solomon B. Ibe" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
             )}
@@ -68,7 +68,7 @@ export default async function HomePage() {
             <Link href="/blog"><button className="btn btn-ghost">View all posts →</button></Link>
           </div>
           <div className="grid-3">
-            {latestPosts.length === 0 && <p style={{ opacity: 0.6 }}>No posts yet — add your first one in the <Link href="/studio">Content Studio</Link>.</p>}
+            {latestPosts.length === 0 && <p style={{ opacity: 0.6 }}>No posts yet — add your first one in the Content Studio.</p>}
             {latestPosts.map((p) => (
               <Link href={"/blog/" + p.slug} key={p._id}>
                 <article className="post-card">
