@@ -23,125 +23,60 @@ export default defineConfig({
                   .items([
                     S.listItem()
                       .title("🏠 Home Page")
-                      .child(
-                        S.document()
-                          .schemaType("sitePage")
-                          .documentId("home-page")
-                          .title("🏠 Edit Home Page")
-                      ),
+                      .child(S.document().schemaType("sitePage").documentId("home-page").title("🏠 Edit Home Page")),
                     S.listItem()
                       .title("👤 About Page")
-                      .child(
-                        S.document()
-                          .schemaType("sitePage")
-                          .documentId("about-page")
-                          .title("👤 Edit About Page")
-                      ),
+                      .child(S.document().schemaType("sitePage").documentId("about-page").title("👤 Edit About Page")),
+                    S.listItem()
+                      .title("📖 My Story Page")
+                      .child(S.document().schemaType("sitePage").documentId("about-page").title("📖 Edit My Story")),
                     S.listItem()
                       .title("📬 Contact Page")
-                      .child(
-                        S.document()
-                          .schemaType("sitePage")
-                          .documentId("contact-page")
-                          .title("📬 Edit Contact Page")
-                      ),
+                      .child(S.document().schemaType("sitePage").documentId("contact-page").title("📬 Edit Contact Page")),
                   ])
               ),
-
             S.divider(),
-
             S.listItem()
               .title("📝 Blog Posts")
               .child(
                 S.list()
                   .title("Blog Posts")
                   .items([
-                    S.listItem()
-                      .title("➕ Write a New Blog Post")
-                      .child(
-                        S.document()
-                          .schemaType("post")
-                          .title("New Blog Post")
-                      ),
-                    S.listItem()
-                      .title("📋 View & Edit All Posts")
-                      .child(
-                        S.documentTypeList("post")
-                          .title("All Blog Posts")
-                          .defaultOrdering([{ field: "publishedAt", direction: "desc" }])
-                      ),
+                    S.listItem().title("➕ Write a New Blog Post").child(S.document().schemaType("post").title("New Blog Post")),
+                    S.listItem().title("📋 View & Edit All Posts").child(S.documentTypeList("post").title("All Blog Posts").defaultOrdering([{ field: "publishedAt", direction: "desc" }])),
                   ])
               ),
-
             S.divider(),
-
             S.listItem()
               .title("📚 Books")
               .child(
                 S.list()
                   .title("Books")
                   .items([
-                    S.listItem()
-                      .title("➕ Add a New Book")
-                      .child(
-                        S.document()
-                          .schemaType("book")
-                          .title("New Book")
-                      ),
-                    S.listItem()
-                      .title("📋 View & Edit All Books")
-                      .child(
-                        S.documentTypeList("book")
-                          .title("All Books")
-                      ),
+                    S.listItem().title("➕ Add a New Book").child(S.document().schemaType("book").title("New Book")),
+                    S.listItem().title("📋 View & Edit All Books").child(S.documentTypeList("book").title("All Books")),
                   ])
               ),
-
             S.divider(),
-
             S.listItem()
               .title("📦 Resources")
               .child(
                 S.list()
                   .title("Resources")
                   .items([
-                    S.listItem()
-                      .title("➕ Add a New Resource")
-                      .child(
-                        S.document()
-                          .schemaType("resource")
-                          .title("New Resource")
-                      ),
-                    S.listItem()
-                      .title("📋 View & Edit All Resources")
-                      .child(
-                        S.documentTypeList("resource")
-                          .title("All Resources")
-                      ),
+                    S.listItem().title("➕ Add a New Resource").child(S.document().schemaType("resource").title("New Resource")),
+                    S.listItem().title("📋 View & Edit All Resources").child(S.documentTypeList("resource").title("All Resources")),
                   ])
               ),
-
             S.divider(),
-
             S.listItem()
               .title("📅 Events")
               .child(
                 S.list()
                   .title("Events")
                   .items([
-                    S.listItem()
-                      .title("➕ Add a New Event")
-                      .child(
-                        S.document()
-                          .schemaType("event")
-                          .title("New Event")
-                      ),
-                    S.listItem()
-                      .title("📋 View & Edit All Events")
-                      .child(
-                        S.documentTypeList("event")
-                          .title("All Events")
-                      ),
+                    S.listItem().title("➕ Add a New Event").child(S.document().schemaType("event").title("New Event")),
+                    S.listItem().title("📋 View & Edit All Events").child(S.documentTypeList("event").title("All Events")),
                   ])
               ),
           ]),
