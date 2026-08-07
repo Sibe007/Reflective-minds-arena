@@ -40,17 +40,9 @@ export async function getBookBySlug(slug) {
   );
 }
 
-export async function getSitePage(pageId) {
+export async function getSitePage(docId) {
   return client.fetch(
-    `*[_type == "sitePage" && (
-      _id == $docId ||
-      _id == $draftId ||
-      pageId == $pageId
-    )][0]`,
-    {
-      docId: pageId + "-page",
-      draftId: "drafts." + pageId + "-page",
-      pageId: pageId,
-    }
+    `*[_type == "sitePage" && _id == $docId][0]`,
+    { docId }
   );
 }

@@ -4,7 +4,7 @@ import ContactForm from "../../components/ContactForm";
 export const revalidate = 30;
 
 export default async function ContactPage() {
-  const page = await getSitePage("contact");
+  const page = await getSitePage("contact-page");
 
   const email = page?.contactEmail || "hello@reflectivemindsarena.com.ng";
   const location = page?.contactLocation || "Lagos, Nigeria";

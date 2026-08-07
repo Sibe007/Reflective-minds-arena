@@ -5,7 +5,7 @@ import { urlFor } from "../sanity/image";
 export const revalidate = 30;
 
 export default async function HomePage() {
-  const [posts, page] = await Promise.all([getAllPosts(), getSitePage("home")]);
+  const [posts, page] = await Promise.all([getAllPosts(), getSitePage("home-page")]);
   const latestPosts = posts.slice(0, 3);
 
   const eyebrow = page?.homeEyebrow || "Nigerian Author | Exploring Belief, Culture, Identity, and Human Freedom";
@@ -23,9 +23,7 @@ export default async function HomePage() {
             <h1>
               {heading.includes(".") ? (
                 <>{heading.split(".")[0]}.<br /><em>{heading.split(".").slice(1).join(".").trim()}</em></>
-              ) : (
-                <em>{heading}</em>
-              )}
+              ) : (<em>{heading}</em>)}
             </h1>
             <p className="hero-sub">{subheading}</p>
             <p style={{ color: "rgba(245,237,225,.72)", fontSize: "1rem", maxWidth: "54ch", marginBottom: 32 }}>{intro}</p>
@@ -55,9 +53,7 @@ export default async function HomePage() {
 
       <section style={{ background: "var(--green-deep)", padding: "70px 0" }}>
         <div className="container" style={{ maxWidth: 760, textAlign: "center" }}>
-          <p style={{ fontFamily: "var(--font-display)", fontStyle: "italic", fontSize: "clamp(1.3rem, 2.4vw, 1.85rem)", color: "var(--parchment)", lineHeight: 1.5, margin: "0 0 20px" }}>
-            "{quote}"
-          </p>
+          <p style={{ fontFamily: "var(--font-display)", fontStyle: "italic", fontSize: "clamp(1.3rem, 2.4vw, 1.85rem)", color: "var(--parchment)", lineHeight: 1.5, margin: "0 0 20px" }}>"{quote}"</p>
           <span style={{ fontFamily: "var(--font-ui)", fontSize: ".82rem", color: "var(--gold-bright)", letterSpacing: ".06em" }}>— Solomon B. Ibe</span>
           <div style={{ marginTop: 24 }}>
             <Link href="/about"><button className="btn btn-outline" style={{ color: "var(--parchment)" }}>Meet the Author</button></Link>
@@ -68,16 +64,11 @@ export default async function HomePage() {
       <section className="section">
         <div className="container">
           <div className="section-head">
-            <div>
-              <span className="eyebrow">From the Journal</span>
-              <h2 style={{ marginTop: 14 }}>Latest essays &amp; reflections</h2>
-            </div>
+            <div><span className="eyebrow">From the Journal</span><h2 style={{ marginTop: 14 }}>Latest essays &amp; reflections</h2></div>
             <Link href="/blog"><button className="btn btn-ghost">View all posts →</button></Link>
           </div>
           <div className="grid-3">
-            {latestPosts.length === 0 && (
-              <p style={{ opacity: 0.6 }}>No posts yet — add your first one in the <Link href="/studio">Content Studio</Link>.</p>
-            )}
+            {latestPosts.length === 0 && <p style={{ opacity: 0.6 }}>No posts yet — add your first one in the <Link href="/studio">Content Studio</Link>.</p>}
             {latestPosts.map((p) => (
               <Link href={"/blog/" + p.slug} key={p._id}>
                 <article className="post-card">
@@ -89,27 +80,6 @@ export default async function HomePage() {
                   </div>
                 </article>
               </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section" style={{ background: "var(--sand)", padding: "60px 0" }}>
-        <div className="container" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }}>
-          <div>
-            <span className="eyebrow">The Books</span>
-            <h2 style={{ marginTop: 14 }}>Three books. One question asked many ways.</h2>
-            <p style={{ opacity: 0.75, marginTop: 14 }}>Fiction and nonfiction exploring belief, fear, identity, and what it costs to think for yourself.</p>
-            <div style={{ display: "flex", gap: 14, marginTop: 24, flexWrap: "wrap" }}>
-              <Link href="/books"><button className="btn btn-primary">Browse All Books</button></Link>
-              <Link href="/store"><button className="btn btn-outline">Buy Now</button></Link>
-            </div>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
-            {["The Architecture of Belief", "No Enemy But Fear", "The Evolution of Man"].map((title) => (
-              <div key={title} className="book-cover" style={{ aspectRatio: "2/3", padding: 12 }}>
-                <div className="title" style={{ fontSize: ".85rem" }}>{title}</div>
-              </div>
             ))}
           </div>
         </div>
