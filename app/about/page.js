@@ -15,8 +15,7 @@ export default async function AboutPage() {
   const whyIWrite1 = page?.whyIWrite1 || "I write because every society tells stories about what is possible, what is acceptable, and who we are permitted to become.";
   const whyIWrite2 = page?.whyIWrite2 || "My work exists at the intersection of philosophy, African cultural memory, spirituality, and the human struggle for meaning.";
   const whyIWrite3 = page?.whyIWrite3 || "What becomes possible when a person dares to step beyond the boundaries they were taught to accept?";
-  const influences = page?.influences || ["Chinua Achebe", "Chimamanda Ngozi Adichie", "Wole Soyinka", "Ben Okri", "James Baldwin", "Frantz Fanon", "Toni Morrison"];
-  const awards = page?.awards || [];
+  
 
   return (
     <>
@@ -65,23 +64,8 @@ export default async function AboutPage() {
             <p style={{ fontSize: "1.08rem", opacity: 0.82 }}>{whyIWrite3}</p>
           </div>
 
-          <div className="reveal" style={{ marginTop: 60 }}>
-            <span className="eyebrow">Literary Influences</span>
-            <h2 style={{ marginTop: 14 }}>Writers who shaped my thinking</h2>
-            <div className="influence-row" style={{ marginTop: 24 }}>
-              {influences.map((name, i) => <span className="influence-tag" key={i}>{name}</span>)}
-            </div>
-          </div>
-
-          {awards.length > 0 && (
-            <div className="reveal" style={{ marginTop: 60 }}>
-              <span className="eyebrow">Achievements</span>
-              <h2 style={{ marginTop: 14 }}>Awards and Publications</h2>
-              <ul className="award-list" style={{ marginTop: 20 }}>
-                {awards.map((a, i) => <li key={i}><span>{a.title}</span><span className="yr">{a.year}</span></li>)}
-              </ul>
-            </div>
-          )}
+          
+          
 
           <div className="reveal" style={{ marginTop: 60, background: "var(--green-deep)", padding: 40, borderRadius: 2, color: "var(--parchment)" }}>
             <span className="eyebrow" style={{ color: "var(--gold-bright)" }}>Speaking &amp; Appearances</span>
