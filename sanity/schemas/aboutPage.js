@@ -57,9 +57,19 @@ export default {
       type: "text",
       rows: 3,
     },
-    {
-      
+   {
+      name: "whyIWrite3",
+      title: "Why I Write — Paragraph 3",
+      type: "text",
+      rows: 3,
+    },
+  ],
   preview: {
+    prepare() {
+      return { title: "👤 About Page" };
+    },
+  },
+};
     prepare() {
       return { title: "👤 About Page" };
     },
