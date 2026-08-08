@@ -58,26 +58,7 @@ export default {
       rows: 3,
     },
     {
-      name: "influences",
-      title: "Literary Influences",
-      type: "array",
-      of: [{ type: "string" }],
-      description: "Click Add item and type a name. Example: Chinua Achebe",
-    },
-    {
-      name: "awards",
-      title: "Awards and Publications",
-      type: "array",
-      of: [{
-        type: "object",
-        title: "Award or Publication",
-        fields: [
-          { name: "year", title: "Year", type: "string" },
-          { name: "title", title: "Title", type: "string" },
-        ],
-      }],
-    },
-  ],
+      
   preview: {
     prepare() {
       return { title: "👤 About Page" };
