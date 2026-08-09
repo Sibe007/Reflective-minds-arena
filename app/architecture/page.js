@@ -1,4 +1,4 @@
-import { getArchitecturePage } from "../../sanity/queries";
+import { getArchitecturePage, getAllProjects } from "../../sanity/queries";
 import { urlFor } from "../../sanity/image";
 
 export const revalidate = 30;
@@ -11,6 +11,7 @@ export const metadata = {
 
 export default async function ArchitecturePage() {
   const page = await getArchitecturePage();
+  const gallery = await getAllProjects();
 
   const heading = page?.heading || "Interior Architecture & Finishing Works";
   const subheading =
@@ -21,7 +22,6 @@ export default async function ArchitecturePage() {
     "With more than a decade of experience delivering residential, commercial, and institutional projects, I approach every space as both a technical problem and a human one. Add your own introduction in Studio — Architecture Portfolio Page.";
   const services = page?.services || [];
   const process = page?.process || [];
-  const gallery = page?.gallery || [];
   const ctaHeading = page?.ctaHeading || "Have a project in mind?";
   const ctaText =
     page?.ctaText ||
@@ -122,20 +122,20 @@ export default async function ArchitecturePage() {
           <h2 className="arch-h2">Project Gallery</h2>
           {gallery.length > 0 ? (
             <div className="arch-gallery-grid">
-              {gallery.map((item, i) => (
-                <figure className="arch-gallery-item" key={i}>
-                  {item.image && <img src={urlFor(item.image).width(700).url()} alt={item.caption || "Project photo"} />}
-                  {(item.caption || item.category) && (
+              {gallery.map((item) => (
+                <figure className="arch-gallery-item" key={item._id}>
+                  {item.coverImage && <img src={urlFor(item.coverImage).width(700).url()} alt={item.title || "Project photo"} />}
+                  {(item.title || item.category) && (
                     <figcaption>
                       {item.category && <span className="arch-tag">{item.category}</span>}
-                      {item.caption && <span>{item.caption}</span>}
+                      {item.title && <span>{item.title}</span>}
                     </figcaption>
                   )}
                 </figure>
               ))}
             </div>
           ) : (
-            <p className="arch-empty">Project photos will appear here once added in Studio — Architecture Portfolio Page — Project Gallery.</p>
+            <p className="arch-empty">Project photos will appear here once added in Studio — Architecture — Add a New Project.</p>
           )}
         </div>
       </section>

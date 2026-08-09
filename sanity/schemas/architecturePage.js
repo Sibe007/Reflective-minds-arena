@@ -63,7 +63,8 @@ export default {
       ],
       description: "Example: Consultation, Design & Planning, Execution, Handover",
     },
-    {
+    
+      {
       name: "gallery",
       title: "Project Gallery",
       type: "array",
@@ -82,6 +83,7 @@ export default {
         },
       ],
     },
+    
     {
       name: "ctaHeading",
       title: "Contact Section Heading",
