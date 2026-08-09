@@ -24,7 +24,7 @@ export default defineConfig({
             S.listItem()
               .title("📖 My Story")
               .child(S.document().schemaType("myStoryPage").documentId("my-story-page").title("📖 My Story")),
-            S.S.listItem()
+            S.listItem()
               .title("📬 Contact Page")
               .child(S.document().schemaType("contactPage").documentId("contact-page").title("📬 Contact Page")),
             S.listItem()
