@@ -7,5 +7,6 @@ import aboutPage from "./aboutPage";
 import contactPage from "./contactPage";
 import myStoryPage from "./myStoryPage";
 import architecturePage from "./architecturePage";
+import project from "./project";
 
-export const schemaTypes = [post, book, resource, event, homePage, aboutPage, contactPage, myStoryPage, architecturePage];
+export const schemaTypes = [post, book, resource, event, homePage, aboutPage, contactPage, myStoryPage, architecturePage, project];
