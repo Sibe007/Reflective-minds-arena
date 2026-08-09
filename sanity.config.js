@@ -27,9 +27,17 @@ export default defineConfig({
             S.listItem()
               .title("📬 Contact Page")
               .child(S.document().schemaType("contactPage").documentId("contact-page").title("📬 Contact Page")),
-            S.listItem()
-              .title("🏛️ Architecture Portfolio")
-              .child(S.document().schemaType("architecturePage").documentId("architecture-page").title("🏛️ Architecture Portfolio")),
+            S.S.listItem()
+              .title("🏛️ Architecture")
+              .child(
+                S.list().title("Architecture").items([
+                  S.listItem()
+                    .title("⚙️ Page Settings")
+                    .child(S.document().schemaType("architecturePage").documentId("architecture-page").title("⚙️ Page Settings")),
+                  S.listItem().title("➕ Add a New Project").child(S.document().schemaType("project").title("New Project")),
+                  S.listItem().title("📋 All Projects").child(S.documentTypeList("project").title("All Projects").defaultOrdering([{ field: "order", direction: "asc" }])),
+                ])
+              ),
             S.divider(),
             S.listItem()
               .title("📝 Blog Posts")

@@ -64,25 +64,7 @@ export default {
       description: "Example: Consultation, Design & Planning, Execution, Handover",
     },
     
-      {
-      name: "gallery",
-      title: "Project Gallery",
-      type: "array",
-      of: [
-        {
-          type: "object",
-          title: "Project Photo",
-          fields: [
-            { name: "image", title: "Image", type: "image", options: { hotspot: true } },
-            { name: "caption", title: "Caption", type: "string", description: "Example: Living Room — Lekki Residence" },
-            { name: "category", title: "Category", type: "string", description: "Example: Residential, Commercial, Renovation" },
-          ],
-          preview: {
-            select: { title: "caption", media: "image" },
-          },
-        },
-      ],
-    },
+      
     
     {
       name: "ctaHeading",
