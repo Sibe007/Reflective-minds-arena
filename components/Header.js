@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import {const useState } from "react";
+import { useState } from "react";
 import { useCart } from "./CartProvider";
 import CartDrawer from "./CartDrawer";
 
