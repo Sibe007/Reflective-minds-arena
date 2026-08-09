@@ -2,6 +2,7 @@ import "./globals.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import CartProvider from "../components/CartProvider";
+import ScrollReveal from "../components/ScrollReveal";
 import Script from "next/script";
 
 export const metadata = {
@@ -38,6 +39,7 @@ export default function RootLayout({ children }) {
           <main>{children}</main>
           <Footer />
         </CartProvider>
+        <ScrollReveal />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-HMX7W3538K"
           strategy="afterInteractive"
