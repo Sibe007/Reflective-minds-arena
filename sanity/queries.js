@@ -35,5 +35,5 @@ export async function getArchitecturePage() {
   return client.fetch(`*[_type == "architecturePage" && _id == "architecture-page"][0]`);
 }
 export async function getAllProjects() {
-  return client.fetch(`*[_type == "project"] | order(coalesce(order, 9999) asc, _createdAt desc){ _id, title, category, coverImage, description, featured }`);
+  return client.fetch(`*[_type == "project"] | order(coalesce(order, 9999) asc, _createdAt desc){ _id, title, category, coverImage, moreImages, description, featured }`);
 }

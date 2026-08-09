@@ -24,7 +24,15 @@ export default {
       title: "Cover Image",
       type: "image",
       options: { hotspot: true },
+      description: "The main photo shown on the gallery grid.",
       validation: (Rule) => Rule.required(),
+    },
+    {
+      name: "moreImages",
+      title: "Additional Photos",
+      type: "array",
+      of: [{ type: "image", options: { hotspot: true } }],
+      description: "Optional — extra photos of this project. Shown when a visitor clicks to view the project.",
     },
     {
       name: "description",
