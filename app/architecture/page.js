@@ -1,0 +1,177 @@
+import { getArchitecturePage } from "../../sanity/queries";
+import { urlFor } from "../../sanity/image";
+
+export const revalidate = 30;
+
+export const metadata = {
+  title: "Architecture & Interior Finishing Works — Solomon B. Ibe",
+  description:
+    "Interior architecture and finishing works by Solomon B. Ibe. Residential and commercial spaces built with precision, materiality, and intent. Based in Lagos, Nigeria.",
+};
+
+export default async function ArchitecturePage() {
+  const page = await getArchitecturePage();
+
+  const heading = page?.heading || "Interior Architecture & Finishing Works";
+  const subheading =
+    page?.subheading ||
+    "Spaces designed and finished with precision — where every material, joint, and surface is chosen with intent.";
+  const intro =
+    page?.intro ||
+    "With more than a decade of experience delivering residential, commercial, and institutional projects, I approach every space as both a technical problem and a human one. Add your own introduction in Studio — Architecture Portfolio Page.";
+  const services = page?.services || [];
+  const process = page?.process || [];
+  const gallery = page?.gallery || [];
+  const ctaHeading = page?.ctaHeading || "Have a project in mind?";
+  const ctaText =
+    page?.ctaText ||
+    "Whether it's a single room or a full-building fit-out, I'd be glad to talk through what you're building.";
+  const email = page?.contactEmail || "";
+  const phone = page?.contactPhone || "";
+  const whatsapp = page?.whatsappNumber || "";
+
+  return (
+    <div className="arch-page">
+      {/* HERO */}
+      <section className="arch-hero">
+        <div className="arch-grid-lines" aria-hidden="true" />
+        <div className="container arch-hero-inner">
+          <div className="arch-hero-copy">
+            <span className="arch-label">Interior Architecture — Lagos, Nigeria</span>
+            <h1 className="arch-h1">{heading}</h1>
+            <p className="arch-sub">{subheading}</p>
+            <div className="arch-cta-row">
+              <a href="#contact" className="arch-btn arch-btn-primary">
+                Start a Project
+              </a>
+              <a href="#gallery" className="arch-btn arch-btn-ghost">
+                View Projects ↓
+              </a>
+            </div>
+          </div>
+          <div className="arch-hero-image">
+            {page?.heroImage ? (
+              <img src={urlFor(page.heroImage).width(900).url()} alt={heading} />
+            ) : (
+              <div className="arch-hero-placeholder">
+                <span>Add a hero image in Studio</span>
+              </div>
+            )}
+            <div className="arch-swatch-strip" aria-hidden="true">
+              <span style={{ background: "#8a6a4f" }} />
+              <span style={{ background: "#c9c1b3" }} />
+              <span style={{ background: "#3d3833" }} />
+              <span style={{ background: "#c68b3d" }} />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* INTRO */}
+      <section className="arch-section">
+        <div className="container arch-intro-row">
+          <span className="arch-label">Approach</span>
+          <p className="arch-intro-text">{intro}</p>
+        </div>
+      </section>
+
+      {/* SERVICES */}
+      {services.length > 0 && (
+        <section className="arch-section arch-section-alt">
+          <div className="container">
+            <span className="arch-label">Services</span>
+            <h2 className="arch-h2">What I Deliver</h2>
+            <div className="arch-services-grid">
+              {services.map((s, i) => (
+                <div className="arch-service-card" key={i}>
+                  <span className="arch-index">{String(i + 1).padStart(2, "0")}</span>
+                  <h3>{s.title}</h3>
+                  <p>{s.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* PROCESS */}
+      {process.length > 0 && (
+        <section className="arch-section">
+          <div className="container">
+            <span className="arch-label">Process</span>
+            <h2 className="arch-h2">How a Project Moves</h2>
+            <ol className="arch-process-list">
+              {process.map((step, i) => (
+                <li key={i}>
+                  <span className="arch-process-num">{String(i + 1).padStart(2, "0")}</span>
+                  <div>
+                    <h3>{step.title}</h3>
+                    <p>{step.description}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+      )}
+
+      {/* GALLERY */}
+      <section className="arch-section arch-section-alt" id="gallery">
+        <div className="container">
+          <span className="arch-label">Selected Work</span>
+          <h2 className="arch-h2">Project Gallery</h2>
+          {gallery.length > 0 ? (
+            <div className="arch-gallery-grid">
+              {gallery.map((item, i) => (
+                <figure className="arch-gallery-item" key={i}>
+                  {item.image && <img src={urlFor(item.image).width(700).url()} alt={item.caption || "Project photo"} />}
+                  {(item.caption || item.category) && (
+                    <figcaption>
+                      {item.category && <span className="arch-tag">{item.category}</span>}
+                      {item.caption && <span>{item.caption}</span>}
+                    </figcaption>
+                  )}
+                </figure>
+              ))}
+            </div>
+          ) : (
+            <p className="arch-empty">Project photos will appear here once added in Studio — Architecture Portfolio Page — Project Gallery.</p>
+          )}
+        </div>
+      </section>
+
+      {/* CONTACT CTA */}
+      <section className="arch-cta" id="contact">
+        <div className="container arch-cta-inner">
+          <div>
+            <span className="arch-label arch-label-light">Get in Touch</span>
+            <h2 className="arch-h2 arch-h2-light">{ctaHeading}</h2>
+            <p className="arch-cta-text">{ctaText}</p>
+          </div>
+          <div className="arch-contact-links">
+            {email && (
+              <a href={`mailto:${email}`} className="arch-btn arch-btn-primary">
+                Email {email}
+              </a>
+            )}
+            {whatsapp && (
+              <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener noreferrer" className="arch-btn arch-btn-outline-light">
+                Chat on WhatsApp
+              </a>
+            )}
+            {phone && (
+              <a href={`tel:${phone}`} className="arch-btn arch-btn-outline-light">
+                Call {phone}
+              </a>
+            )}
+            {!email && !whatsapp && !phone && (
+              <p className="arch-cta-text" style={{ opacity: 0.7 }}>
+                Add contact details in Studio to activate these buttons.
+              </p>
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}

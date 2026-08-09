@@ -1,21 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import {const useState } from "react";
 import { useCart } from "./CartProvider";
 import CartDrawer from "./CartDrawer";
 
-const NAV = [
+ const NAV = [
   ["/", "Home"],
   ["/about", "About"],
   ["/my-story", "My Story"],
   ["/books", "Books"],
   ["/blog", "Blog"],
   ["/store", "Store"],
+  ["/architecture", "Architecture"],
   ["/resources", "Resources"],
   ["/events", "Events"],
   ["/contact", "Contact"],
 ];
+
 
 export default function Header() {
   const { count } = useCart();

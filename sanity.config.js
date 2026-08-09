@@ -24,9 +24,12 @@ export default defineConfig({
             S.listItem()
               .title("📖 My Story")
               .child(S.document().schemaType("myStoryPage").documentId("my-story-page").title("📖 My Story")),
-            S.listItem()
+            S.S.listItem()
               .title("📬 Contact Page")
               .child(S.document().schemaType("contactPage").documentId("contact-page").title("📬 Contact Page")),
+            S.listItem()
+              .title("🏛️ Architecture Portfolio")
+              .child(S.document().schemaType("architecturePage").documentId("architecture-page").title("🏛️ Architecture Portfolio")),
             S.divider(),
             S.listItem()
               .title("📝 Blog Posts")

@@ -31,3 +31,6 @@ export async function getMyStoryPage() {
 export async function getContactPage() {
   return client.fetch(`*[_type == "contactPage" && _id == "contact-page"][0]`);
 }
+export async function getArchitecturePage() {
+  return client.fetch(`*[_type == "architecturePage" && _id == "architecture-page"][0]`);
+}
