@@ -27,7 +27,7 @@ export default defineConfig({
             S.listItem()
               .title("📬 Contact Page")
               .child(S.document().schemaType("contactPage").documentId("contact-page").title("📬 Contact Page")),
-            S.S.listItem()
+            S.listItem()
               .title("🏛️ Architecture")
               .child(
                 S.list().title("Architecture").items([
