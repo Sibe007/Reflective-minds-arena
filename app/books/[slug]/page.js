@@ -6,6 +6,26 @@ import AddToCartButton from "../../../components/AddToCartButton";
 
 export const revalidate = 30;
 
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const book = await getBookBySlug(slug);
+  if (!book) return {};
+
+  const imageUrl = book.coverImage ? urlFor(book.coverImage).width(1200).height(630).url() : undefined;
+
+  return {
+    title: `${book.title} — Solomon B. Ibe`,
+    description: book.blurb || `${book.title} by Solomon B. Ibe.`,
+    openGraph: {
+      title: book.title,
+      description: book.blurb || `${book.title} by Solomon B. Ibe.`,
+      url: `https://reflectivemindsarena.com.ng/books/${book.slug}`,
+      type: "book",
+      images: imageUrl ? [{ url: imageUrl, width: 1200, height: 630 }] : undefined,
+    },
+  };
+}
+
 export default async function BookPage({ params }) {
   const { slug } = await params;
   const book = await getBookBySlug(slug);
