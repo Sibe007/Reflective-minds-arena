@@ -75,4 +75,7 @@ export default function RootLayout({ children }) {
             alt=""
           />
         </noscript>
-  
+        </body>
+    </html>
+  );
+}
