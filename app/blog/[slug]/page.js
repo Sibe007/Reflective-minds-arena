@@ -4,7 +4,25 @@ import { urlFor } from "../../../sanity/image";
 import { notFound } from "next/navigation";
 
 export const revalidate = 30;
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const post = await getPostBySlug(slug);
+  if (!post) return {};
 
+  const imageUrl = post.coverImage ? urlFor(post.coverImage).width(1200).height(630).url() : undefined;
+
+  return {
+    title: `${post.title} — Solomon B. Ibe`,
+    description: post.excerpt || "An essay by Solomon B. Ibe.",
+    openGraph: {
+      title: post.title,
+      description: post.excerpt || "An essay by Solomon B. Ibe.",
+      url: `https://reflectivemindsarena.com.ng/blog/${post.slug}`,
+      type: "article",
+      images: imageUrl ? [{ url: imageUrl, width: 1200, height: 630 }] : undefined,
+    },
+  };
+}
 export default async function PostPage({ params }) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
