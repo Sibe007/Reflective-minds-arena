@@ -2,6 +2,16 @@ import Link from "next/link";
 import { getAllBooks } from "../../sanity/queries";
 import { urlFor } from "../../sanity/image";
 
+export const metadata = {
+  title: "Books by Solomon B. Ibe",
+  description: "Explore books by Solomon B. Ibe, including The Architecture of Belief, No Enemy But Fear, and The Evolution of Man.",
+  openGraph: {
+    title: "Books by Solomon B. Ibe",
+    description: "Explore books by Solomon B. Ibe.",
+    url: "https://reflectivemindsarena.com.ng/books",
+    type: "website",
+  },
+};
 export const revalidate = 30;
 
 export default async function BooksPage() {

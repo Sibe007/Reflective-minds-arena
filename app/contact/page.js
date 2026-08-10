@@ -1,6 +1,16 @@
 import { getContactPage } from "../../sanity/queries";
 import ContactForm from "../../components/ContactForm";
 
+export const metadata = {
+  title: "Contact Solomon B. Ibe",
+  description: "Get in touch with Solomon B. Ibe — Nigerian author and Interior Architect based in Lagos.",
+  openGraph: {
+    title: "Contact Solomon B. Ibe",
+    description: "Get in touch with Solomon B. Ibe.",
+    url: "https://reflectivemindsarena.com.ng/contact",
+    type: "website",
+  },
+};
 export const revalidate = 30;
 
 export default async function ContactPage() {

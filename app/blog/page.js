@@ -1,6 +1,16 @@
 import Link from "next/link";
 import { getAllPosts } from "../../sanity/queries";
 
+export const metadata = {
+  title: "Blog — Solomon B. Ibe",
+  description: "Essays and reflections from Solomon B. Ibe on belief, culture, identity, and the human condition.",
+  openGraph: {
+    title: "Blog — Solomon B. Ibe",
+    description: "Essays and reflections from Solomon B. Ibe.",
+    url: "https://reflectivemindsarena.com.ng/blog",
+    type: "website",
+  },
+};
 export const revalidate = 30;
 
 export default async function BlogPage() {

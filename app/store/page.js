@@ -2,6 +2,17 @@ import { getAllBooks } from "../../sanity/queries";
 import { urlFor } from "../../sanity/image";
 import Link from "next/link";
 
+export const metadata = {
+  title: "Store — Solomon B. Ibe",
+  description: "Buy books by Solomon B. Ibe in ebook, paperback, and hardcover formats.",
+  openGraph: {
+    title: "Store — Solomon B. Ibe",
+    description: "Buy books by Solomon B. Ibe.",
+    url: "https://reflectivemindsarena.com.ng/store",
+    type: "website",
+  },
+};
+
 export const revalidate = 30;
 
 export default async function StorePage() {
