@@ -18,8 +18,9 @@ export const metadata = {
     locale: "en_NG",
     type: "website",
   },
-  verification: {
-    google: "G-HMX7W3538K",
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 
@@ -92,4 +93,3 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
-
