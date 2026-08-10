@@ -2,6 +2,16 @@ import { getMyStoryPage } from "../../sanity/queries";
 import { urlFor } from "../../sanity/image";
 import Link from "next/link";
 
+export const metadata = {
+  title: "My Story — Solomon B. Ibe",
+  description: "The personal journey behind Solomon B. Ibe's writing — from Abuja to Enugu to Lagos, from inherited beliefs to hard-won clarity.",
+  openGraph: {
+    title: "My Story — Solomon B. Ibe",
+    description: "The personal journey behind Solomon B. Ibe's writing.",
+    url: "https://reflectivemindsarena.com.ng/my-story",
+    type: "profile",
+  },
+};
 export const revalidate = 30;
 
 export default async function MyStoryPage() {
