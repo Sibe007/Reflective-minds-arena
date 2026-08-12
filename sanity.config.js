@@ -31,6 +31,9 @@ export default defineConfig({
               .title("📨 Contact Submissions")
               .child(S.documentTypeList("contactSubmission").title("Contact Submissions").defaultOrdering([{ field: "submittedAt", direction: "desc" }])),
             S.listItem()
+              .title("📧 Newsletter Subscribers")
+              .child(S.documentTypeList("subscriber").title("Newsletter Subscribers").defaultOrdering([{ field: "subscribedAt", direction: "desc" }])),
+            S.listItem()
               .title("🏛️ Architecture")
               .child(
                 S.list().title("Architecture").items([

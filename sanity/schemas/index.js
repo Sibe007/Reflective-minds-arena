@@ -9,5 +9,6 @@ import myStoryPage from "./myStoryPage";
 import architecturePage from "./architecturePage";
 import project from "./project";
 import contactSubmission from "./contactSubmission";
+import subscriber from "./subscriber";
 
 export const schemaTypes = [post, book, resource, event, homePage, aboutPage, contactPage, myStoryPage, architecturePage, project, contactSubmission];

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import NewsletterForm from "./NewsletterForm";
 
 export default function Footer() {
   return (
@@ -27,6 +28,11 @@ export default function Footer() {
               <li><Link href="/contact">Contact</Link></li>
               <li><Link href="/studio">Content Studio (Admin)</Link></li>
             </ul>
+          </div>
+          <div>
+            <h4>Stay Updated</h4>
+            <p style={{ marginBottom: 12 }}>Get notified about new books and posts.</p>
+            <NewsletterForm source="footer" />
           </div>
         </div>
         <div className="footer-bottom">
