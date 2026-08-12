@@ -148,4 +148,7 @@ export default async function ArchitecturePage() {
                 Add contact details in Studio to activate these buttons.
               </p>
             )}
-
+    
+          </div>
+        </div>
+         )}
