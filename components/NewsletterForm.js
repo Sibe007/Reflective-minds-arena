@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export default function NewsletterForm({ source = "footer" }) {
+export default function NewsletterForm({ source = "footer", onSuccess }) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("idle");
   const [error, setError] = useState("");
@@ -32,6 +32,7 @@ export default function NewsletterForm({ source = "footer" }) {
       }
 
       setStatus("done");
+      onSuccess && onSuccess();
     } catch (err) {
       setError("Could not subscribe. Please check your connection and try again.");
       setStatus("error");
