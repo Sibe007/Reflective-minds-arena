@@ -4,10 +4,47 @@ import { useState } from "react";
 
 export default function ContactForm() {
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    setSent(true);
+    setError("");
+    setSending(true);
+
+    const form = e.target;
+    const payload = {
+      firstName: form.firstName.value.trim(),
+      lastName: form.lastName.value.trim(),
+      email: form.email.value.trim(),
+      subject: form.subject.value,
+      message: form.message.value.trim(),
+    };
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Something went wrong. Please try again.");
+        setSending(false);
+        return;
+      }
+
+      if (typeof window !== "undefined") {
+        window.fbq && window.fbq("track", "Contact");
+        window.gtag && window.gtag("event", "generate_lead", { form: "contact" });
+      }
+
+      setSent(true);
+    } catch (err) {
+      setError("Could not send your message. Please check your connection and try again.");
+      setSending(false);
+    }
   }
 
   if (sent) {
@@ -22,16 +59,16 @@ export default function ContactForm() {
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-row">
-        <div><label>First name</label><input required /></div>
-        <div><label>Last name</label><input required /></div>
+        <div><label>First name</label><input name="firstName" required /></div>
+        <div><label>Last name</label><input name="lastName" required /></div>
       </div>
       <div className="form-row full">
-        <div><label>Email</label><input type="email" required /></div>
+        <div><label>Email</label><input name="email" type="email" required /></div>
       </div>
       <div className="form-row full">
         <div>
           <label>Subject</label>
-          <select>
+          <select name="subject">
             <option>General inquiry</option>
             <option>Interview request</option>
             <option>Speaking engagement</option>
@@ -44,7 +81,7 @@ export default function ContactForm() {
       <div className="form-row full">
         <div>
           <label>Message</label>
-          <textarea rows="6" required style={{
+          <textarea name="message" rows="6" required style={{
             width: "100%", padding: "13px 14px",
             border: "1px solid var(--line)", borderRadius: 2,
             fontFamily: "var(--font-body)", background: "var(--parchment)",
@@ -52,7 +89,12 @@ export default function ContactForm() {
           }}></textarea>
         </div>
       </div>
-      <button className="btn btn-primary" type="submit">Send Message</button>
+      {error && (
+        <p style={{ color: "var(--uli-red)", fontSize: ".9rem", marginBottom: 14 }}>{error}</p>
+      )}
+      <button className="btn btn-primary" type="submit" disabled={sending}>
+        {sending ? "Sending…" : "Send Message"}
+      </button>
     </form>
   );
 }

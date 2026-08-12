@@ -28,6 +28,9 @@ export default defineConfig({
               .title("📬 Contact Page")
               .child(S.document().schemaType("contactPage").documentId("contact-page").title("📬 Contact Page")),
             S.listItem()
+              .title("📨 Contact Submissions")
+              .child(S.documentTypeList("contactSubmission").title("Contact Submissions").defaultOrdering([{ field: "submittedAt", direction: "desc" }])),
+            S.listItem()
               .title("🏛️ Architecture")
               .child(
                 S.list().title("Architecture").items([
