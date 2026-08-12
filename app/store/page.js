@@ -1,6 +1,7 @@
 import { getAllBooks } from "../../sanity/queries";
 import { urlFor } from "../../sanity/image";
 import Link from "next/link";
+import TrackedLink from "../../components/TrackedLink";
 
 export const metadata = {
   title: "Store — Solomon B. Ibe",
@@ -66,7 +67,7 @@ export default async function StorePage() {
                           </div>
                           <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
                             <div style={{ fontFamily: "var(--font-display)", fontSize: "1.4rem" }}>${book.price.toFixed(2)}</div>
-                            <a href={book.selarEbookUrl || "https://selar.co"} target="_blank" rel="noopener noreferrer" className="btn btn-primary">Buy eBook</a>
+                            <TrackedLink href={book.selarEbookUrl || "https://selar.co"} target="_blank" rel="noopener noreferrer" className="btn btn-primary" eventName="Lead" eventLabel={`${book.title} - eBook`}>Buy eBook</TrackedLink>
                           </div>
                         </div>
                         <div style={{ border: "1px solid var(--line)", borderRadius: 2, padding: "20px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 14 }}>
@@ -76,7 +77,7 @@ export default async function StorePage() {
                           </div>
                           <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
                             <div style={{ fontFamily: "var(--font-display)", fontSize: "1.4rem" }}>${(book.price + 5).toFixed(2)}</div>
-                            <a href={book.selarAudioUrl || "https://selar.co"} target="_blank" rel="noopener noreferrer" className="btn btn-dark">Buy Audiobook</a>
+                            <TrackedLink href={book.selarAudioUrl || "https://selar.co"} target="_blank" rel="noopener noreferrer" className="btn btn-dark" eventName="Lead" eventLabel={`${book.title} - Audiobook`}>Buy Audiobook</TrackedLink>
                           </div>
                         </div>
                       </div>

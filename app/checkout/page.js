@@ -16,6 +16,26 @@ export default function CheckoutPage() {
     }
     setLoading(true);
     setError("");
+
+    if (typeof window !== "undefined") {
+      window.fbq && window.fbq("track", "InitiateCheckout", {
+        currency: "USD",
+        value: total,
+        num_items: items.reduce((n, i) => n + i.qty, 0),
+      });
+      window.gtag && window.gtag("event", "begin_checkout", {
+        currency: "USD",
+        value: total,
+        items: items.map((i) => ({ item_name: i.title, price: i.price, quantity: i.qty })),
+      });
+      try {
+        sessionStorage.setItem(
+          "pendingOrder",
+          JSON.stringify({ items, total, currency: "USD" })
+        );
+      } catch (e) {}
+    }
+
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
@@ -122,4 +142,4 @@ export default function CheckoutPage() {
 
 function fmt(n) {
   return "$" + n.toFixed(2);
-}
+}5

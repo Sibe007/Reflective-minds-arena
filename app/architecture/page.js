@@ -1,6 +1,7 @@
 import { getArchitecturePage, getAllProjects } from "../../sanity/queries";
 import { urlFor } from "../../sanity/image";
 import ProjectGallery from "../../components/ProjectGallery";
+import TrackedLink from "../../components/TrackedLink";
 export const revalidate = 30;
 
 export const metadata = {
@@ -121,42 +122,30 @@ export default async function ArchitecturePage() {
           <span className="arch-label">Selected Work</span>
           <h2 className="arch-h2">Project Gallery</h2>
           <ProjectGallery projects={gallery} />
-          )
+          
         </div>
       </section>
 
       {/* CONTACT CTA */}
-      <section className="arch-cta" id="contact">
-        <div className="container arch-cta-inner">
-          <div>
-            <span className="arch-label arch-label-light">Get in Touch</span>
-            <h2 className="arch-h2 arch-h2-light">{ctaHeading}</h2>
-            <p className="arch-cta-text">{ctaText}</p>
-          </div>
-          <div className="arch-contact-links">
+      <div className="arch-contact-links">
             {email && (
-              <a href={`mailto:${email}`} className="arch-btn arch-btn-primary">
+              <TrackedLink href={`mailto:${email}`} className="arch-btn arch-btn-primary" eventName="Contact" eventLabel="Architecture - Email">
                 Email {email}
-              </a>
+              </TrackedLink>
             )}
             {whatsapp && (
-              <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener noreferrer" className="arch-btn arch-btn-outline-light">
+              <TrackedLink href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener noreferrer" className="arch-btn arch-btn-outline-light" eventName="Contact" eventLabel="Architecture - WhatsApp">
                 Chat on WhatsApp
-              </a>
+              </TrackedLink>
             )}
             {phone && (
-              <a href={`tel:${phone}`} className="arch-btn arch-btn-outline-light">
+              <TrackedLink href={`tel:${phone}`} className="arch-btn arch-btn-outline-light" eventName="Contact" eventLabel="Architecture - Phone">
                 Call {phone}
-              </a>
+              </TrackedLink>
             )}
             {!email && !whatsapp && !phone && (
               <p className="arch-cta-text" style={{ opacity: 0.7 }}>
                 Add contact details in Studio to activate these buttons.
               </p>
             )}
-          </div>
-        </div>
-      </section>
-    </div>
-  );
-}
+
