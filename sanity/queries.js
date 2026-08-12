@@ -37,3 +37,15 @@ export async function getArchitecturePage() {
 export async function getAllProjects() {
   return client.fetch(`*[_type == "project"] | order(coalesce(order, 9999) asc, _createdAt desc){ _id, title, category, coverImage, moreImages, description, featured }`);
 }
+
+export async function getTestimonials(category) {
+  if (category) {
+    return client.fetch(
+      `*[_type == "testimonial" && category == $category] | order(coalesce(order, 9999) asc, _createdAt desc){ _id, name, role, quote, photo, category, rating, featured }`,
+      { category }
+    );
+  }
+  return client.fetch(
+    `*[_type == "testimonial"] | order(coalesce(order, 9999) asc, _createdAt desc){ _id, name, role, quote, photo, category, rating, featured }`
+  );
+}

@@ -1,11 +1,13 @@
 import Link from "next/link";
-import { getAllPosts, getHomePage } from "../sanity/queries";
+import { getAllPosts, getHomePage, getTestimonials } from "../sanity/queries";
 import { urlFor } from "../sanity/image";
+import Testimonials from "../components/Testimonials";
+import NewsletterForm from "../components/NewsletterForm";
 
 export const revalidate = 30;
 
 export default async function HomePage() {
-  const [posts, page] = await Promise.all([getAllPosts(), getHomePage()]);
+  const [posts, page, testimonials] = await Promise.all([getAllPosts(), getHomePage(), getTestimonials()]);
   const latestPosts = posts.slice(0, 3);
 
   const eyebrow = page?.eyebrow || "Nigerian Author | Exploring Belief, Culture, Identity, and Human Freedom";
@@ -61,6 +63,8 @@ export default async function HomePage() {
         </div>
       </section>
 
+      <Testimonials testimonials={testimonials} eyebrow="Reader & Client Voices" title="What People Are Saying" />
+
       <section className="section">
         <div className="container">
           <div className="section-head">
@@ -90,10 +94,9 @@ export default async function HomePage() {
           <span className="eyebrow">Join the Conversation</span>
           <h2 style={{ marginTop: 14 }}>Essays, reflections, and explorations of belief, culture, identity, and human freedom.</h2>
           <p style={{ opacity: 0.7 }}>One letter a month. No spam, ever.</p>
-          <form className="nl-form" action="#" method="post">
-            <input type="email" name="email" placeholder="Your email address" required />
-            <button className="btn btn-primary" type="submit">Subscribe</button>
-          </form>
+          <div className="nl-form" style={{ maxWidth: 460, margin: "0 auto" }}>
+            <NewsletterForm source="homepage" />
+          </div>
         </div>
       </section>
     </>

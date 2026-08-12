@@ -1,7 +1,8 @@
-import { getArchitecturePage, getAllProjects } from "../../sanity/queries";
+import { getArchitecturePage, getAllProjects, getTestimonials } from "../../sanity/queries";
 import { urlFor } from "../../sanity/image";
 import ProjectGallery from "../../components/ProjectGallery";
 import TrackedLink from "../../components/TrackedLink";
+import Testimonials from "../../components/Testimonials";
 export const revalidate = 30;
 
 export const metadata = {
@@ -13,6 +14,7 @@ export const metadata = {
 export default async function ArchitecturePage() {
   const page = await getArchitecturePage();
   const gallery = await getAllProjects();
+  const testimonials = await getTestimonials("Architecture");
 
   const heading = page?.heading || "Interior Architecture & Finishing Works";
   const subheading =

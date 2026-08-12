@@ -34,6 +34,14 @@ export default defineConfig({
               .title("📧 Newsletter Subscribers")
               .child(S.documentTypeList("subscriber").title("Newsletter Subscribers").defaultOrdering([{ field: "subscribedAt", direction: "desc" }])),
             S.listItem()
+              .title("💬 Testimonials")
+              .child(
+                S.list().title("Testimonials").items([
+                  S.listItem().title("➕ Add a New Testimonial").child(S.document().schemaType("testimonial").title("New Testimonial")),
+                  S.listItem().title("📋 All Testimonials").child(S.documentTypeList("testimonial").title("All Testimonials").defaultOrdering([{ field: "order", direction: "asc" }])),
+                ])
+              ),
+            S.listItem()
               .title("🏛️ Architecture")
               .child(
                 S.list().title("Architecture").items([
