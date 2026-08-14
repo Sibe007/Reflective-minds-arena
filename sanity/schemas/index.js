@@ -12,4 +12,4 @@ import contactSubmission from "./contactSubmission";
 import subscriber from "./subscriber";
 import testimonial from "./testimonial";
 
-export const schemaTypes = [post, book, resource, event, homePage, aboutPage, contactPage, myStoryPage, architecturePage, project, contactSubmission, subscriber];
+export const schemaTypes = [post, book, resource, event, homePage, aboutPage, contactPage, myStoryPage, architecturePage, project, contactSubmission, subscriber, testimonial];
