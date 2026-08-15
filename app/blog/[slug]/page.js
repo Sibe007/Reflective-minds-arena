@@ -28,8 +28,22 @@ export default async function PostPage({ params }) {
   const post = await getPostBySlug(slug);
   if (!post) return notFound();
 
+  const imageUrl = post.coverImage ? urlFor(post.coverImage).width(1200).url() : undefined;
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    ...(post.excerpt && { description: post.excerpt }),
+    ...(imageUrl && { image: imageUrl }),
+    author: { "@type": "Person", name: "Solomon B. Ibe" },
+    ...(post.publishedAt && { datePublished: post.publishedAt }),
+    mainEntityOfPage: `https://reflectivemindsarena.com.ng/blog/${post.slug}`,
+  };
+
   return (
     <section className="section" style={{ paddingTop: 60 }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className="container">
         <div className="breadcrumb">Home / Blog / {post.category}</div>
         <span className="eyebrow">{post.category}</span>

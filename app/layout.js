@@ -25,6 +25,32 @@ export const metadata = {
   },
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://reflectivemindsarena.com.ng/#person",
+      name: "Solomon B. Ibe",
+      url: "https://reflectivemindsarena.com.ng",
+      image: "https://reflectivemindsarena.com.ng/author.jpg",
+      jobTitle: ["Author", "Interior Architect"],
+      sameAs: [
+        "https://www.instagram.com/isob008",
+        "https://x.com/hanetglobal",
+        "https://www.facebook.com/share/1az2QAevjT",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://reflectivemindsarena.com.ng/#website",
+      url: "https://reflectivemindsarena.com.ng",
+      name: "Reflective Minds Arena",
+      publisher: { "@id": "https://reflectivemindsarena.com.ng/#person" },
+    },
+  ],
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
@@ -34,6 +60,7 @@ export default function RootLayout({ children }) {
           href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=Inter:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body>
         <CartProvider>

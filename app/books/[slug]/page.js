@@ -31,8 +31,27 @@ export default async function BookPage({ params }) {
   const book = await getBookBySlug(slug);
   if (!book) return notFound();
 
+ const imageUrl = book.coverImage ? urlFor(book.coverImage).width(1000).url() : undefined;
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Book",
+    name: book.title,
+    author: { "@type": "Person", name: "Solomon B. Ibe" },
+    ...(imageUrl && { image: imageUrl }),
+    ...(book.blurb && { description: book.blurb }),
+    offers: {
+      "@type": "Offer",
+      url: `https://reflectivemindsarena.com.ng/books/${book.slug}`,
+      priceCurrency: "USD",
+      price: book.price,
+      availability: "https://schema.org/InStock",
+    },
+  };
+
   return (
     <section className="section" style={{ paddingTop: 60 }}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className="container">
         <div className="breadcrumb">Home / Books / {book.title}</div>
         <div className="book-detail">
