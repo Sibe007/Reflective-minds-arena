@@ -647,3 +647,10 @@ p{margin:0 0 1.1em;}
   .arch-lightbox-prev{left:6px;}
   .arch-lightbox-next{right:6px;}
 }
+
+/* Legal pages (Privacy, Terms, Refund) */
+.legal-body h2{font-family:var(--font-display); font-weight:500; font-size:1.3rem; margin:34px 0 12px;}
+.legal-body p{font-size:1rem; line-height:1.75; opacity:.85; margin-bottom:14px;}
+.legal-body ul{margin:0 0 18px; padding-left:22px;}
+.legal-body li{font-size:1rem; line-height:1.7; opacity:.85; margin-bottom:8px;}
+.legal-body a{color:var(--gold); text-decoration:underline;}

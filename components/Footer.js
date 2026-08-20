@@ -30,6 +30,14 @@ export default function Footer() {
             </ul>
           </div>
           <div>
+            <h4>Legal</h4>
+            <ul>
+              <li><Link href="/privacy-policy">Privacy Policy</Link></li>
+              <li><Link href="/terms">Terms of Service</Link></li>
+              <li><Link href="/refund-policy">Refund Policy</Link></li>
+            </ul>
+          </div>
+          <div>
             <h4>Stay Updated</h4>
             <p style={{ marginBottom: 12 }}>Get notified about new books and posts.</p>
             <NewsletterForm source="footer" />
