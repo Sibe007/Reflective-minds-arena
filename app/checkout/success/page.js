@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-export default function CheckoutSuccessPage() {
+function CheckoutSuccessInner() {
   const searchParams = useSearchParams();
   const [status, setStatus] = useState("checking");
 
@@ -98,5 +98,21 @@ export default function CheckoutSuccessPage() {
         </Link>
       </div>
     </section>
+  );
+}
+
+export default function CheckoutSuccessPage() {
+  return (
+    <Suspense
+      fallback={
+        <section className="section" style={{ paddingTop: 120 }}>
+          <div className="container" style={{ textAlign: "center", maxWidth: 560 }}>
+            <p style={{ opacity: 0.7 }}>Loading…</p>
+          </div>
+        </section>
+      }
+    >
+      <CheckoutSuccessInner />
+    </Suspense>
   );
 }
