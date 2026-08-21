@@ -18,6 +18,12 @@ export default {
     { name: "stripePriceId", title: "Stripe Price ID", type: "string", description: "Leave blank until Stripe is set up." },
     { name: "selarEbookUrl", title: "Selar eBook Buy Link", type: "url", description: "Paste your Selar product link for the eBook. Example: https://selar.co/xxxxxxxx" },
     { name: "selarAudioUrl", title: "Selar Audiobook Buy Link", type: "url", description: "Paste your Selar product link for the Audiobook. Example: https://selar.co/xxxxxxxx" },
+    {
+      name: "digitalFile",
+      title: "Digital File (for site checkout delivery)",
+      type: "file",
+      description: "Upload the actual PDF/ebook file here. This is what gets emailed to buyers who purchase through this site's own cart checkout (not needed for Selar — Selar handles its own delivery).",
+    },
   ],
   preview: {
     select: { title: "title", subtitle: "subtitle", media: "coverImage" },
