@@ -125,3 +125,4 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
+// trigger rebuild for new reCAPTCHA key
