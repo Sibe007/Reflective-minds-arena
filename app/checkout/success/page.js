@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-function CheckoutSuccessInner() {
+export default function CheckoutSuccessPage() {
   const searchParams = useSearchParams();
   const [status, setStatus] = useState("checking");
 
@@ -87,9 +87,9 @@ function CheckoutSuccessInner() {
         </span>
         <h1 style={{ margin: "18px 0" }}>Thank you — your order is complete.</h1>
         <p style={{ opacity: 0.75 }}>
-          A confirmation email with your receipt is on its way from Paystack. Download
-          delivery emails are a feature we'll add next — for now, reach out and you'll
-          be sent your files directly.
+          A confirmation email with your receipt is on its way from Paystack, and a
+          separate email with your download link is on its way from us — check your
+          inbox (and spam folder, just in case) in the next few minutes.
         </p>
         <Link href="/store">
           <button className="btn btn-primary" style={{ marginTop: 20 }}>
@@ -98,21 +98,5 @@ function CheckoutSuccessInner() {
         </Link>
       </div>
     </section>
-  );
-}
-
-export default function CheckoutSuccessPage() {
-  return (
-    <Suspense
-      fallback={
-        <section className="section" style={{ paddingTop: 120 }}>
-          <div className="container" style={{ textAlign: "center", maxWidth: 560 }}>
-            <p style={{ opacity: 0.7 }}>Loading…</p>
-          </div>
-        </section>
-      }
-    >
-      <CheckoutSuccessInner />
-    </Suspense>
   );
 }
