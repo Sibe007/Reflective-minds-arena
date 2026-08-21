@@ -1,102 +1,70 @@
-"use client";
+import { NextResponse } from "next/server";
 
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+export async function POST(request) {
+  try {
+    const { items, email } = await request.json();
 
-export default function CheckoutSuccessPage() {
-  const searchParams = useSearchParams();
-  const [status, setStatus] = useState("checking");
-
-  useEffect(() => {
-    const reference = searchParams.get("reference") || searchParams.get("trxref");
-
-    if (!reference) {
-      setStatus("failed");
-      return;
+    if (!items || items.length === 0) {
+      return NextResponse.json({ error: "Cart is empty." }, { status: 400 });
     }
 
-    fetch(`/api/verify-payment?reference=${encodeURIComponent(reference)}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (!data.verified) {
-          setStatus("failed");
-          return;
-        }
+    if (!process.env.PAYSTACK_SECRET_KEY) {
+      return NextResponse.json(
+        { error: "Payments are not configured yet." },
+        { status: 500 }
+      );
+    }
 
-        try {
-          const raw = sessionStorage.getItem("pendingOrder");
-          const order = raw ? JSON.parse(raw) : null;
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://reflectivemindsarena.com.ng";
 
-          window.fbq && window.fbq("track", "Purchase", {
-            currency: data.currency || order?.currency || "USD",
-            value: data.amount,
-          });
-          window.gtag && window.gtag("event", "purchase", {
-            currency: data.currency || order?.currency || "USD",
-            value: data.amount,
-            transaction_id: data.reference,
-            items: (order?.items || []).map((i) => ({ item_name: i.title, price: i.price, quantity: i.qty })),
-          });
-          sessionStorage.removeItem("pendingOrder");
-        } catch (e) {}
+    // Calculate total in kobo (Paystack uses kobo, not naira)
+    const totalNaira = items.reduce((sum, i) => sum + i.price * i.qty, 0);
 
-        setStatus("verified");
-      })
-      .catch(() => setStatus("failed"));
-  }, [searchParams]);
+    // Convert USD to NGN (approximate rate — update this regularly)
+    const usdToNgn = 1600;
+    const totalKobo = Math.round(totalNaira * usdToNgn * 100);
 
-  if (status === "checking") {
-    return (
-      <section className="section" style={{ paddingTop: 120 }}>
-        <div className="container" style={{ textAlign: "center", maxWidth: 560 }}>
-          <p style={{ opacity: 0.7 }}>Confirming your payment…</p>
-        </div>
-      </section>
+    const itemNames = items.map(i => `${i.title}${i.qty > 1 ? ` x${i.qty}` : ""}`).join(", ");
+
+    const response = await fetch("https://api.paystack.co/transaction/initialize", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: email || "customer@example.com",
+        amount: totalKobo,
+        currency: "NGN",
+        callback_url: `${siteUrl}/checkout/success`,
+        metadata: {
+          items: itemNames,
+          custom_fields: [
+            {
+              display_name: "Items Ordered",
+              variable_name: "items_ordered",
+              value: itemNames,
+            },
+          ],
+        },
+      }),
+    });
+
+    const data = await response.json();
+
+    if (data.status && data.data?.authorization_url) {
+      return NextResponse.json({ url: data.data.authorization_url });
+    } else {
+      return NextResponse.json(
+        { error: data.message || "Could not initialize payment." },
+        { status: 500 }
+      );
+    }
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json(
+      { error: "Could not reach payment processor." },
+      { status: 500 }
     );
   }
-
-  if (status === "failed") {
-    return (
-      <section className="section" style={{ paddingTop: 120 }}>
-        <div className="container" style={{ textAlign: "center", maxWidth: 560 }}>
-          <span className="eyebrow" style={{ justifyContent: "center" }}>
-            Payment Not Confirmed
-          </span>
-          <h1 style={{ margin: "18px 0" }}>We couldn't confirm this payment.</h1>
-          <p style={{ opacity: 0.75 }}>
-            If you completed a payment and see this message, please contact us with your
-            payment reference so we can confirm it manually — nothing has been charged
-            twice, and we'll sort it out quickly.
-          </p>
-          <Link href="/contact">
-            <button className="btn btn-primary" style={{ marginTop: 20 }}>
-              Contact Support
-            </button>
-          </Link>
-        </div>
-      </section>
-    );
-  }
-
-  return (
-    <section className="section" style={{ paddingTop: 120 }}>
-      <div className="container" style={{ textAlign: "center", maxWidth: 560 }}>
-        <span className="eyebrow" style={{ justifyContent: "center" }}>
-          Order Confirmed
-        </span>
-        <h1 style={{ margin: "18px 0" }}>Thank you — your order is complete.</h1>
-        <p style={{ opacity: 0.75 }}>
-          A confirmation email with your receipt is on its way from Paystack. Download
-          delivery emails are a feature we'll add next — for now, reach out and you'll
-          be sent your files directly.
-        </p>
-        <Link href="/store">
-          <button className="btn btn-primary" style={{ marginTop: 20 }}>
-            Continue Shopping
-          </button>
-        </Link>
-      </div>
-    </section>
-  );
 }
