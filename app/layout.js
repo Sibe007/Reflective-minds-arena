@@ -82,8 +82,7 @@ export default function RootLayout({ children }) {
             gtag('config', 'G-HMX7W3538K');
           `}
         </Script>
-        <Script id="facebook-pixel" strategy="afterInteractive">
-          {`
+        <Script id="facebook-pixel" strategy="afterInteractive">          {`
             !function(f,b,e,v,n,t,s)
             {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
             n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -118,6 +117,10 @@ export default function RootLayout({ children }) {
             })();
           `}
         </Script>
+        <Script
+          src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
