@@ -26,6 +26,10 @@ export async function POST(request) {
 
     const itemNames = items.map(i => `${i.title}${i.qty > 1 ? ` x${i.qty}` : ""}`).join(", ");
 
+    // Structured data so we can look up exactly which books were bought after payment.
+    // Paystack metadata values must be strings, so we encode as JSON.
+    const orderItems = items.map(i => ({ slug: i.slug, title: i.title, qty: i.qty }));
+
     const response = await fetch("https://api.paystack.co/transaction/initialize", {
       method: "POST",
       headers: {
@@ -39,6 +43,7 @@ export async function POST(request) {
         callback_url: `${siteUrl}/checkout/success`,
         metadata: {
           items: itemNames,
+          order_items: JSON.stringify(orderItems),
           custom_fields: [
             {
               display_name: "Items Ordered",
