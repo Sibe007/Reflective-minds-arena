@@ -12,8 +12,7 @@ const client = createClient({
 
 async function sendDownloadEmail(toEmail, books, siteUrl) {
   if (!process.env.BREVO_API_KEY) {
-    console.error("BREVO_API_KEY is not set — skipping delivery email.");
-    return;
+    return { sent: false, reason: "BREVO_API_KEY is not set." };
   }
 
   const linksHtml = books
@@ -45,12 +44,15 @@ async function sendDownloadEmail(toEmail, books, siteUrl) {
       }),
     });
 
+    const text = await res.text();
+
     if (!res.ok) {
-      const text = await res.text();
-      console.error("Brevo email send failed:", res.status, text);
+      return { sent: false, reason: `Brevo responded ${res.status}: ${text}` };
     }
+
+    return { sent: true };
   } catch (err) {
-    console.error("Brevo email send error:", err);
+    return { sent: false, reason: `Brevo request threw: ${err.message}` };
   }
 }
 
@@ -66,6 +68,8 @@ export async function GET(request) {
     return NextResponse.json({ verified: false, error: "Payments are not configured." }, { status: 500 });
   }
 
+  let debug = { step: "start" };
+
   try {
     const res = await fetch(`https://api.paystack.co/transaction/verify/${encodeURIComponent(reference)}`, {
       headers: { Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}` },
@@ -80,21 +84,27 @@ export async function GET(request) {
     const customerEmail = paystackData.customer?.email;
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://reflectivemindsarena.com.ng";
 
-    // Attempt digital delivery — this should never block confirming the payment
-    // to the buyer, even if something here fails.
+    debug.customerEmail = customerEmail;
+    debug.rawMetadata = paystackData.metadata;
+
     try {
       const orderItemsRaw = paystackData.metadata?.order_items;
+      debug.orderItemsRaw = orderItemsRaw || null;
+
       if (orderItemsRaw && customerEmail) {
         const orderItems = JSON.parse(orderItemsRaw);
         const slugs = orderItems.map((i) => i.slug).filter(Boolean);
+        debug.slugs = slugs;
 
         if (slugs.length > 0) {
           const books = await client.fetch(
             `*[_type == "book" && slug.current in $slugs]{ title, "slug": slug.current, digitalFile{ asset-> { _id, url } } }`,
             { slugs }
           );
+          debug.booksFound = books;
 
           const deliverable = books.filter((b) => b.digitalFile?.asset?._id);
+          debug.deliverableCount = deliverable.length;
 
           if (deliverable.length > 0) {
             const booksWithLinks = deliverable.map((b) => {
@@ -109,12 +119,13 @@ export async function GET(request) {
               };
             });
 
-            await sendDownloadEmail(customerEmail, booksWithLinks, siteUrl);
+            const emailResult = await sendDownloadEmail(customerEmail, booksWithLinks, siteUrl);
+            debug.emailResult = emailResult;
           }
         }
       }
     } catch (deliveryErr) {
-      console.error("Digital delivery error (payment still verified):", deliveryErr);
+      debug.deliveryError = deliveryErr.message;
     }
 
     return NextResponse.json({
@@ -122,6 +133,7 @@ export async function GET(request) {
       amount: paystackData.amount / 100,
       currency: paystackData.currency,
       reference: paystackData.reference,
+      debug,
     });
   } catch (err) {
     console.error(err);
