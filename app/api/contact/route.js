@@ -15,8 +15,6 @@ export async function POST(request) {
     const body = await request.json();
     const { firstName, lastName, email, subject, message, website, recaptchaToken } = body;
 
-    // Honeypot: if this hidden field has a value, it was filled by a bot.
-    // Respond as if successful so bots don't learn their submission was blocked.
     if (website) {
       return NextResponse.json({ ok: true });
     }
@@ -29,7 +27,11 @@ export async function POST(request) {
     if (!recaptchaResult.success) {
       console.error("Contact form reCAPTCHA rejected:", recaptchaResult.reason);
       return NextResponse.json(
-        { error: "Could not verify you're human. Please try again." },
+        {
+          error: "Could not verify you're human. Please try again.",
+          debugReason: recaptchaResult.reason,
+          debugHadToken: !!recaptchaToken,
+        },
         { status: 400 }
       );
     }
