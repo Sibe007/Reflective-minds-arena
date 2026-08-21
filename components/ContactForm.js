@@ -2,6 +2,21 @@
 
 import { useState } from "react";
 
+function getRecaptchaToken(action) {
+  return new Promise((resolve, reject) => {
+    if (typeof window === "undefined" || !window.grecaptcha) {
+      resolve(null);
+      return;
+    }
+    window.grecaptcha.ready(() => {
+      window.grecaptcha
+        .execute(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY, { action })
+        .then(resolve)
+        .catch(reject);
+    });
+  });
+}
+
 export default function ContactForm() {
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
@@ -30,12 +45,7 @@ export default function ContactForm() {
     };
 
     try {
-      if (typeof window !== "undefined" && window.grecaptcha) {
-        payload.recaptchaToken = await window.grecaptcha.execute(
-          process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
-          { action: "contact" }
-        );
-      }
+      payload.recaptchaToken = await getRecaptchaToken("contact");
     } catch (err) {
       console.error("reCAPTCHA error:", err);
     }
@@ -49,9 +59,7 @@ export default function ContactForm() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(
-          `${data.error || "Something went wrong. Please try again."} [debug: reason=${data.debugReason}, hadToken=${data.debugHadToken}]`
-        );
+        setError(data.error || "Something went wrong. Please try again.");
         setSending(false);
         return;
       }

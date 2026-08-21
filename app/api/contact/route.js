@@ -27,11 +27,7 @@ export async function POST(request) {
     if (!recaptchaResult.success) {
       console.error("Contact form reCAPTCHA rejected:", recaptchaResult.reason);
       return NextResponse.json(
-        {
-          error: "Could not verify you're human. Please try again.",
-          debugReason: recaptchaResult.reason,
-          debugHadToken: !!recaptchaToken,
-        },
+        { error: "Could not verify you're human. Please try again." },
         { status: 400 }
       );
     }
