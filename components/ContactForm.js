@@ -14,8 +14,6 @@ export default function ContactForm() {
 
     const form = e.target;
 
-    // Honeypot: real visitors never see or fill this field. Bots that
-    // auto-fill every input on a form will trip it.
     if (form.website && form.website.value) {
       setError("Something went wrong. Please try again.");
       setSending(false);
@@ -51,7 +49,9 @@ export default function ContactForm() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || "Something went wrong. Please try again.");
+        setError(
+          `${data.error || "Something went wrong. Please try again."} [debug: reason=${data.debugReason}, hadToken=${data.debugHadToken}]`
+        );
         setSending(false);
         return;
       }
@@ -110,8 +110,6 @@ export default function ContactForm() {
           }}></textarea>
         </div>
       </div>
-      {/* Honeypot field — hidden from real visitors via CSS, invisible to
-          screen readers, but bots that auto-fill forms will fill it in. */}
       <div style={{ position: "absolute", left: "-9999px", top: "-9999px" }} aria-hidden="true">
         <label htmlFor="website">Leave this field empty</label>
         <input type="text" id="website" name="website" tabIndex="-1" autoComplete="off" />
