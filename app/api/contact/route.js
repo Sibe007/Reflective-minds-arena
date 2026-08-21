@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@sanity/client";
+import { verifyRecaptcha } from "../../../lib/verifyRecaptcha";
 
 const client = createClient({
   projectId: "ngfau3ce",
@@ -12,10 +13,25 @@ const client = createClient({
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { firstName, lastName, email, subject, message } = body;
+    const { firstName, lastName, email, subject, message, website, recaptchaToken } = body;
+
+    // Honeypot: if this hidden field has a value, it was filled by a bot.
+    // Respond as if successful so bots don't learn their submission was blocked.
+    if (website) {
+      return NextResponse.json({ ok: true });
+    }
 
     if (!firstName || !lastName || !email || !message) {
       return NextResponse.json({ error: "Missing required fields." }, { status: 400 });
+    }
+
+    const recaptchaResult = await verifyRecaptcha(recaptchaToken, "contact");
+    if (!recaptchaResult.success) {
+      console.error("Contact form reCAPTCHA rejected:", recaptchaResult.reason);
+      return NextResponse.json(
+        { error: "Could not verify you're human. Please try again." },
+        { status: 400 }
+      );
     }
 
     if (!process.env.SANITY_API_TOKEN) {

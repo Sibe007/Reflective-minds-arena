@@ -13,13 +13,34 @@ export default function ContactForm() {
     setSending(true);
 
     const form = e.target;
+
+    // Honeypot: real visitors never see or fill this field. Bots that
+    // auto-fill every input on a form will trip it.
+    if (form.website && form.website.value) {
+      setError("Something went wrong. Please try again.");
+      setSending(false);
+      return;
+    }
+
     const payload = {
       firstName: form.firstName.value.trim(),
       lastName: form.lastName.value.trim(),
       email: form.email.value.trim(),
       subject: form.subject.value,
       message: form.message.value.trim(),
+      website: form.website ? form.website.value : "",
     };
+
+    try {
+      if (typeof window !== "undefined" && window.grecaptcha) {
+        payload.recaptchaToken = await window.grecaptcha.execute(
+          process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
+          { action: "contact" }
+        );
+      }
+    } catch (err) {
+      console.error("reCAPTCHA error:", err);
+    }
 
     try {
       const res = await fetch("/api/contact", {
@@ -88,6 +109,12 @@ export default function ContactForm() {
             color: "var(--ink)"
           }}></textarea>
         </div>
+      </div>
+      {/* Honeypot field — hidden from real visitors via CSS, invisible to
+          screen readers, but bots that auto-fill forms will fill it in. */}
+      <div style={{ position: "absolute", left: "-9999px", top: "-9999px" }} aria-hidden="true">
+        <label htmlFor="website">Leave this field empty</label>
+        <input type="text" id="website" name="website" tabIndex="-1" autoComplete="off" />
       </div>
       {error && (
         <p style={{ color: "var(--uli-red)", fontSize: ".9rem", marginBottom: 14 }}>{error}</p>
