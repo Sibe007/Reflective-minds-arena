@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function NewsletterForm({ source = "footer", onSuccess }) {
   const [email, setEmail] = useState("");
@@ -8,15 +8,37 @@ export default function NewsletterForm({ source = "footer", onSuccess }) {
   const [error, setError] = useState("");
   const [turnstileToken, setTurnstileToken] = useState("");
   const [website, setWebsite] = useState("");
-  const widgetId = `turnstile-newsletter-${source}`;
-  const callbackName = `onNewsletterTurnstileSuccess_${source}`;
+  const containerId = `turnstile-newsletter-${source}`;
+  const widgetIdRef = useRef(null);
 
   useEffect(() => {
-    window[callbackName] = (token) => setTurnstileToken(token);
+    let cancelled = false;
+
+    function tryRender() {
+      if (cancelled) return;
+      const container = document.getElementById(containerId);
+      if (window.turnstile && container && widgetIdRef.current === null) {
+        widgetIdRef.current = window.turnstile.render(`#${containerId}`, {
+          sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
+          callback: (token) => setTurnstileToken(token),
+        });
+      } else if (!window.turnstile) {
+        setTimeout(tryRender, 300);
+      }
+    }
+
+    tryRender();
+
     return () => {
-      delete window[callbackName];
+      cancelled = true;
+      if (window.turnstile && widgetIdRef.current !== null) {
+        try {
+          window.turnstile.remove(widgetIdRef.current);
+        } catch (e) {}
+        widgetIdRef.current = null;
+      }
     };
-  }, [callbackName]);
+  }, [containerId]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -41,7 +63,9 @@ export default function NewsletterForm({ source = "footer", onSuccess }) {
       if (!res.ok) {
         setError(data.error || "Something went wrong.");
         setStatus("error");
-        if (window.turnstile) window.turnstile.reset();
+        if (window.turnstile && widgetIdRef.current !== null) {
+          window.turnstile.reset(widgetIdRef.current);
+        }
         setTurnstileToken("");
         return;
       }
@@ -103,13 +127,7 @@ export default function NewsletterForm({ source = "footer", onSuccess }) {
           onChange={(e) => setWebsite(e.target.value)}
         />
       </div>
-      <div
-        id={widgetId}
-        className="cf-turnstile"
-        data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
-        data-callback={callbackName}
-        style={{ margin: "10px 0" }}
-      ></div>
+      <div id={containerId} style={{ margin: "10px 0" }}></div>
       {error && <p style={{ color: "#e08a8a", fontSize: ".85rem", width: "100%", margin: "8px 0 0" }}>{error}</p>}
     </form>
   );
