@@ -118,9 +118,10 @@ export default function RootLayout({ children }) {
           `}
         </Script>
         <Script
-  src={`https://www.google.com/recaptcha/enterprise.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+  src="https://challenges.cloudflare.com/turnstile/v0/api.js"
   strategy="afterInteractive"
 />
+
       </body>
     </html>
   );
