@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@sanity/client";
+import { verifyTurnstile } from "../../../lib/verifyTurnstile";
 
 const client = createClient({
   projectId: "ngfau3ce",
@@ -46,9 +47,24 @@ export async function POST(request) {
     const email = (body.email || "").trim().toLowerCase();
     const name = (body.name || "").trim();
     const source = body.source || "footer";
+    const website = body.website || "";
+    const turnstileToken = body.turnstileToken;
+
+    if (website) {
+      return NextResponse.json({ ok: true, alreadySubscribed: false });
+    }
 
     if (!email || !email.includes("@")) {
       return NextResponse.json({ error: "Please enter a valid email address." }, { status: 400 });
+    }
+
+    const turnstileResult = await verifyTurnstile(turnstileToken);
+    if (!turnstileResult.success) {
+      console.error("Newsletter Turnstile rejected:", turnstileResult.reason);
+      return NextResponse.json(
+        { error: "Could not verify you're human. Please try again." },
+        { status: 400 }
+      );
     }
 
     if (!process.env.SANITY_API_TOKEN) {
@@ -71,8 +87,6 @@ export async function POST(request) {
       });
     }
 
-    // Always sync to Brevo, even for existing Sanity records, so re-subscribes
-    // and updates still reach the actual mailing list.
     await addToBrevo(email, name);
 
     return NextResponse.json({ ok: true, alreadySubscribed: !!existing });
