@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@sanity/client";
-import { verifyRecaptcha } from "../../../lib/verifyRecaptcha";
+import { verifyTurnstile } from "../../../lib/verifyTurnstile";
 
 const client = createClient({
   projectId: "ngfau3ce",
@@ -13,7 +13,7 @@ const client = createClient({
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { firstName, lastName, email, subject, message, website, recaptchaToken } = body;
+    const { firstName, lastName, email, subject, message, website, turnstileToken } = body;
 
     if (website) {
       return NextResponse.json({ ok: true });
@@ -23,9 +23,9 @@ export async function POST(request) {
       return NextResponse.json({ error: "Missing required fields." }, { status: 400 });
     }
 
-    const recaptchaResult = await verifyRecaptcha(recaptchaToken, "contact");
-    if (!recaptchaResult.success) {
-      console.error("Contact form reCAPTCHA rejected:", recaptchaResult.reason);
+    const turnstileResult = await verifyTurnstile(turnstileToken);
+    if (!turnstileResult.success) {
+      console.error("Contact form Turnstile rejected:", turnstileResult.reason);
       return NextResponse.json(
         { error: "Could not verify you're human. Please try again." },
         { status: 400 }

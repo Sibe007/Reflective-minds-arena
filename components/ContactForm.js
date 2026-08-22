@@ -1,25 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-function getRecaptchaToken(action) {
-  return new Promise((resolve, reject) => {
-    if (typeof window === "undefined" || !window.grecaptcha || !window.grecaptcha.enterprise) {
-      resolve(null);
-      return;
-    }
-    window.grecaptcha.enterprise.ready(() => {
-      window.grecaptcha.enterprise
-        .execute(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY, { action })
-        .then(resolve)
-        .catch(reject);
-    });
-  });
-}
 export default function ContactForm() {
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState("");
+
+  useEffect(() => {
+    window.onContactTurnstileSuccess = (token) => setTurnstileToken(token);
+    return () => {
+      delete window.onContactTurnstileSuccess;
+    };
+  }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -41,13 +35,8 @@ export default function ContactForm() {
       subject: form.subject.value,
       message: form.message.value.trim(),
       website: form.website ? form.website.value : "",
+      turnstileToken,
     };
-
-    try {
-      payload.recaptchaToken = await getRecaptchaToken("contact");
-    } catch (err) {
-      console.error("reCAPTCHA error:", err);
-    }
 
     try {
       const res = await fetch("/api/contact", {
@@ -60,6 +49,8 @@ export default function ContactForm() {
       if (!res.ok) {
         setError(data.error || "Something went wrong. Please try again.");
         setSending(false);
+        if (window.turnstile) window.turnstile.reset();
+        setTurnstileToken("");
         return;
       }
 
@@ -121,10 +112,16 @@ export default function ContactForm() {
         <label htmlFor="website">Leave this field empty</label>
         <input type="text" id="website" name="website" tabIndex="-1" autoComplete="off" />
       </div>
+      <div
+        className="cf-turnstile"
+        data-sitekey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY}
+        data-callback="onContactTurnstileSuccess"
+        style={{ margin: "14px 0" }}
+      ></div>
       {error && (
         <p style={{ color: "var(--uli-red)", fontSize: ".9rem", marginBottom: 14 }}>{error}</p>
       )}
-      <button className="btn btn-primary" type="submit" disabled={sending}>
+      <button className="btn btn-primary" type="submit" disabled={sending || !turnstileToken}>
         {sending ? "Sending…" : "Send Message"}
       </button>
     </form>
