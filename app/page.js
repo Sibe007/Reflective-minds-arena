@@ -2,20 +2,16 @@ import Link from "next/link";
 import { getAllPosts, getHomePage, getTestimonials } from "../sanity/queries";
 import { urlFor } from "../sanity/image";
 import Testimonials from "../components/Testimonials";
-import NewsletterForm from "../components/NewsletterForm";
 
 export const revalidate = 30;
-
 export default async function HomePage() {
   const [posts, page, testimonials] = await Promise.all([getAllPosts(), getHomePage(), getTestimonials()]);
   const latestPosts = posts.slice(0, 3);
-
   const eyebrow = page?.eyebrow || "Nigerian Author | Exploring Belief, Culture, Identity, and Human Freedom";
   const heading = page?.heading || "The Stories We Inherit. The Truths We Choose.";
   const subheading = page?.subheading || "Through fiction and nonfiction, I explore the forces that shape human lives.";
   const intro = page?.intro || "I am Solomon B. Ibe, a Nigerian author and Interior Architect based in Lagos, Nigeria.";
   const quote = page?.quote || "The most powerful prisons are rarely built with walls. They are built with beliefs we never realize we were taught to protect.";
-
   return (
     <>
       <section className="hero">
@@ -89,16 +85,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="section newsletter">
-        <div className="container nl-box">
-          <span className="eyebrow">Join the Conversation</span>
-          <h2 style={{ marginTop: 14 }}>Essays, reflections, and explorations of belief, culture, identity, and human freedom.</h2>
-          <p style={{ opacity: 0.7 }}>One letter a month. No spam, ever.</p>
-          <div className="nl-form" style={{ maxWidth: 460, margin: "0 auto" }}>
-            <NewsletterForm source="homepage" />
-          </div>
-        </div>
-      </section>
     </>
   );
 }
