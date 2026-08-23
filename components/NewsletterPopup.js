@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import NewsletterForm from "./NewsletterForm";
 
 const DISMISS_KEY = "newsletterPopupDismissedAt";
@@ -8,6 +9,7 @@ const DISMISS_DAYS = 14;
 const SHOW_DELAY_MS = 1800;
 
 export default function NewsletterPopup() {
+  const pathname = usePathname();
   const [visible, setVisible] = useState(false);
   const [subscribed, setSubscribed] = useState(false);
 
@@ -40,6 +42,10 @@ export default function NewsletterPopup() {
     } catch (e) {}
     setTimeout(() => setVisible(false), 1800);
   }
+
+  // Homepage already has its own static newsletter section, so skip the
+  // popup there to avoid showing two subscribe prompts on the same page.
+  if (pathname === "/") return null;
 
   if (!visible) return null;
 
