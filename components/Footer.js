@@ -1,5 +1,6 @@
 import Link from "next/link";
 import NewsletterForm from "./NewsletterForm";
+import CookiePreferencesLink from "./CookiePreferencesLink";
 
 export default function Footer() {
   return (
@@ -35,6 +36,7 @@ export default function Footer() {
               <li><Link href="/privacy-policy">Privacy Policy</Link></li>
               <li><Link href="/terms">Terms of Service</Link></li>
               <li><Link href="/refund-policy">Refund Policy</Link></li>
+              <li><CookiePreferencesLink /></li>
             </ul>
           </div>
           <div>
