@@ -50,9 +50,11 @@ export default function PrivacyPolicyPage() {
       <h2>Cookies</h2>
       <p>
         This site uses cookies and similar technologies set by Google Analytics, Meta
-        Pixel, and Tawk.to to recognize your browser across visits and measure site
-        usage and advertising performance. You can control or delete cookies through
-        your browser settings at any time.
+        Pixel, and Tawk.to to recognize your browser across visits, measure site usage
+        and advertising performance, and power live chat support. These are only
+        activated if you accept cookies via the banner shown on your first visit. You
+        can change your choice at any time using the "Cookie Preferences" link in the
+        footer, or control or delete cookies through your browser settings.
       </p>
 
       <h2>Data Retention</h2>
