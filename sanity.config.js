@@ -72,6 +72,19 @@ export default defineConfig({
               ),
             S.divider(),
             S.listItem()
+              .title("📦 Orders")
+              .child(
+                S.list().title("Orders").items([
+                  S.listItem()
+                    .title("🚚 Physical Orders (Fulfillment)")
+                    .child(S.documentTypeList("physicalOrder").title("Physical Orders").defaultOrdering([{ field: "createdAt", direction: "desc" }])),
+                  S.listItem()
+                    .title("📩 Digital Delivery Records")
+                    .child(S.documentTypeList("delivery").title("Digital Delivery Records").defaultOrdering([{ field: "deliveredAt", direction: "desc" }])),
+                ])
+              ),
+            S.divider(),
+            S.listItem()
               .title("📦 Resources")
               .child(
                 S.list().title("Resources").items([
