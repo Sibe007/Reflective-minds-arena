@@ -37,16 +37,19 @@ export default function CartDrawer({ open, onClose }) {
             </div>
           ) : (
             items.map((i) => (
-              <div className="cart-item" key={i.slug}>
+              <div className="cart-item" key={`${i.slug}-${i.format}`}>
                 <div className="thumb" />
                 <div className="cart-item-info">
                   <h5>{i.title}</h5>
+                  <div style={{ fontSize: ".75rem", opacity: 0.6, textTransform: "capitalize" }}>
+                    {i.format === "paperback" ? "Paperback" : "eBook"}
+                  </div>
                   <div className="cart-item-price">
                     {fmt(i.price)} {i.qty > 1 ? `× ${i.qty}` : ""}
                   </div>
                   <button
                     className="cart-remove"
-                    onClick={() => removeItem(i.slug)}
+                    onClick={() => removeItem(i.slug, i.format)}
                   >
                     Remove
                   </button>
