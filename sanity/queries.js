@@ -14,7 +14,7 @@ export async function getAllBooks() {
 
 export async function getBookBySlug(slug) {
   return client.fetch(`*[_type == "book" && slug.current == $slug][0]{ _id, title, "slug": slug.current, subtitle, coverImage, blurb, longDescription, sampleChapter, price, oldPrice, paperbackPrice, format, category, featured, stripePriceId, selarEbookUrl, selarAudioUrl }`, { slug });
-
+}
 export async function getHomePage() {
   return client.fetch(`*[_type == "homePage" && _id == "home-page"][0]`);
 }
