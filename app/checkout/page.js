@@ -1,19 +1,57 @@
 "use client";
 
 import { useCart } from "../../components/CartProvider";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getShippingSettings } from "../../sanity/queries";
 
 export default function CheckoutPage() {
-  const { items, total } = useCart();
+  const { items, total, hasPhysicalItems } = useCart();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
+
+  const [shippingSettings, setShippingSettings] = useState(null);
+  const [shippingCountryType, setShippingCountryType] = useState("Nigeria");
+  const [shippingName, setShippingName] = useState("");
+  const [shippingAddress1, setShippingAddress1] = useState("");
+  const [shippingAddress2, setShippingAddress2] = useState("");
+  const [shippingCity, setShippingCity] = useState("");
+  const [shippingState, setShippingState] = useState("");
+  const [shippingPostalCode, setShippingPostalCode] = useState("");
+  const [shippingCountryName, setShippingCountryName] = useState("");
+  const [shippingPhone, setShippingPhone] = useState("");
+
+  useEffect(() => {
+    if (hasPhysicalItems) {
+      getShippingSettings()
+        .then(setShippingSettings)
+        .catch(() => setShippingSettings(null));
+    }
+  }, [hasPhysicalItems]);
+
+  function shippingFeeLabel() {
+    if (!shippingSettings) return "Calculating…";
+    if (shippingCountryType === "Nigeria") {
+      return `₦${shippingSettings.nigeriaFeeNaira?.toLocaleString() ?? "—"}`;
+    }
+    return `$${shippingSettings.internationalFeeUsd?.toFixed(2) ?? "—"}`;
+  }
 
   async function handleCheckout() {
     if (!email || !email.includes("@")) {
       setError("Please enter a valid email address.");
       return;
     }
+
+    if (hasPhysicalItems) {
+      const required = [shippingName, shippingAddress1, shippingCity, shippingState, shippingPostalCode, shippingPhone];
+      if (shippingCountryType === "International") required.push(shippingCountryName);
+      if (required.some((v) => !v || !v.trim())) {
+        setError("Please fill in your full shipping address — it's required for the paperback in your cart.");
+        return;
+      }
+    }
+
     setLoading(true);
     setError("");
 
@@ -36,11 +74,25 @@ export default function CheckoutPage() {
       } catch (e) {}
     }
 
+    const shippingAddress = hasPhysicalItems
+      ? {
+          countryType: shippingCountryType,
+          name: shippingName,
+          address1: shippingAddress1,
+          address2: shippingAddress2,
+          city: shippingCity,
+          state: shippingState,
+          postalCode: shippingPostalCode,
+          country: shippingCountryType === "Nigeria" ? "Nigeria" : shippingCountryName,
+          phone: shippingPhone,
+        }
+      : null;
+
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items, email }),
+        body: JSON.stringify({ items, email, shippingAddress }),
       });
       const data = await res.json();
       if (data.url) {
@@ -87,6 +139,97 @@ export default function CheckoutPage() {
               </div>
             </div>
 
+            {hasPhysicalItems && (
+              <>
+                <span className="eyebrow" style={{ marginTop: 28, display: "inline-flex" }}>
+                  Shipping Address
+                </span>
+                <p style={{ fontFamily: "var(--font-ui)", fontSize: ".85rem", opacity: 0.7, marginTop: 8 }}>
+                  Your cart includes a paperback — we need an address to ship it to.
+                </p>
+
+                <div className="form-row full" style={{ marginTop: 14 }}>
+                  <div>
+                    <label>Shipping to</label>
+                    <div style={{ display: "flex", gap: 20, marginTop: 6 }}>
+                      <label style={{ display: "inline-flex", alignItems: "center", gap: 6, fontWeight: 400 }}>
+                        <input
+                          type="radio"
+                          name="shippingCountryType"
+                          value="Nigeria"
+                          checked={shippingCountryType === "Nigeria"}
+                          onChange={() => setShippingCountryType("Nigeria")}
+                        />
+                        Nigeria
+                      </label>
+                      <label style={{ display: "inline-flex", alignItems: "center", gap: 6, fontWeight: 400 }}>
+                        <input
+                          type="radio"
+                          name="shippingCountryType"
+                          value="International"
+                          checked={shippingCountryType === "International"}
+                          onChange={() => setShippingCountryType("International")}
+                        />
+                        International
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="form-row full" style={{ marginTop: 14 }}>
+                  <div>
+                    <label>Full name</label>
+                    <input type="text" value={shippingName} onChange={(e) => setShippingName(e.target.value)} required />
+                  </div>
+                </div>
+
+                <div className="form-row full" style={{ marginTop: 14 }}>
+                  <div>
+                    <label>Address line 1</label>
+                    <input type="text" value={shippingAddress1} onChange={(e) => setShippingAddress1(e.target.value)} required />
+                  </div>
+                </div>
+
+                <div className="form-row full" style={{ marginTop: 14 }}>
+                  <div>
+                    <label>Address line 2 (optional)</label>
+                    <input type="text" value={shippingAddress2} onChange={(e) => setShippingAddress2(e.target.value)} />
+                  </div>
+                </div>
+
+                <div className="form-row" style={{ marginTop: 14, display: "flex", gap: 14 }}>
+                  <div style={{ flex: 1 }}>
+                    <label>City</label>
+                    <input type="text" value={shippingCity} onChange={(e) => setShippingCity(e.target.value)} required />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <label>State / Region</label>
+                    <input type="text" value={shippingState} onChange={(e) => setShippingState(e.target.value)} required />
+                  </div>
+                </div>
+
+                <div className="form-row" style={{ marginTop: 14, display: "flex", gap: 14 }}>
+                  <div style={{ flex: 1 }}>
+                    <label>Postal code</label>
+                    <input type="text" value={shippingPostalCode} onChange={(e) => setShippingPostalCode(e.target.value)} required />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <label>Phone number</label>
+                    <input type="tel" value={shippingPhone} onChange={(e) => setShippingPhone(e.target.value)} required />
+                  </div>
+                </div>
+
+                {shippingCountryType === "International" && (
+                  <div className="form-row full" style={{ marginTop: 14 }}>
+                    <div>
+                      <label>Country</label>
+                      <input type="text" value={shippingCountryName} onChange={(e) => setShippingCountryName(e.target.value)} required />
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+
             <span className="eyebrow" style={{ marginTop: 28, display: "inline-flex" }}>
               Payment
             </span>
@@ -107,7 +250,11 @@ export default function CheckoutPage() {
               onClick={handleCheckout}
               disabled={loading}
             >
-              {loading ? "Redirecting to Paystack…" : `Pay ${fmt(total)}`}
+              {loading
+                ? "Redirecting to Paystack…"
+                : hasPhysicalItems
+                ? "Continue to Paystack"
+                : `Pay ${fmt(total)}`}
             </button>
 
             <p style={{ fontFamily: "var(--font-ui)", fontSize: ".74rem", opacity: 0.5, marginTop: 14 }}>
@@ -118,20 +265,34 @@ export default function CheckoutPage() {
           <div className="order-summary">
             <h3>Order Summary</h3>
             {items.map((i) => (
-              <div className="summary-line" key={i.slug}>
-                <span>{i.title} {i.qty > 1 ? `× ${i.qty}` : ""}</span>
+              <div className="summary-line" key={`${i.slug}-${i.format}`}>
+                <span>
+                  {i.title}
+                  {i.format === "paperback" ? " (Paperback)" : ""}
+                  {i.qty > 1 ? ` × ${i.qty}` : ""}
+                </span>
                 <span>{fmt(i.price * i.qty)}</span>
               </div>
             ))}
             <div
               className="summary-line"
-              style={{ borderBottom: "none", fontWeight: 700, fontSize: "1.05rem", paddingTop: 18 }}
+              style={{ fontWeight: 700, fontSize: "1.05rem", paddingTop: 18 }}
             >
-              <span>Total</span>
+              <span>Books Subtotal</span>
               <span>{fmt(total)}</span>
             </div>
+            {hasPhysicalItems && (
+              <div className="summary-line" style={{ borderBottom: "none" }}>
+                <span>Shipping ({shippingCountryType})</span>
+                <span>{shippingFeeLabel()}</span>
+              </div>
+            )}
             <p style={{ fontFamily: "var(--font-ui)", fontSize: ".78rem", opacity: 0.6, marginTop: 14 }}>
-              Prices shown in USD. Payment processed in NGN at current exchange rate.
+              Book prices shown in USD.{" "}
+              {hasPhysicalItems
+                ? "Shipping is charged in the currency shown above. "
+                : ""}
+              Payment is processed in NGN — the exact amount charged will be shown on the Paystack payment page.
             </p>
           </div>
         </div>
@@ -142,4 +303,4 @@ export default function CheckoutPage() {
 
 function fmt(n) {
   return "$" + n.toFixed(2);
-}5
+}
