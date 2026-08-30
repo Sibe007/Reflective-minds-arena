@@ -19,6 +19,10 @@ export async function getHomePage() {
   return client.fetch(`*[_type == "homePage" && _id == "home-page"][0]`);
 }
 
+export async function getShippingSettings() {
+  return client.fetch(`*[_type == "shippingSettings" && _id == "shipping-settings"][0]{ nigeriaFeeNaira, internationalFeeUsd }`);
+}
+
 export async function getAboutPage() {
   return client.fetch(`*[_type == "aboutPage" && _id == "about-page"][0]`);
 }
