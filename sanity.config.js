@@ -83,6 +83,10 @@ export default defineConfig({
                     .child(S.documentTypeList("delivery").title("Digital Delivery Records").defaultOrdering([{ field: "deliveredAt", direction: "desc" }])),
                 ])
               ),
+                        S.divider(),
+            S.listItem()
+              .title("🚢 Shipping Settings")
+              .child(S.document().schemaType("shippingSettings").documentId("shipping-settings").title("🚢 Shipping Settings")),
             S.divider(),
             S.listItem()
               .title("📦 Resources")
