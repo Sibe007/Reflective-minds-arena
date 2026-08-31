@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getShippingSettings } from "../../../sanity/queries";
+import { getShippingSettings, getBookWeightsBySlugs } from "../../../sanity/queries";
 
 export async function POST(request) {
   try {
@@ -34,20 +34,36 @@ export async function POST(request) {
     const usdToNgn = 1600;
     let totalKobo = Math.round(totalNaira * usdToNgn * 100);
 
-    // Shipping fee is looked up server-side from Sanity (never trust a client-submitted
-    // amount — this is the source of truth an admin edits in Studio, so it can't be tampered with).
+    // Shipping fee is calculated server-side from Sanity data (never trust a client-submitted
+    // weight or amount — both the per-kg rate and each book's weight are looked up independently
+    // here, so nothing about the fee can be tampered with from the browser).
     let shippingFeeKobo = 0;
     let shippingFeeLabel = "";
+    let totalWeightKg = 0;
     if (hasPhysicalItems) {
+      const paperbackItems = items.filter((i) => i.format === "paperback");
+      const paperbackSlugs = paperbackItems.map((i) => i.slug).filter(Boolean);
+      const weightRows = await getBookWeightsBySlugs(paperbackSlugs);
+      const weightBySlug = {};
+      weightRows.forEach((r) => {
+        weightBySlug[r.slug] = r.weightKg || 0;
+      });
+      totalWeightKg = paperbackItems.reduce(
+        (sum, i) => sum + (weightBySlug[i.slug] || 0) * i.qty,
+        0
+      );
+
       const settings = await getShippingSettings();
       if (shippingAddress.countryType === "Nigeria") {
-        const fee = settings?.nigeriaFeeNaira ?? 0;
+        const rate = settings?.nigeriaPerKgNaira ?? 0;
+        const fee = rate * totalWeightKg;
         shippingFeeKobo = Math.round(fee * 100);
-        shippingFeeLabel = `₦${fee}`;
+        shippingFeeLabel = `₦${fee.toFixed(0)} (${totalWeightKg.toFixed(2)}kg)`;
       } else {
-        const fee = settings?.internationalFeeUsd ?? 0;
+        const rate = settings?.internationalPerKgUsd ?? 0;
+        const fee = rate * totalWeightKg;
         shippingFeeKobo = Math.round(fee * usdToNgn * 100);
-        shippingFeeLabel = `$${fee}`;
+        shippingFeeLabel = `$${fee.toFixed(2)} (${totalWeightKg.toFixed(2)}kg)`;
       }
       totalKobo += shippingFeeKobo;
     }
