@@ -12,6 +12,7 @@ export default {
     { name: "sampleChapter", title: "Sample Chapter Excerpt", type: "text", rows: 8 },
     { name: "price", title: "eBook Price (USD)", type: "number", validation: (Rule) => Rule.required().positive() },
     { name: "paperbackPrice", title: "Paperback Price (USD)", type: "number", description: "Leave blank if this book is not available as a paperback." },
+    { name: "weightKg", title: "Paperback Weight (kg)", type: "number", description: "Used to calculate shipping cost. Only needed if this book has a Paperback Price set. e.g. 0.4 for a typical paperback.", validation: (Rule) => Rule.positive() },
     { name: "oldPrice", title: "Original Price (for discounts, optional)", type: "number" },
     { name: "format", title: "Available Formats", type: "string", description: "e.g. eBook · Paperback · Audiobook" },
     { name: "category", title: "Category", type: "string", options: { list: ["Fiction", "Essays", "Memoir", "Nonfiction"] } },

@@ -4,17 +4,17 @@ export default {
   type: "document",
   fields: [
     {
-      name: "nigeriaFeeNaira",
-      title: "Nigeria Shipping Fee (₦)",
+      name: "nigeriaPerKgNaira",
+      title: "Nigeria Shipping Rate (₦ per kg)",
       type: "number",
-      description: "Flat shipping fee for orders shipping within Nigeria, in Naira.",
+      description: "Shipping cost per kilogram for orders shipping within Nigeria, in Naira. Total shipping = this rate × total weight of paperbacks in the order.",
       validation: (Rule) => Rule.required().min(0),
     },
     {
-      name: "internationalFeeUsd",
-      title: "International Shipping Fee ($)",
+      name: "internationalPerKgUsd",
+      title: "International Shipping Rate ($ per kg)",
       type: "number",
-      description: "Flat shipping fee for orders shipping outside Nigeria, in US Dollars.",
+      description: "Shipping cost per kilogram for orders shipping outside Nigeria, in US Dollars. Total shipping = this rate × total weight of paperbacks in the order.",
       validation: (Rule) => Rule.required().min(0),
     },
   ],
