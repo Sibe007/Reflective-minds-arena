@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
+import { getShippingSettings } from "../../../sanity/queries";
 
 export async function POST(request) {
   try {
-    const { items, email } = await request.json();
+    const { items, email, shippingAddress } = await request.json();
 
     if (!items || items.length === 0) {
       return NextResponse.json({ error: "Cart is empty." }, { status: 400 });
@@ -15,6 +16,15 @@ export async function POST(request) {
       );
     }
 
+    const hasPhysicalItems = items.some((i) => i.format === "paperback");
+
+    if (hasPhysicalItems && (!shippingAddress || !shippingAddress.name || !shippingAddress.address1)) {
+      return NextResponse.json(
+        { error: "Shipping address is required for paperback orders." },
+        { status: 400 }
+      );
+    }
+
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://reflectivemindsarena.com.ng";
 
     // Calculate total in kobo (Paystack uses kobo, not naira)
@@ -22,13 +32,53 @@ export async function POST(request) {
 
     // Convert USD to NGN (approximate rate — update this regularly)
     const usdToNgn = 1600;
-    const totalKobo = Math.round(totalNaira * usdToNgn * 100);
+    let totalKobo = Math.round(totalNaira * usdToNgn * 100);
 
-    const itemNames = items.map(i => `${i.title}${i.qty > 1 ? ` x${i.qty}` : ""}`).join(", ");
+    // Shipping fee is looked up server-side from Sanity (never trust a client-submitted
+    // amount — this is the source of truth an admin edits in Studio, so it can't be tampered with).
+    let shippingFeeKobo = 0;
+    let shippingFeeLabel = "";
+    if (hasPhysicalItems) {
+      const settings = await getShippingSettings();
+      if (shippingAddress.countryType === "Nigeria") {
+        const fee = settings?.nigeriaFeeNaira ?? 0;
+        shippingFeeKobo = Math.round(fee * 100);
+        shippingFeeLabel = `₦${fee}`;
+      } else {
+        const fee = settings?.internationalFeeUsd ?? 0;
+        shippingFeeKobo = Math.round(fee * usdToNgn * 100);
+        shippingFeeLabel = `$${fee}`;
+      }
+      totalKobo += shippingFeeKobo;
+    }
+
+    const itemNames = items.map(i => `${i.title}${i.format === "paperback" ? " (Paperback)" : ""}${i.qty > 1 ? ` x${i.qty}` : ""}`).join(", ");
 
     // Structured data so we can look up exactly which books were bought after payment.
     // Paystack metadata values must be strings, so we encode as JSON.
-    const orderItems = items.map(i => ({ slug: i.slug, title: i.title, qty: i.qty }));
+    const orderItems = items.map(i => ({ slug: i.slug, title: i.title, qty: i.qty, format: i.format || "ebook" }));
+
+    const metadata = {
+      items: itemNames,
+      order_items: JSON.stringify(orderItems),
+      custom_fields: [
+        {
+          display_name: "Items Ordered",
+          variable_name: "items_ordered",
+          value: itemNames,
+        },
+      ],
+    };
+
+    if (hasPhysicalItems) {
+      metadata.shipping_fee = shippingFeeLabel;
+      metadata.shipping_address = JSON.stringify(shippingAddress);
+      metadata.custom_fields.push({
+        display_name: "Shipping To",
+        variable_name: "shipping_to",
+        value: `${shippingAddress.name}, ${shippingAddress.address1}${shippingAddress.address2 ? ", " + shippingAddress.address2 : ""}, ${shippingAddress.city}, ${shippingAddress.state}, ${shippingAddress.postalCode}, ${shippingAddress.country} — ${shippingAddress.phone}`,
+      });
+    }
 
     const response = await fetch("https://api.paystack.co/transaction/initialize", {
       method: "POST",
@@ -41,17 +91,7 @@ export async function POST(request) {
         amount: totalKobo,
         currency: "NGN",
         callback_url: `${siteUrl}/checkout/success`,
-        metadata: {
-          items: itemNames,
-          order_items: JSON.stringify(orderItems),
-          custom_fields: [
-            {
-              display_name: "Items Ordered",
-              variable_name: "items_ordered",
-              value: itemNames,
-            },
-          ],
-        },
+        metadata,
       }),
     });
 
