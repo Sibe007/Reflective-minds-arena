@@ -9,20 +9,24 @@ export async function getPostBySlug(slug) {
 }
 
 export async function getAllBooks() {
-  return client.fetch(`*[_type == "book"] | order(featured desc){ _id, title, "slug": slug.current, subtitle, coverImage, blurb, price, oldPrice, paperbackPrice, format, category, featured, stripePriceId, selarEbookUrl, selarAudioUrl }`);
+  return client.fetch(`*[_type == "book"] | order(featured desc){ _id, title, "slug": slug.current, subtitle, coverImage, blurb, price, oldPrice, paperbackPrice, weightKg, format, category, featured, stripePriceId, selarEbookUrl, selarAudioUrl }`);
 }
 
 export async function getBookBySlug(slug) {
-  return client.fetch(`*[_type == "book" && slug.current == $slug][0]{ _id, title, "slug": slug.current, subtitle, coverImage, blurb, longDescription, sampleChapter, price, oldPrice, paperbackPrice, format, category, featured, stripePriceId, selarEbookUrl, selarAudioUrl }`, { slug });
+  return client.fetch(`*[_type == "book" && slug.current == $slug][0]{ _id, title, "slug": slug.current, subtitle, coverImage, blurb, longDescription, sampleChapter, price, oldPrice, paperbackPrice, weightKg, format, category, featured, stripePriceId, selarEbookUrl, selarAudioUrl }`, { slug });
 }
+
+export async function getBookWeightsBySlugs(slugs) {
+  return client.fetch(`*[_type == "book" && slug.current in $slugs]{ "slug": slug.current, weightKg }`, { slugs });
+}
+
 export async function getHomePage() {
   return client.fetch(`*[_type == "homePage" && _id == "home-page"][0]`);
 }
 
 export async function getShippingSettings() {
-  return client.fetch(`*[_type == "shippingSettings" && _id == "shipping-settings"][0]{ nigeriaFeeNaira, internationalFeeUsd }`);
+  return client.fetch(`*[_type == "shippingSettings" && _id == "shipping-settings"][0]{ nigeriaPerKgNaira, internationalPerKgUsd }`);
 }
-
 export async function getAboutPage() {
   return client.fetch(`*[_type == "aboutPage" && _id == "about-page"][0]`);
 }
