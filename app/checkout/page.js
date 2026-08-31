@@ -2,7 +2,7 @@
 
 import { useCart } from "../../components/CartProvider";
 import { useState, useEffect } from "react";
-import { getShippingSettings } from "../../sanity/queries";
+import { getShippingSettings, getBookWeightsBySlugs } from "../../sanity/queries";
 
 export default function CheckoutPage() {
   const { items, total, hasPhysicalItems } = useCart();
@@ -11,6 +11,7 @@ export default function CheckoutPage() {
   const [email, setEmail] = useState("");
 
   const [shippingSettings, setShippingSettings] = useState(null);
+  const [bookWeights, setBookWeights] = useState({});
   const [shippingCountryType, setShippingCountryType] = useState("Nigeria");
   const [shippingName, setShippingName] = useState("");
   const [shippingAddress1, setShippingAddress1] = useState("");
@@ -21,20 +22,44 @@ export default function CheckoutPage() {
   const [shippingCountryName, setShippingCountryName] = useState("");
   const [shippingPhone, setShippingPhone] = useState("");
 
+  const paperbackItems = items.filter((i) => i.format === "paperback");
+
   useEffect(() => {
     if (hasPhysicalItems) {
       getShippingSettings()
         .then(setShippingSettings)
         .catch(() => setShippingSettings(null));
+
+      const slugs = paperbackItems.map((i) => i.slug);
+      if (slugs.length > 0) {
+        getBookWeightsBySlugs(slugs)
+          .then((rows) => {
+            const map = {};
+            rows.forEach((r) => {
+              map[r.slug] = r.weightKg;
+            });
+            setBookWeights(map);
+          })
+          .catch(() => setBookWeights({}));
+      }
     }
-  }, [hasPhysicalItems]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasPhysicalItems, items.length]);
+
+  const totalWeightKg = paperbackItems.reduce(
+    (sum, i) => sum + (bookWeights[i.slug] || 0) * i.qty,
+    0
+  );
 
   function shippingFeeLabel() {
     if (!shippingSettings) return "Calculating…";
+    if (totalWeightKg === 0) return "Calculating…";
     if (shippingCountryType === "Nigeria") {
-      return `₦${shippingSettings.nigeriaFeeNaira?.toLocaleString() ?? "—"}`;
+      const fee = (shippingSettings.nigeriaPerKgNaira ?? 0) * totalWeightKg;
+      return `₦${fee.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
     }
-    return `$${shippingSettings.internationalFeeUsd?.toFixed(2) ?? "—"}`;
+    const fee = (shippingSettings.internationalPerKgUsd ?? 0) * totalWeightKg;
+    return `$${fee.toFixed(2)}`;
   }
 
   async function handleCheckout() {
@@ -283,7 +308,10 @@ export default function CheckoutPage() {
             </div>
             {hasPhysicalItems && (
               <div className="summary-line" style={{ borderBottom: "none" }}>
-                <span>Shipping ({shippingCountryType})</span>
+                <span>
+                  Shipping ({shippingCountryType}
+                  {totalWeightKg > 0 ? `, ${totalWeightKg.toFixed(2)}kg` : ""})
+                </span>
                 <span>{shippingFeeLabel()}</span>
               </div>
             )}
