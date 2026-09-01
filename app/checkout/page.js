@@ -62,6 +62,18 @@ export default function CheckoutPage() {
     return `$${fee.toFixed(2)}`;
   }
 
+  function shippingRateLabel() {
+    if (!shippingSettings) return null;
+    if (shippingCountryType === "Nigeria") {
+      const rate = shippingSettings.nigeriaPerKgNaira;
+      if (rate == null) return null;
+      return `₦${rate.toLocaleString(undefined, { maximumFractionDigits: 0 })}/kg`;
+    }
+    const rate = shippingSettings.internationalPerKgUsd;
+    if (rate == null) return null;
+    return `$${rate.toFixed(2)}/kg`;
+  }
+
   async function handleCheckout() {
     if (!email || !email.includes("@")) {
       setError("Please enter a valid email address.");
@@ -307,13 +319,25 @@ export default function CheckoutPage() {
               <span>{fmt(total)}</span>
             </div>
             {hasPhysicalItems && (
-              <div className="summary-line" style={{ borderBottom: "none" }}>
-                <span>
-                  Shipping ({shippingCountryType}
-                  {totalWeightKg > 0 ? `, ${totalWeightKg.toFixed(2)}kg` : ""})
-                </span>
-                <span>{shippingFeeLabel()}</span>
-              </div>
+              <>
+                <div className="summary-line" style={{ borderBottom: "none" }}>
+                  <span>Shipping ({shippingCountryType})</span>
+                  <span>{shippingFeeLabel()}</span>
+                </div>
+                {totalWeightKg > 0 && shippingRateLabel() && (
+                  <p
+                    style={{
+                      fontFamily: "var(--font-ui)",
+                      fontSize: ".76rem",
+                      opacity: 0.6,
+                      marginTop: -8,
+                      marginBottom: 8,
+                    }}
+                  >
+                    {totalWeightKg.toFixed(2)}kg × {shippingRateLabel()}
+                  </p>
+                )}
+              </>
             )}
             <p style={{ fontFamily: "var(--font-ui)", fontSize: ".78rem", opacity: 0.6, marginTop: 14 }}>
               Book prices shown in USD.{" "}
