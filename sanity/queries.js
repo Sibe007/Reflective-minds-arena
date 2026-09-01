@@ -56,3 +56,18 @@ export async function getTestimonials(category) {
     `*[_type == "testimonial"] | order(coalesce(order, 9999) asc, _createdAt desc){ _id, name, role, quote, photo, category, rating, featured }`
   );
 }
+
+export async function getAllResources() {
+  return client.fetch(`*[_type == "resource" && featured == true] | order(_createdAt asc){
+    _id,
+    title,
+    "slug": slug.current,
+    type,
+    description,
+    price,
+    buyUrl,
+    coverImage,
+    "freeFileUrl": freeFile.asset->url,
+    "hasDigitalFile": defined(digitalFile.asset)
+  }`);
+}

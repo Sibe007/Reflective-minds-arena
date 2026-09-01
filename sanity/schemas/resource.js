@@ -43,10 +43,22 @@ export default {
       type: "number",
     },
     {
+      name: "freeFile",
+      title: "Free Download File",
+      type: "file",
+      description: "Upload the actual file for a free resource (Resource Type = Free Download). Visitors download it directly — no payment step.",
+    },
+    {
+      name: "digitalFile",
+      title: "Paid Download File",
+      type: "file",
+      description: "Upload the actual file for a paid resource. Delivered by secure emailed link after payment, the same way ebooks are delivered.",
+    },
+    {
       name: "buyUrl",
-      title: "Buy/Download Link",
+      title: "External Buy/Download Link (optional, legacy)",
       type: "url",
-      description: "Paste your Selar or Lemonsqueezy product link here",
+      description: "Only needed if you want to link out to an external store (e.g. Lemon Squeezy) instead of selling through this site. Leave empty to sell directly — the site's own checkout will be used automatically once a Paid Download File is uploaded.",
     },
     {
       name: "coverImage",
