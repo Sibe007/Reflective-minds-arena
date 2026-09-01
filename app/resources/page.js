@@ -5,6 +5,7 @@ export const metadata = {
   title: "Resources — Solomon B. Ibe",
   description: "Free and paid writing resources, guides, and tools for readers and writers.",
 };
+export const revalidate = 30;
 
 const NUMERALS = ["①", "②", "③", "④", "⑤", "⑥", "⑦", "⑧", "⑨"];
 
