@@ -105,6 +105,9 @@ export default defineConfig({
                   S.listItem().title("📋 All Events").child(S.documentTypeList("event").title("All Events")),
                 ])
               ),
+            S.listItem()
+              .title("🎥 Webinar Registrations")
+              .child(S.documentTypeList("webinarRegistration").title("Webinar Registrations").defaultOrdering([{ field: "registeredAt", direction: "desc" }])),
           ]),
     }),
   ],

@@ -71,3 +71,24 @@ export async function getAllResources() {
     "hasDigitalFile": defined(digitalFile.asset)
   }`);
 }
+
+export async function getAllEvents() {
+  // Note: joinLink is intentionally never selected here — it must stay
+  // private and only ever be looked up server-side (webinar-register route,
+  // deliverOrder.js) after someone registers or pays. hasJoinLink just tells
+  // the page whether registration should be offered yet.
+  return client.fetch(`*[_type == "event" && featured == true] | order(coalesce(date, now()) asc){
+    _id,
+    title,
+    "slug": slug.current,
+    date,
+    location,
+    description,
+    ticketUrl,
+    type,
+    price,
+    platform,
+    coverImage,
+    "hasJoinLink": defined(joinLink)
+  }`);
+}

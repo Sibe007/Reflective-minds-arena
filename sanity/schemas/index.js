@@ -14,5 +14,6 @@ import testimonial from "./testimonial";
 import delivery from "./delivery";
 import physicalOrder from "./physicalOrder";
 import shippingSettings from "./shippingSettings";
+import webinarRegistration from "./webinarRegistration";
 
-export const schemaTypes = [post, book, resource, event, homePage, aboutPage, contactPage, myStoryPage, architecturePage, project, contactSubmission, subscriber, testimonial, delivery, physicalOrder, shippingSettings];
+export const schemaTypes = [post, book, resource, event, homePage, aboutPage, contactPage, myStoryPage, architecturePage, project, contactSubmission, subscriber, testimonial, delivery, physicalOrder, shippingSettings, webinarRegistration];

@@ -11,6 +11,14 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: "slug",
+      title: "URL Slug",
+      type: "slug",
+      options: { source: "title", maxLength: 96 },
+      description: "Needed for webinars so the site can look up the event for registration/payment. Optional for other event types.",
+      validation: (Rule) => Rule.required(),
+    },
+    {
       name: "date",
       title: "Event Date",
       type: "datetime",
@@ -31,9 +39,9 @@ export default {
     },
     {
       name: "ticketUrl",
-      title: "Ticket or Registration Link",
+      title: "Ticket or Registration Link (external)",
       type: "url",
-      description: "Leave empty if free or no registration needed",
+      description: "For non-webinar events only — an external ticketing link (e.g. Eventbrite). Leave empty for webinars; use the fields below instead.",
     },
     {
       name: "type",
@@ -47,8 +55,27 @@ export default {
           { title: "Workshop", value: "workshop" },
           { title: "Panel Discussion", value: "panel" },
           { title: "Online Event", value: "online" },
+          { title: "Webinar", value: "webinar" },
         ],
       },
+    },
+    {
+      name: "price",
+      title: "Webinar Price (USD) — leave empty if free",
+      type: "number",
+      description: "Only used when Event Type is Webinar. Leave empty for a free webinar.",
+    },
+    {
+      name: "platform",
+      title: "Webinar Platform",
+      type: "string",
+      description: "Only used when Event Type is Webinar. Example: Zoom, Google Meet, YouTube Live — shown in the confirmation email, not on the public page.",
+    },
+    {
+      name: "joinLink",
+      title: "Webinar Join Link (private)",
+      type: "url",
+      description: "Only used when Event Type is Webinar. The actual Zoom/Meet link. This is NEVER shown on the public site — it is only emailed to people after they register (free) or pay (paid).",
     },
     {
       name: "coverImage",
