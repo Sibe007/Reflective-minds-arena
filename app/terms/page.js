@@ -3,6 +3,12 @@ import LegalLayout from "../../components/LegalLayout";
 export const metadata = {
   title: "Terms of Service — Solomon B. Ibe",
   description: "The terms governing your use of reflectivemindsarena.com.ng.",
+  openGraph: {
+    title: "Terms of Service — Solomon B. Ibe",
+    description: "The terms governing your use of reflectivemindsarena.com.ng.",
+    url: "https://reflectivemindsarena.com.ng/terms",
+    type: "website",
+  },
 };
 
 export default function TermsPage() {

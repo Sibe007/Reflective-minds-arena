@@ -3,6 +3,12 @@ import LegalLayout from "../../components/LegalLayout";
 export const metadata = {
   title: "Privacy Policy — Solomon B. Ibe",
   description: "How Reflective Minds Arena collects, uses, and protects your personal information.",
+  openGraph: {
+    title: "Privacy Policy — Solomon B. Ibe",
+    description: "How Reflective Minds Arena collects, uses, and protects your personal information.",
+    url: "https://reflectivemindsarena.com.ng/privacy-policy",
+    type: "website",
+  },
 };
 
 export default function PrivacyPolicyPage() {

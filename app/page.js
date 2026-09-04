@@ -2,6 +2,16 @@ import Link from "next/link";
 import { getAllPosts, getHomePage, getTestimonials } from "../sanity/queries";
 import { urlFor } from "../sanity/image";
 import Testimonials from "../components/Testimonials";
+export const metadata = {
+  title: "Solomon B. Ibe — Nigerian Author & Interior Architect",
+  description: "Solomon B. Ibe is a Lagos-based Nigerian author and Interior Architect exploring belief, culture, identity, and human freedom through fiction and nonfiction.",
+  openGraph: {
+    title: "Solomon B. Ibe — Nigerian Author & Interior Architect",
+    description: "Exploring belief, culture, identity, and human freedom through fiction and nonfiction.",
+    url: "https://reflectivemindsarena.com.ng",
+    type: "website",
+  },
+};
 
 export const revalidate = 30;
 export default async function HomePage() {

@@ -3,6 +3,12 @@ import LegalLayout from "../../components/LegalLayout";
 export const metadata = {
   title: "Refund Policy — Solomon B. Ibe",
   description: "Our policy on refunds for book purchases made through reflectivemindsarena.com.ng.",
+  openGraph: {
+    title: "Refund Policy — Solomon B. Ibe",
+    description: "Our policy on refunds for book purchases made through reflectivemindsarena.com.ng.",
+    url: "https://reflectivemindsarena.com.ng/refund-policy",
+    type: "website",
+  },
 };
 
 export default function RefundPolicyPage() {

@@ -5,6 +5,12 @@ import AddToWebinarCartButton from "../../components/AddToWebinarCartButton";
 export const metadata = {
   title: "Events — Solomon B. Ibe",
   description: "Speaking engagements, book launches, webinars, and appearances by Solomon B. Ibe.",
+  openGraph: {
+    title: "Events — Solomon B. Ibe",
+    description: "Speaking engagements, book launches, webinars, and appearances by Solomon B. Ibe.",
+    url: "https://reflectivemindsarena.com.ng/events",
+    type: "website",
+  },
 };
 
 export const revalidate = 30;

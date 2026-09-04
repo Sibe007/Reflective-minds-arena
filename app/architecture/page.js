@@ -9,6 +9,13 @@ export const metadata = {
   title: "Architecture & Interior Finishing Works — Solomon B. Ibe",
   description:
     "Interior architecture and finishing works by Solomon B. Ibe. Residential and commercial spaces built with precision, materiality, and intent. Based in Lagos, Nigeria.",
+  openGraph: {
+    title: "Architecture & Interior Finishing Works — Solomon B. Ibe",
+    description:
+      "Interior architecture and finishing works by Solomon B. Ibe. Residential and commercial spaces built with precision, materiality, and intent.",
+    url: "https://reflectivemindsarena.com.ng/architecture",
+    type: "website",
+  },
 };
 
 export default async function ArchitecturePage() {

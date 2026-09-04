@@ -4,6 +4,12 @@ import AddToResourceCartButton from "../../components/AddToResourceCartButton";
 export const metadata = {
   title: "Resources — Solomon B. Ibe",
   description: "Free and paid writing resources, guides, and tools for readers and writers.",
+  openGraph: {
+    title: "Resources — Solomon B. Ibe",
+    description: "Free and paid writing resources, guides, and tools for readers and writers.",
+    url: "https://reflectivemindsarena.com.ng/resources",
+    type: "website",
+  },
 };
 export const revalidate = 30;
 
