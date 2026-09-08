@@ -20,14 +20,51 @@ function formatDate(dateStr) {
   return new Date(dateStr).toLocaleString("en-US", { dateStyle: "full", timeStyle: "short" });
 }
 
+function buildEventJsonLd(events, siteUrl) {
+  return events
+    .filter((e) => e.date)
+    .map((e) => ({
+      "@context": "https://schema.org",
+      "@type": "Event",
+      name: e.title,
+      startDate: e.date,
+      ...(e.description && { description: e.description }),
+      eventAttendanceMode:
+        e.type === "webinar"
+          ? "https://schema.org/OnlineEventAttendanceMode"
+          : "https://schema.org/OfflineEventAttendanceMode",
+      eventStatus: "https://schema.org/EventScheduled",
+      location:
+        e.type === "webinar"
+          ? { "@type": "VirtualLocation", url: `${siteUrl}/events` }
+          : { "@type": "Place", name: e.location || "Location to be announced" },
+      organizer: { "@type": "Person", name: "Solomon B. Ibe" },
+      ...(e.ticketUrl && {
+        offers: {
+          "@type": "Offer",
+          url: e.ticketUrl,
+          availability: "https://schema.org/InStock",
+        },
+      }),
+    }));
+}
+
 export default async function EventsPage() {
   const events = await getAllEvents();
 
   const webinars = events.filter((e) => e.type === "webinar");
   const otherEvents = events.filter((e) => e.type !== "webinar");
+  const siteUrl = "https://reflectivemindsarena.com.ng";
+  const eventsJsonLd = buildEventJsonLd(events, siteUrl);
 
   return (
     <>
+      {eventsJsonLd.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(eventsJsonLd) }}
+        />
+      )}
       <section className="page-hero">
         <div className="container">
           <div className="breadcrumb">Home / Events</div>
@@ -92,7 +129,7 @@ export default async function EventsPage() {
             >
               <p style={{ fontSize: "1.1rem" }}>No upcoming events scheduled at this time.</p>
               <p>Check back soon or subscribe to the newsletter to be notified of new events.</p>
-              <a
+              
                 href="/newsletter"
                 className="btn btn-dark"
                 style={{ marginTop: 14, display: "inline-flex" }}
@@ -117,7 +154,7 @@ export default async function EventsPage() {
                     </p>
                   )}
                   {e.ticketUrl && (
-                    <a
+                    
                       href={e.ticketUrl}
                       target="_blank"
                       rel="noopener noreferrer"
