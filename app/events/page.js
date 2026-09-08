@@ -1,4 +1,5 @@
 import { getAllEvents } from "../../sanity/queries";
+import { urlFor } from "../../sanity/image";
 import WebinarRegisterForm from "../../components/WebinarRegisterForm";
 import AddToWebinarCartButton from "../../components/AddToWebinarCartButton";
 
@@ -84,6 +85,15 @@ export default async function EventsPage() {
                     key={w._id}
                     style={{ background: "var(--sand)", padding: 32, borderRadius: 2 }}
                   >
+                    {w.coverImage && (
+                      <div style={{ marginBottom: 20, borderRadius: 2, overflow: "hidden" }}>
+                        <img
+                          src={urlFor(w.coverImage).width(900).url()}
+                          alt={w.title}
+                          style={{ width: "100%", height: "auto", display: "block" }}
+                        />
+                      </div>
+                    )}
                     <h3 style={{ marginBottom: 6 }}>{w.title}</h3>
                     {w.date && (
                       <p style={{ opacity: 0.65, fontSize: ".9rem", marginBottom: 10 }}>
@@ -144,6 +154,15 @@ export default async function EventsPage() {
                   key={e._id}
                   style={{ background: "var(--sand)", padding: 28, borderRadius: 2 }}
                 >
+                  {e.coverImage && (
+                    <div style={{ marginBottom: 16, borderRadius: 2, overflow: "hidden" }}>
+                      <img
+                        src={urlFor(e.coverImage).width(900).url()}
+                        alt={e.title}
+                        style={{ width: "100%", height: "auto", display: "block" }}
+                      />
+                    </div>
+                  )}
                   <h3 style={{ marginBottom: 6 }}>{e.title}</h3>
                   <p style={{ opacity: 0.65, fontSize: ".9rem", marginBottom: 10 }}>
                     {[formatDate(e.date), e.location].filter(Boolean).join(" — ")}
