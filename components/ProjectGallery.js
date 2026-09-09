@@ -1,6 +1,9 @@
 "use client";
 
+"use client";
+
 import { useState } from "react";
+import Image from "next/image";
 import { urlFor } from "../sanity/image";
 
 export default function ProjectGallery({ projects }) {
@@ -42,16 +45,23 @@ export default function ProjectGallery({ projects }) {
     <>
       <div className="arch-gallery-grid">
         {projects.map((item, i) => (
-          <figure
+                    <figure
             className="arch-gallery-item"
             key={item._id}
             onClick={() => openProject(i)}
             role="button"
             tabIndex={0}
             onKeyDown={(e) => (e.key === "Enter" ? openProject(i) : null)}
+            style={{ position: "relative", aspectRatio: "4/5" }}
           >
-            {item.coverImage && (
-              <img src={urlFor(item.coverImage).width(700).url()} alt={item.title || "Project photo"} />
+                        {item.coverImage && (
+              <Image
+                src={urlFor(item.coverImage).width(700).url()}
+                alt={item.title || "Project photo"}
+                fill
+                sizes="(max-width: 900px) 50vw, 33vw"
+                style={{ objectFit: "cover" }}
+              />
             )}
             {(item.title || item.category) && (
               <figcaption>
