@@ -3,7 +3,7 @@ import { getBookBySlug } from "../../../sanity/queries";
 import { urlFor } from "../../../sanity/image";
 import { notFound } from "next/navigation";
 import AddToCartButton from "../../../components/AddToCartButton";
-
+import Image from "next/image";
 export const revalidate = 30;
 
 export async function generateMetadata({ params }) {
@@ -56,12 +56,15 @@ export default async function BookPage({ params }) {
         <div className="breadcrumb">Home / Books / {book.title}</div>
         <div className="book-detail">
           <div>
-            <div className="book-cover" style={{ aspectRatio: "2/3" }}>
+                        <div className="book-cover" style={{ aspectRatio: "2/3", position: "relative" }}>
               {book.coverImage ? (
-                <img
+                <Image
                   src={urlFor(book.coverImage).width(500).url()}
                   alt={book.title}
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  fill
+                  priority
+                  sizes="(max-width: 900px) 60vw, 30vw"
+                  style={{ objectFit: "cover" }}
                 />
               ) : (
                 <div>
