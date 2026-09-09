@@ -1,8 +1,8 @@
 import { getAllBooks } from "../../sanity/queries";
 import { urlFor } from "../../sanity/image";
 import Link from "next/link";
+import Image from "next/image";
 import TrackedLink from "../../components/TrackedLink";
-
 export const metadata = {
   title: "Store — Solomon B. Ibe",
   description: "Buy books by Solomon B. Ibe in ebook, paperback, and hardcover formats.",
@@ -45,9 +45,15 @@ export default async function StorePage() {
               <div style={{ display: "flex", flexDirection: "column", gap: 56 }}>
                 {books.map((book) => (
                   <div key={book._id} style={{ display: "grid", gridTemplateColumns: "280px 1fr", gap: 48, paddingBottom: 56, borderBottom: "1px solid var(--line)" }}>
-                    <div className="book-cover" style={{ aspectRatio: "2/3" }}>
+                                        <div className="book-cover" style={{ aspectRatio: "2/3", position: "relative" }}>
                       {book.coverImage ? (
-                        <img src={urlFor(book.coverImage).width(400).url()} alt={book.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                        <Image
+                          src={urlFor(book.coverImage).width(400).url()}
+                          alt={book.title}
+                          fill
+                          sizes="(max-width: 900px) 40vw, 280px"
+                          style={{ objectFit: "cover" }}
+                        />
                       ) : (
                         <div><div className="title">{book.title}</div><div className="sub">{book.subtitle}</div></div>
                       )}
