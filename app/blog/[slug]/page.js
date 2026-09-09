@@ -2,6 +2,7 @@ import { PortableText } from "@portabletext/react";
 import { getPostBySlug } from "../../../sanity/queries";
 import { urlFor } from "../../../sanity/image";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 
 export const revalidate = 30;
 export async function generateMetadata({ params }) {
@@ -57,12 +58,15 @@ export default async function PostPage({ params }) {
             </>
           )}
         </div>
-        {post.coverImage ? (
-          <div className="post-hero-img" style={{ padding: 0, overflow: "hidden" }}>
-            <img
+                {post.coverImage ? (
+          <div className="post-hero-img" style={{ padding: 0, overflow: "hidden", position: "relative" }}>
+            <Image
               src={urlFor(post.coverImage).width(1200).url()}
               alt={post.title}
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              fill
+              priority
+              sizes="(max-width: 980px) 100vw, 900px"
+              style={{ objectFit: "cover" }}
             />
           </div>
         ) : (
