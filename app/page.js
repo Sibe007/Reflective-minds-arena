@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getAllPosts, getHomePage, getTestimonials } from "../sanity/queries";
 import { urlFor } from "../sanity/image";
 import Testimonials from "../components/Testimonials";
@@ -41,11 +42,25 @@ export default async function HomePage() {
               <Link href="/about"><button className="btn btn-ghost" style={{ color: "var(--gold-bright)" }}>About the Author →</button></Link>
             </div>
           </div>
-          <div className="hero-figure">
+                    <div className="hero-figure">
             {page?.authorPhoto ? (
-              <img src={urlFor(page.authorPhoto).width(800).url()} alt="Solomon B. Ibe" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
+              <Image
+                src={urlFor(page.authorPhoto).width(800).url()}
+                alt="Solomon B. Ibe"
+                fill
+                priority
+                sizes="(max-width: 980px) 100vw, 45vw"
+                style={{ objectFit: "cover", objectPosition: "center top" }}
+              />
             ) : (
-              <img src="/author.jpg" alt="Solomon B. Ibe" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
+              <Image
+                src="/author.jpg"
+                alt="Solomon B. Ibe"
+                fill
+                priority
+                sizes="(max-width: 980px) 100vw, 45vw"
+                style={{ objectFit: "cover", objectPosition: "center top" }}
+              />
             )}
             <div className="cap">Solomon B. Ibe — Lagos, Nigeria</div>
           </div>
