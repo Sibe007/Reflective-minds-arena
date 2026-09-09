@@ -1,6 +1,7 @@
 import { getAboutPage } from "../../sanity/queries";
 import { urlFor } from "../../sanity/image";
 import Link from "next/link";
+import Image from "next/image";
 
 export const metadata = {
   title: "About Solomon B. Ibe — Author & Interior Architect",
@@ -40,11 +41,23 @@ export default async function AboutPage() {
       <section className="section">
         <div className="container">
           <div className="about-hero">
-            <div className="portrait reveal">
+                        <div className="portrait reveal" style={{ position: "relative" }}>
               {page?.photo ? (
-                <img src={urlFor(page.photo).width(600).url()} alt="Solomon B. Ibe" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <Image
+                  src={urlFor(page.photo).width(600).url()}
+                  alt="Solomon B. Ibe"
+                  fill
+                  sizes="(max-width: 980px) 100vw, 40vw"
+                  style={{ objectFit: "cover" }}
+                />
               ) : (
-                <img src="/author.jpg" alt="Solomon B. Ibe" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }} />
+                <Image
+                  src="/author.jpg"
+                  alt="Solomon B. Ibe"
+                  fill
+                  sizes="(max-width: 980px) 100vw, 40vw"
+                  style={{ objectFit: "cover", objectPosition: "center top" }}
+                />
               )}
             </div>
             <div className="reveal">
