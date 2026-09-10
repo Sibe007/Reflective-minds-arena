@@ -44,7 +44,10 @@ export default function Header() {
               </li>
             ))}
           </ul>
-          <div className="header-actions">
+                    <div className="header-actions">
+            <Link href="/account" className="icon-btn" aria-label="My Account">
+              👤
+            </Link>
             <button className="icon-btn" aria-label="Cart" onClick={() => setCartOpen(true)}>
               🛍️
               {count > 0 && <span className="cart-count">{count}</span>}

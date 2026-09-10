@@ -86,11 +86,16 @@ export default async function AccountPage() {
 
   return (
     <>
-      <section className="page-hero">
+            <section className="page-hero">
         <div className="container">
           <div className="breadcrumb">Home / My Account</div>
           <h1>My Account</h1>
           <p>Signed in as {session.email}</p>
+          <form action="/api/account/logout" method="POST" style={{ marginTop: 16 }}>
+            <button type="submit" className="btn btn-outline btn-sm" style={{ color: "var(--parchment)" }}>
+              Sign Out
+            </button>
+          </form>
         </div>
       </section>
       <section className="section">
