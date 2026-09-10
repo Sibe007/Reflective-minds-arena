@@ -14,10 +14,12 @@ export const metadata = {
 export default function PrivacyPolicyPage() {
   return (
     <LegalLayout title="Privacy Policy" lastUpdated="August 20, 2026">
-      <p>
+           <p>
         Reflective Minds Arena ("we", "us", "our") operates reflectivemindsarena.com.ng.
         This policy explains what personal information we collect when you use this
-        website, why we collect it, and how it is handled.
+        website, why we collect it, and how it is handled, in line with the Nigeria
+        Data Protection Act (NDPA) 2023 and the oversight of the Nigeria Data Protection
+        Commission (NDPC).
       </p>
 
       <h2>Information We Collect</h2>
@@ -71,11 +73,25 @@ export default function PrivacyPolicyPage() {
         contact details below.
       </p>
 
-      <h2>Your Rights</h2>
+           <h2>Your Rights</h2>
       <p>
-        You have the right to request access to, correction of, or deletion of your
-        personal information held by us. You may unsubscribe from newsletter emails at
-        any time using the unsubscribe link in any email we send.
+        Under the Nigeria Data Protection Act (NDPA) 2023, you have the right to:
+      </p>
+      <ul>
+        <li>Access the personal information we hold about you.</li>
+        <li>Request correction of inaccurate or incomplete personal information.</li>
+        <li>Request deletion of your personal information, subject to any legal or contractual reasons we may need to retain it (for example, completed order records).</li>
+        <li>Object to or request restriction of certain processing, such as marketing emails.</li>
+        <li>Withdraw consent at any time where processing is based on consent, without affecting the lawfulness of processing carried out before withdrawal.</li>
+        <li>Receive your personal information in a structured, commonly used format where technically feasible.</li>
+      </ul>
+      <p>
+        You may unsubscribe from newsletter emails at any time using the unsubscribe
+        link in any email we send. To exercise any of the rights above, contact us via
+        our <a href="/contact">Contact page</a>. If you believe your rights under the
+        NDPA have not been respected, you may also lodge a complaint with the Nigeria
+        Data Protection Commission (NDPC) at{" "}
+        <a href="https://ndpc.gov.ng" target="_blank" rel="noopener noreferrer">ndpc.gov.ng</a>.
       </p>
 
       <h2>Contact Us</h2>
