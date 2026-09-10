@@ -35,6 +35,8 @@ export default {
       initialValue: "Pending",
     },
     { name: "createdAt", title: "Order Date", type: "datetime" },
+    { name: "shippedEmailSent", title: "Shipped Email Sent", type: "boolean", initialValue: false, hidden: true },
+    { name: "deliveredEmailSent", title: "Delivered Email Sent", type: "boolean", initialValue: false, hidden: true },
   ],
   preview: {
     select: { title: "shippingName", subtitle: "status" },
