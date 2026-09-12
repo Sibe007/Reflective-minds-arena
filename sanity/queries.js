@@ -7,6 +7,17 @@ export async function getAllPosts() {
 export async function getPostBySlug(slug) {
   return client.fetch(`*[_type == "post" && slug.current == $slug][0]{ _id, title, "slug": slug.current, category, tags, excerpt, coverImage, publishedAt, readTime, featured, body }`, { slug });
 }
+export async function getRelatedPosts(currentSlug, category) {
+  return client.fetch(
+    `*[_type == "post" && slug.current != $currentSlug] | order(
+      select(category == $category => 0, 1) asc,
+      publishedAt desc
+    )[0...3]{
+      _id, title, "slug": slug.current, category, excerpt, coverImage
+    }`,
+    { currentSlug, category: category || "" }
+  );
+}
 export async function getRelatedBooks(currentSlug, category) {
   return client.fetch(
     `*[_type == "book" && slug.current != $currentSlug] | order(
