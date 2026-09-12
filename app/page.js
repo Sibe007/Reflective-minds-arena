@@ -1,3 +1,4 @@
+// staging test — safe to remove
 import Link from "next/link";
 import Image from "next/image";
 import { getAllPosts, getHomePage, getTestimonials } from "../sanity/queries";
