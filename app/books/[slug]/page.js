@@ -1,9 +1,10 @@
 import { PortableText } from "@portabletext/react";
-import { getBookBySlug } from "../../../sanity/queries";
+import { getBookBySlug, getRelatedBooks } from "../../../sanity/queries";
 import { urlFor } from "../../../sanity/image";
 import { notFound } from "next/navigation";
 import AddToCartButton from "../../../components/AddToCartButton";
 import Image from "next/image";
+import Link from "next/link";
 export const revalidate = 30;
 
 export async function generateMetadata({ params }) {
@@ -30,6 +31,8 @@ export default async function BookPage({ params }) {
   const { slug } = await params;
   const book = await getBookBySlug(slug);
   if (!book) return notFound();
+
+  const relatedBooks = await getRelatedBooks(slug, book.category);
 
  const imageUrl = book.coverImage ? urlFor(book.coverImage).width(1000).url() : undefined;
 
@@ -97,7 +100,7 @@ export default async function BookPage({ params }) {
               </div>
             )}
 
-            {book.sampleChapter && (
+                        {book.sampleChapter && (
               <div style={{ marginTop: 30 }}>
                 <h3>Sample Chapter</h3>
                 <div
@@ -117,6 +120,41 @@ export default async function BookPage({ params }) {
             )}
           </div>
         </div>
+
+        {relatedBooks && relatedBooks.length > 0 && (
+          <div style={{ marginTop: 70 }}>
+            <span className="eyebrow">You Might Also Like</span>
+            <h2 style={{ marginTop: 14, marginBottom: 32 }}>More Books</h2>
+            <div className="grid-3">
+              {relatedBooks.map((b) => (
+                <div className="product-card" key={b._id}>
+                  <Link href={`/books/${b.slug}`}>
+                    <div className="book-cover" style={{ aspectRatio: "2/3", padding: b.coverImage ? 0 : 20, position: "relative" }}>
+                      {b.coverImage ? (
+                        <Image
+                          src={urlFor(b.coverImage).width(400).url()}
+                          alt={b.title}
+                          fill
+                          sizes="(max-width: 900px) 50vw, 25vw"
+                          style={{ objectFit: "cover" }}
+                        />
+                      ) : (
+                        <div>
+                          <div className="title">{b.title}</div>
+                        </div>
+                      )}
+                    </div>
+                  </Link>
+                  <h3 style={{ marginTop: 14 }}>{b.title}</h3>
+                  <div className="product-price">${b.price?.toFixed(2)}</div>
+                  <Link href={`/books/${b.slug}`}>
+                    <button className="btn btn-outline btn-sm btn-block">View book</button>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
