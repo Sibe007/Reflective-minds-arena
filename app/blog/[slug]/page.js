@@ -1,8 +1,9 @@
 import { PortableText } from "@portabletext/react";
-import { getPostBySlug } from "../../../sanity/queries";
+import { getPostBySlug, getRelatedPosts } from "../../../sanity/queries";
 import { urlFor } from "../../../sanity/image";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 export const revalidate = 30;
 export async function generateMetadata({ params }) {
@@ -28,6 +29,8 @@ export default async function PostPage({ params }) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
   if (!post) return notFound();
+
+  const relatedPosts = await getRelatedPosts(slug, post.category);
 
   const imageUrl = post.coverImage ? urlFor(post.coverImage).width(1200).url() : undefined;
 
@@ -74,13 +77,46 @@ export default async function PostPage({ params }) {
             <span>{post.category}</span>
           </div>
         )}
-        <div className="post-content">
+                <div className="post-content">
           {post.body ? (
             <PortableText value={post.body} />
           ) : (
             <p style={{ opacity: 0.6 }}>{post.excerpt}</p>
           )}
         </div>
+
+        {relatedPosts && relatedPosts.length > 0 && (
+          <div style={{ marginTop: 70 }}>
+            <span className="eyebrow">From the Journal</span>
+            <h2 style={{ marginTop: 14, marginBottom: 32 }}>More Essays</h2>
+            <div className="grid-3">
+              {relatedPosts.map((p) => (
+                <Link href={`/blog/${p.slug}`} key={p._id}>
+                  <article className="post-card">
+                    <div className="post-thumb" style={{ position: "relative", overflow: "hidden" }}>
+                      {p.coverImage ? (
+                        <Image
+                          src={urlFor(p.coverImage).width(500).url()}
+                          alt={p.title}
+                          fill
+                          sizes="(max-width: 900px) 50vw, 33vw"
+                          style={{ objectFit: "cover" }}
+                        />
+                      ) : (
+                        <span>{p.category}</span>
+                      )}
+                    </div>
+                    <div className="post-body">
+                      <div className="post-cat">{p.category}</div>
+                      <h3>{p.title}</h3>
+                      <p className="post-excerpt">{p.excerpt}</p>
+                    </div>
+                  </article>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
