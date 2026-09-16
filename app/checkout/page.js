@@ -1,9 +1,8 @@
 "use client";
 
 import { useCart } from "../../components/CartProvider";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getShippingSettings, getBookWeightsBySlugs } from "../../sanity/queries";
-
 export default function CheckoutPage() {
   const { items, total, hasPhysicalItems } = useCart();
   const [loading, setLoading] = useState(false);
@@ -23,7 +22,27 @@ export default function CheckoutPage() {
   const [shippingPhone, setShippingPhone] = useState("");
 
   const paperbackItems = items.filter((i) => i.format === "paperback");
+  const saveEmailTimeout = useRef(null);
 
+  useEffect(() => {
+    if (!email || !email.includes("@") || items.length === 0) return;
+
+    // Debounce — wait until the customer pauses typing for 1.5s before saving,
+    // so we're not hitting the API on every keystroke
+    if (saveEmailTimeout.current) clearTimeout(saveEmailTimeout.current);
+    saveEmailTimeout.current = setTimeout(() => {
+      fetch("/api/cart/save-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, items }),
+      }).catch(() => {});
+    }, 1500);
+
+    return () => {
+      if (saveEmailTimeout.current) clearTimeout(saveEmailTimeout.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [email, items]);
   useEffect(() => {
     if (hasPhysicalItems) {
       getShippingSettings()
