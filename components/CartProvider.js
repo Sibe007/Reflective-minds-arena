@@ -1,11 +1,37 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const CartContext = createContext(null);
+const STORAGE_KEY = "rma_cart";
 
 export default function CartProvider({ children }) {
-  const [items, setItems] = useState([]); // [{slug, title, price, qty, format}]
+  const [items, setItems] = useState([]);
+  const [hydrated, setHydrated] = useState(false);
+
+  // Load saved cart on first mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        setItems(JSON.parse(saved));
+      }
+    } catch (err) {
+      console.error("Could not load saved cart:", err);
+    }
+    setHydrated(true);
+  }, []);
+
+  // Save cart on every change, but only after the initial load completes —
+  // otherwise this would overwrite a saved cart with an empty one on first render
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    } catch (err) {
+      console.error("Could not save cart:", err);
+    }
+  }, [items, hydrated]);
 
   function addItem(book) {
     const format = book.format || "ebook";
