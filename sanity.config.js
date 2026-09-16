@@ -71,7 +71,7 @@ export default defineConfig({
                 ])
               ),
             S.divider(),
-            S.listItem()
+                        S.listItem()
               .title("📦 Orders")
               .child(
                 S.list().title("Orders").items([
@@ -81,6 +81,9 @@ export default defineConfig({
                   S.listItem()
                     .title("📩 Digital Delivery Records")
                     .child(S.documentTypeList("delivery").title("Digital Delivery Records").defaultOrdering([{ field: "deliveredAt", direction: "desc" }])),
+                  S.listItem()
+                    .title("🛒 Abandoned Carts")
+                    .child(S.documentTypeList("abandonedCart").title("Abandoned Carts").defaultOrdering([{ field: "capturedAt", direction: "desc" }])),
                 ])
               ),
                         S.divider(),

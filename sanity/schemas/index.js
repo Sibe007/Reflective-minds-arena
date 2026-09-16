@@ -15,5 +15,6 @@ import delivery from "./delivery";
 import physicalOrder from "./physicalOrder";
 import shippingSettings from "./shippingSettings";
 import webinarRegistration from "./webinarRegistration";
+import abandonedCart from "./abandonedCart";
 
-export const schemaTypes = [post, book, resource, event, homePage, aboutPage, contactPage, myStoryPage, architecturePage, project, contactSubmission, subscriber, testimonial, delivery, physicalOrder, shippingSettings, webinarRegistration];
+export const schemaTypes = [post, book, resource, event, homePage, aboutPage, contactPage, myStoryPage, architecturePage, project, contactSubmission, subscriber, testimonial, delivery, physicalOrder, shippingSettings, webinarRegistration, abandonedCart];
