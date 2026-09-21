@@ -1,6 +1,6 @@
 import { createClient } from "@sanity/client";
 import { signDownloadToken } from "../../../../lib/downloadToken";
-
+import { rateLimit } from "../../../../lib/rateLimit";
 async function sendMagicLinkEmail(toEmail, loginUrl) {
   if (!process.env.BREVO_API_KEY) {
     console.error("BREVO_API_KEY is not set — skipping magic link email.");
@@ -44,10 +44,21 @@ async function sendMagicLinkEmail(toEmail, loginUrl) {
 
 export async function POST(req) {
   // Always returns the same generic response, whether or not the email
-  // has any orders — prevents using this to check which emails exist.
+  // has any orders â€” prevents using this to check which emails exist.
+  const { limited } = rateLimit(req, {
+    key: "request-login",
+    limit: 5,
+    windowMs: 15 * 60 * 1000, // 15 minutes
+  });
+
+  if (limited) {
+    // Same generic response as everything else here â€” don't reveal that
+    // rate limiting even exists, just quietly stop sending emails.
+    return Response.json({ ok: true });
+  }
+
   try {
     const { email, hp } = await req.json();
-
     if (hp || !email || !email.includes("@")) {
       return Response.json({ ok: true });
     }
