@@ -26,7 +26,8 @@ export async function POST(req) {
     const doc = {
       _type: "abandonedCart",
       email: normalizedEmail,
-      items: items.map((i) => ({
+            items: items.map((i) => ({
+        _key: crypto.randomUUID(),
         title: i.title,
         slug: i.slug,
         format: i.format,
