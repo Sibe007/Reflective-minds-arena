@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getShippingSettings, getBookWeightsBySlugs } from "../../../sanity/queries";
-
+import { rateLimit } from "../../../lib/rateLimit";
 export async function POST(request) {
   try {
     const { items, email, shippingAddress } = await request.json();

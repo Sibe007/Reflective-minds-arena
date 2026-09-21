@@ -1,5 +1,5 @@
 import { createClient } from "@sanity/client";
-
+import { rateLimit } from "../../../../lib/rateLimit";
 const client = createClient({
   projectId: "ngfau3ce",
   dataset: "production",
@@ -9,9 +9,18 @@ const client = createClient({
 });
 
 export async function POST(req) {
+  const { limited } = rateLimit(req, {
+    key: "save-email",
+    limit: 20,
+    windowMs: 5 * 60 * 1000, // 5 minutes
+  });
+
+  if (limited) {
+    return Response.json({ ok: true });
+  }
+
   try {
     const { email, items } = await req.json();
-
     if (!email || !email.includes("@") || !items || items.length === 0) {
       return Response.json({ ok: true });
     }
