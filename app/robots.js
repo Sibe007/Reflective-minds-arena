@@ -3,7 +3,7 @@ export default function robots() {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/studio", "/checkout", "/api"],
+            disallow: ["/studio", "/checkout", "/api", "/account"],
     },
     sitemap: "https://reflectivemindsarena.com.ng/sitemap.xml",
   };
