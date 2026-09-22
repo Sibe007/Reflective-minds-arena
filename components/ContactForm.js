@@ -77,17 +77,17 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="form-row">
-        <div><label>First name</label><input name="firstName" required /></div>
-        <div><label>Last name</label><input name="lastName" required /></div>
+            <div className="form-row">
+        <div><label htmlFor="contact-firstName">First name</label><input id="contact-firstName" name="firstName" required /></div>
+        <div><label htmlFor="contact-lastName">Last name</label><input id="contact-lastName" name="lastName" required /></div>
       </div>
       <div className="form-row full">
-        <div><label>Email</label><input name="email" type="email" required /></div>
+        <div><label htmlFor="contact-email">Email</label><input id="contact-email" name="email" type="email" required /></div>
       </div>
       <div className="form-row full">
         <div>
-          <label>Subject</label>
-          <select name="subject">
+          <label htmlFor="contact-subject">Subject</label>
+          <select id="contact-subject" name="subject">
             <option>General inquiry</option>
             <option>Interview request</option>
             <option>Speaking engagement</option>
@@ -99,8 +99,8 @@ export default function ContactForm() {
       </div>
       <div className="form-row full">
         <div>
-          <label>Message</label>
-          <textarea name="message" rows="6" required style={{
+          <label htmlFor="contact-message">Message</label>
+          <textarea id="contact-message" name="message" rows="6" required style={{
             width: "100%", padding: "13px 14px",
             border: "1px solid var(--line)", borderRadius: 2,
             fontFamily: "var(--font-body)", background: "var(--parchment)",
