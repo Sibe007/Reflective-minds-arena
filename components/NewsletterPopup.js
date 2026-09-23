@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import NewsletterForm from "./NewsletterForm";
-
 const DISMISS_KEY = "newsletterPopupDismissedAt";
 const DISMISS_DAYS = 14;
 const SHOW_DELAY_MS = 1800;
@@ -12,7 +11,8 @@ export default function NewsletterPopup() {
   const pathname = usePathname();
   const [visible, setVisible] = useState(false);
   const [subscribed, setSubscribed] = useState(false);
-
+  const closeBtnRef = useRef(null);
+  const previouslyFocused = useRef(null);
   useEffect(() => {
     let dismissedAt = null;
     try {
@@ -28,12 +28,28 @@ export default function NewsletterPopup() {
     return () => clearTimeout(timer);
   }, []);
 
-  function dismiss() {
+    function dismiss() {
     setVisible(false);
     try {
       localStorage.setItem(DISMISS_KEY, String(Date.now()));
     } catch (e) {}
   }
+
+  useEffect(() => {
+    if (!visible) return;
+
+    previouslyFocused.current = document.activeElement;
+    closeBtnRef.current?.focus();
+
+    function handleKeyDown(e) {
+      if (e.key === "Escape") dismiss();
+    }
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      previouslyFocused.current?.focus?.();
+    };
+  }, [visible]);
 
   function handleSubscribed() {
     setSubscribed(true);
@@ -63,8 +79,11 @@ export default function NewsletterPopup() {
         padding: 20,
       }}
     >
-      <div
+            <div
         onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Newsletter signup"
         style={{
           background: "var(--green-deep)",
           color: "var(--parchment)",
@@ -79,6 +98,7 @@ export default function NewsletterPopup() {
         <button
           onClick={dismiss}
           aria-label="Close"
+          ref={closeBtnRef}
           style={{
             position: "absolute",
             top: 14,

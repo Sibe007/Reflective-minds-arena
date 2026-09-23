@@ -2,6 +2,7 @@
 
 import { useCart } from "./CartProvider";
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 
 function fmt(n) {
   return "$" + n.toFixed(2);
@@ -9,17 +10,41 @@ function fmt(n) {
 
 export default function CartDrawer({ open, onClose }) {
   const { items, removeItem, total } = useCart();
+  const closeBtnRef = useRef(null);
+  const previouslyFocused = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+
+    previouslyFocused.current = document.activeElement;
+    closeBtnRef.current?.focus();
+
+    function handleKeyDown(e) {
+      if (e.key === "Escape") onClose();
+    }
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      previouslyFocused.current?.focus?.();
+    };
+  }, [open, onClose]);
 
   return (
     <>
       <div
         className={`cart-overlay ${open ? "open" : ""}`}
         onClick={onClose}
+        aria-hidden="true"
       />
-      <div className={`cart-drawer ${open ? "open" : ""}`}>
+      <div
+        className={`cart-drawer ${open ? "open" : ""}`}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="cart-drawer-title"
+      >
         <div className="cart-head">
-          <h3 style={{ margin: 0, fontSize: "1.2rem" }}>Your Cart</h3>
-          <button className="icon-btn" onClick={onClose} aria-label="Close cart">
+          <h3 id="cart-drawer-title" style={{ margin: 0, fontSize: "1.2rem" }}>Your Cart</h3>
+          <button className="icon-btn" onClick={onClose} aria-label="Close cart" ref={closeBtnRef}>
             ✕
           </button>
         </div>

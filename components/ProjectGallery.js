@@ -1,14 +1,40 @@
 "use client";
 
-"use client";
-
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { urlFor } from "../sanity/image";
 
 export default function ProjectGallery({ projects }) {
   const [activeIndex, setActiveIndex] = useState(null);
   const [photoIndex, setPhotoIndex] = useState(0);
+  const closeBtnRef = useRef(null);
+  const previouslyFocused = useRef(null);
+
+  useEffect(() => {
+    if (activeIndex === null) return;
+
+    previouslyFocused.current = document.activeElement;
+    closeBtnRef.current?.focus();
+
+    function handleKeyDown(e) {
+      const proj = projects?.[activeIndex];
+      const photoCount = proj ? [proj.coverImage, ...(proj.moreImages || [])].filter(Boolean).length : 0;
+
+      if (e.key === "Escape") {
+        setActiveIndex(null);
+        setPhotoIndex(0);
+      } else if (e.key === "ArrowRight" && photoCount > 1) {
+        setPhotoIndex((p) => (p + 1) % photoCount);
+      } else if (e.key === "ArrowLeft" && photoCount > 1) {
+        setPhotoIndex((p) => (p - 1 + photoCount) % photoCount);
+      }
+    }
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      previouslyFocused.current?.focus?.();
+    };
+  }, [activeIndex, projects]);
 
   if (!projects || projects.length === 0) {
     return (
@@ -73,9 +99,9 @@ export default function ProjectGallery({ projects }) {
         ))}
       </div>
 
-      {active && (
-        <div className="arch-lightbox" onClick={close}>
-          <button className="arch-lightbox-close" onClick={close} aria-label="Close">
+            {active && (
+        <div className="arch-lightbox" onClick={close} role="dialog" aria-modal="true" aria-label={active.title || "Project photo"}>
+          <button className="arch-lightbox-close" onClick={close} aria-label="Close" ref={closeBtnRef}>
             ✕
           </button>
           <div className="arch-lightbox-inner" onClick={(e) => e.stopPropagation()}>
