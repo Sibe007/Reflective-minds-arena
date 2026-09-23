@@ -27,7 +27,7 @@ export default function Testimonials({ testimonials, title = "What People Are Sa
               }}
             >
               {t.rating && (
-                <div style={{ color: "var(--gold)", fontSize: ".9rem", letterSpacing: 2 }}>
+                <div style={{ color: "var(--gold-deep)", fontSize: ".9rem", letterSpacing: 2 }}>
                   {"★".repeat(t.rating)}
                   {"☆".repeat(5 - t.rating)}
                 </div>

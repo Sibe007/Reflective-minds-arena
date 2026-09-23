@@ -69,7 +69,7 @@ export default function ContactForm() {
   if (sent) {
     return (
       <div style={{ padding: "40px 0" }}>
-        <h3 style={{ color: "var(--gold)" }}>✓ Message sent!</h3>
+        <h3 style={{ color: "var(--gold-deep)" }}>✓ Message sent!</h3>
         <p style={{ opacity: 0.7 }}>Thank you for reaching out. I'll get back to you within 2-3 business days.</p>
       </div>
     );

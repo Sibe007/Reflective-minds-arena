@@ -32,7 +32,7 @@ export default function ResendDownloadForm() {
 
   if (status === "done") {
     return (
-      <p style={{ color: "var(--gold)", fontWeight: 600, fontFamily: "var(--font-ui)", fontSize: ".95rem" }}>
+      <p style={{ color: "var(--gold-deep)", fontWeight: 600, fontFamily: "var(--font-ui)", fontSize: ".95rem" }}>
         If we found a matching order, a fresh download link is on its way to your email.
         It can take a few minutes to arrive — please check your spam folder too.
       </p>
@@ -41,12 +41,11 @@ export default function ResendDownloadForm() {
 
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 14, maxWidth: 420 }}>
-            <div>
-        <label htmlFor="resend-email" style={{ display: "block", fontFamily: "var(--font-ui)", fontSize: ".82rem", fontWeight: 600, marginBottom: 6 }}>
+      <div>
+        <label style={{ display: "block", fontFamily: "var(--font-ui)", fontSize: ".82rem", fontWeight: 600, marginBottom: 6 }}>
           Email used at checkout
         </label>
         <input
-          id="resend-email"
           type="email"
           placeholder="you@example.com"
           value={email}
@@ -56,11 +55,10 @@ export default function ResendDownloadForm() {
         />
       </div>
       <div>
-        <label htmlFor="resend-reference" style={{ display: "block", fontFamily: "var(--font-ui)", fontSize: ".82rem", fontWeight: 600, marginBottom: 6 }}>
+        <label style={{ display: "block", fontFamily: "var(--font-ui)", fontSize: ".82rem", fontWeight: 600, marginBottom: 6 }}>
           Order / Payment reference
         </label>
         <input
-          id="resend-reference"
           type="text"
           placeholder="From your confirmation email"
           value={reference}
@@ -70,17 +68,14 @@ export default function ResendDownloadForm() {
         />
       </div>
       {/* Honeypot — hidden from real users, bots often fill every field they can find */}
-      <div style={{ position: "absolute", left: "-9999px", top: "-9999px" }} aria-hidden="true">
-        <label htmlFor="resend-website">Leave this field empty</label>
-        <input
-          id="resend-website"
-          type="text"
-          value={hp}
-          onChange={(e) => setHp(e.target.value)}
-          tabIndex={-1}
-          autoComplete="off"
-        />
-      </div>
+      <input
+        type="text"
+        value={hp}
+        onChange={(e) => setHp(e.target.value)}
+        style={{ position: "absolute", left: "-9999px", width: 1, height: 1, opacity: 0 }}
+        tabIndex={-1}
+        autoComplete="off"
+      />
       {error && <p style={{ color: "var(--uli-red)", fontSize: ".82rem", margin: 0 }}>{error}</p>}
       <button className="btn btn-primary" type="submit" disabled={status === "loading"}>
         {status === "loading" ? "Sending…" : "Resend My Download Link"}

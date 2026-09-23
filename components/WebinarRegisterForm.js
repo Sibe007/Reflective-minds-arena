@@ -37,7 +37,7 @@ export default function WebinarRegisterForm({ slug }) {
 
   if (status === "done") {
     return (
-      <p style={{ color: "var(--gold)", fontWeight: 600, fontFamily: "var(--font-ui)", fontSize: ".9rem" }}>
+      <p style={{ color: "var(--gold-deep)", fontWeight: 600, fontFamily: "var(--font-ui)", fontSize: ".9rem" }}>
         You're registered! Check your email for the join link.
       </p>
     );
