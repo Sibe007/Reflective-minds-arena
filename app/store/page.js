@@ -3,6 +3,7 @@ import { urlFor } from "../../sanity/image";
 import Link from "next/link";
 import Image from "next/image";
 import TrackedLink from "../../components/TrackedLink";
+import BuyEbookButton from "../../components/BuyEbookButton";
 export const metadata = {
   title: "Store — Solomon B. Ibe",
   description: "Buy books by Solomon B. Ibe in ebook, paperback, and hardcover formats.",
@@ -72,20 +73,22 @@ export default async function StorePage() {
                             <div style={{ fontFamily: "var(--font-ui)", fontSize: ".82rem", opacity: 0.6 }}>PDF format · Instant delivery</div>
                           </div>
                           <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-                            <div style={{ fontFamily: "var(--font-display)", fontSize: "1.4rem" }}>${book.price.toFixed(2)}</div>
-                            <TrackedLink href={book.selarEbookUrl || "https://selar.co"} target="_blank" rel="noopener noreferrer" className="btn btn-primary" eventName="Lead" eventLabel={`${book.title} - eBook`}>Buy eBook</TrackedLink>
+                                                        <div style={{ fontFamily: "var(--font-display)", fontSize: "1.4rem" }}>${book.price.toFixed(2)}</div>
+                            <BuyEbookButton book={book} className="btn btn-primary" />
                           </div>
                         </div>
-                        <div style={{ border: "1px solid var(--line)", borderRadius: 2, padding: "20px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 14 }}>
-                          <div>
-                            <div style={{ fontFamily: "var(--font-ui)", fontWeight: 700 }}>Audiobook</div>
-                            <div style={{ fontFamily: "var(--font-ui)", fontSize: ".82rem", opacity: 0.6 }}>MP3 format · Instant delivery</div>
+                                                {typeof book.audiobookPrice === "number" && book.audiobookPrice > 0 && (
+                          <div style={{ border: "1px solid var(--line)", borderRadius: 2, padding: "20px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 14 }}>
+                            <div>
+                              <div style={{ fontFamily: "var(--font-ui)", fontWeight: 700 }}>Audiobook</div>
+                              <div style={{ fontFamily: "var(--font-ui)", fontSize: ".82rem", opacity: 0.6 }}>MP3 format · Instant delivery</div>
+                            </div>
+                            <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+                              <div style={{ fontFamily: "var(--font-display)", fontSize: "1.4rem" }}>${book.audiobookPrice.toFixed(2)}</div>
+                              <TrackedLink href={book.selarAudioUrl || "https://selar.co"} target="_blank" rel="noopener noreferrer" className="btn btn-dark" eventName="Lead" eventLabel={`${book.title} - Audiobook`}>Buy Audiobook</TrackedLink>
+                            </div>
                           </div>
-                          <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-                            <div style={{ fontFamily: "var(--font-display)", fontSize: "1.4rem" }}>${(book.price + 5).toFixed(2)}</div>
-                            <TrackedLink href={book.selarAudioUrl || "https://selar.co"} target="_blank" rel="noopener noreferrer" className="btn btn-dark" eventName="Lead" eventLabel={`${book.title} - Audiobook`}>Buy Audiobook</TrackedLink>
-                          </div>
-                        </div>
+                        )}
                       </div>
                       <div style={{ marginTop: 18 }}>
                         <Link href={"/books/" + book.slug}><button className="btn btn-ghost">Read sample chapter</button></Link>
@@ -106,8 +109,8 @@ export default async function StorePage() {
             <span className="eyebrow">How it works</span>
             <h2 style={{ marginTop: 14, marginBottom: 32 }}>Simple, instant, secure</h2>
             <div className="grid-3">
-              <div><h3>1. Choose your format</h3><p style={{ opacity: 0.7 }}>Select eBook or Audiobook and click Buy.</p></div>
-              <div><h3>2. Pay securely</h3><p style={{ opacity: 0.7 }}>Pay with card, bank transfer, or USSD via Selar.</p></div>
+              <div><h3>1. Choose your format</h3><p style={{ opacity: 0.7 }}>Add an eBook to your cart, or buy an Audiobook via Selar.</p></div>
+              <div><h3>2. Pay securely</h3><p style={{ opacity: 0.7 }}>eBooks: pay by card or bank transfer right here on the site. Audiobooks: pay via Selar (card, bank transfer, or USSD).</p></div>
               <div><h3>3. Download instantly</h3><p style={{ opacity: 0.7 }}>Your download link arrives in your email immediately.</p></div>
             </div>
           </div>

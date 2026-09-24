@@ -31,11 +31,11 @@ export async function getRelatedBooks(currentSlug, category) {
 }
 
 export async function getAllBooks() {
-  return client.fetch(`*[_type == "book"] | order(featured desc){ _id, title, "slug": slug.current, subtitle, coverImage, blurb, price, oldPrice, paperbackPrice, weightKg, format, category, featured, stripePriceId, selarEbookUrl, selarAudioUrl }`);
+  return client.fetch(`*[_type == "book"] | order(featured desc){ _id, title, "slug": slug.current, subtitle, coverImage, blurb, price, oldPrice, paperbackPrice, audiobookPrice, weightKg, format, category, featured, stripePriceId, selarEbookUrl, selarAudioUrl }`);
 }
 
 export async function getBookBySlug(slug) {
-  return client.fetch(`*[_type == "book" && slug.current == $slug][0]{ _id, title, "slug": slug.current, subtitle, coverImage, blurb, longDescription, sampleChapter, price, oldPrice, paperbackPrice, weightKg, format, category, featured, stripePriceId, selarEbookUrl, selarAudioUrl }`, { slug });
+  return client.fetch(`*[_type == "book" && slug.current == $slug][0]{ _id, title, "slug": slug.current, subtitle, coverImage, blurb, longDescription, sampleChapter, price, oldPrice, paperbackPrice, audiobookPrice, weightKg, format, category, featured, stripePriceId, selarEbookUrl, selarAudioUrl }`, { slug });
 }
 
 export async function getBookWeightsBySlugs(slugs) {
