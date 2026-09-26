@@ -41,9 +41,7 @@ const FAQS = [
 ];
 
 export default async function SibtechAfricaPage() {
-  const products = await getAllSibtechProducts();
-  const featured = products?.[0];
-
+    const products = await getAllSibtechProducts();
   return (
     <>
       <section className="page-hero">
@@ -76,59 +74,63 @@ export default async function SibtechAfricaPage() {
             </div>
           </div>
 
-          {featured ? (
-            <div style={{ display: "grid", gridTemplateColumns: "280px 1fr", gap: 48, paddingBottom: 56, borderBottom: "1px solid var(--line)" }}>
-              <div className="book-cover" style={{ aspectRatio: "2/3", position: "relative" }}>
-                {featured.coverImage ? (
-                  <Image
-                    src={urlFor(featured.coverImage).width(400).url()}
-                    alt={featured.title}
-                    fill
-                    sizes="(max-width: 900px) 40vw, 280px"
-                    style={{ objectFit: "cover" }}
-                  />
-                ) : (
-                  <div><div className="title">{featured.title}</div></div>
-                )}
-              </div>
-              <div>
-                <span className="eyebrow" style={{ color: ACCENT }}>Featured Product</span>
-                <h2 style={{ marginTop: 10 }}>{featured.title}</h2>
-                {featured.tagline && (
-                  <h3 style={{ opacity: 0.6, fontWeight: 400, fontStyle: "italic" }}>{featured.tagline}</h3>
-                )}
-                {featured.description && (
-                <div style={{ opacity: 0.8, marginTop: 16 }}>
-                <PortableText value={featured.description} />
-                </div>
-                )}
-
-                {featured.whatsIncluded?.length > 0 && (
-                  <div style={{ marginTop: 24 }}>
-                    <h3>What's Included</h3>
-                    <ul style={{ marginTop: 10, paddingLeft: 20, opacity: 0.85 }}>
-                      {featured.whatsIncluded.map((item, i) => (
-                        <li key={i} style={{ marginBottom: 6 }}>{item}</li>
-                      ))}
-                    </ul>
+                    {products.length > 0 ? (
+            <div style={{ display: "flex", flexDirection: "column", gap: 56 }}>
+              {products.map((product, index) => (
+                <div key={product._id} style={{ display: "grid", gridTemplateColumns: "280px 1fr", gap: 48, paddingBottom: 56, borderBottom: "1px solid var(--line)" }}>
+                  <div className="book-cover" style={{ aspectRatio: "2/3", position: "relative" }}>
+                    {product.coverImage ? (
+                      <Image
+                        src={urlFor(product.coverImage).width(400).url()}
+                        alt={product.title}
+                        fill
+                        sizes="(max-width: 900px) 40vw, 280px"
+                        style={{ objectFit: "cover" }}
+                      />
+                    ) : (
+                      <div><div className="title">{product.title}</div></div>
+                    )}
                   </div>
-                )}
+                  <div>
+                    <span className="eyebrow" style={{ color: ACCENT }}>{index === 0 ? "Featured Product" : "SIBTECH AFRICA Product"}</span>
+                    <h2 style={{ marginTop: 10 }}>{product.title}</h2>
+                    {product.tagline && (
+                      <h3 style={{ opacity: 0.6, fontWeight: 400, fontStyle: "italic" }}>{product.tagline}</h3>
+                    )}
+                    {product.description && (
+                      <div style={{ opacity: 0.8, marginTop: 16 }}>
+                        <PortableText value={product.description} />
+                      </div>
+                    )}
 
-                {featured.whoItsFor?.length > 0 && (
-                  <div style={{ marginTop: 20 }}>
-                    <h3>Designed For</h3>
-                    <p style={{ opacity: 0.75, marginTop: 6 }}>{featured.whoItsFor.join(" · ")}</p>
+                    {product.whatsIncluded?.length > 0 && (
+                      <div style={{ marginTop: 24 }}>
+                        <h3>What's Included</h3>
+                        <ul style={{ marginTop: 10, paddingLeft: 20, opacity: 0.85 }}>
+                          {product.whatsIncluded.map((item, i) => (
+                            <li key={i} style={{ marginBottom: 6 }}>{item}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {product.whoItsFor?.length > 0 && (
+                      <div style={{ marginTop: 20 }}>
+                        <h3>Designed For</h3>
+                        <p style={{ opacity: 0.75, marginTop: 6 }}>{product.whoItsFor.join(" · ")}</p>
+                      </div>
+                    )}
+
+                    <div style={{ marginTop: 28, maxWidth: 360, border: "1px solid var(--line)", borderRadius: 2, padding: "20px 24px", background: "var(--sand)" }}>
+                      {product.hasDigitalFile ? (
+                        <BuySibtechButton slug={product.slug} price={product.price} />
+                      ) : (
+                        <p style={{ opacity: 0.6, fontSize: ".9rem" }}>This product isn't available for purchase yet.</p>
+                      )}
+                    </div>
                   </div>
-                )}
-
-                <div style={{ marginTop: 28, maxWidth: 360, border: "1px solid var(--line)", borderRadius: 2, padding: "20px 24px", background: "var(--sand)" }}>
-                  {featured.hasDigitalFile ? (
-                    <BuySibtechButton slug={featured.slug} price={featured.price} />
-                  ) : (
-                    <p style={{ opacity: 0.6, fontSize: ".9rem" }}>This product isn't available for purchase yet.</p>
-                  )}
                 </div>
-              </div>
+              ))}
             </div>
           ) : (
             <div className="empty-state">
