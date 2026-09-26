@@ -1,5 +1,6 @@
 import { getAllSibtechProducts } from "../../sanity/queries";
 import { urlFor } from "../../sanity/image";
+import { PortableText } from "@portabletext/react";
 import Image from "next/image";
 import Link from "next/link";
 import BuySibtechButton from "../../components/BuySibtechButton";
@@ -97,7 +98,9 @@ export default async function SibtechAfricaPage() {
                   <h3 style={{ opacity: 0.6, fontWeight: 400, fontStyle: "italic" }}>{featured.tagline}</h3>
                 )}
                 {featured.description && (
-                  <p style={{ opacity: 0.8, marginTop: 16 }}>{featured.description}</p>
+                <div style={{ opacity: 0.8, marginTop: 16 }}>
+                <PortableText value={featured.description} />
+                </div>
                 )}
 
                 {featured.whatsIncluded?.length > 0 && (

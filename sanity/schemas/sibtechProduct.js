@@ -6,7 +6,7 @@ export default {
     { name: "title", title: "Product Title", type: "string", description: "Example: IT Officer-in-a-Box", validation: (Rule) => Rule.required() },
     { name: "slug", title: "URL Slug", type: "slug", options: { source: "title", maxLength: 96 }, validation: (Rule) => Rule.required() },
     { name: "tagline", title: "Tagline", type: "string", description: "Example: Complete Small Business IT Management System" },
-    { name: "description", title: "Description", type: "text", rows: 4, description: "The main pitch — what problem this solves." },
+    { name: "description", title: "Description", type: "array", of: [{ type: "block" }], description: "The main pitch — what problem this solves. Use the toolbar to bold, italicize, add headings, lists, or links." },
     {
       name: "whatsIncluded",
       title: "What's Included",
