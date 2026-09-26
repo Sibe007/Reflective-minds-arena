@@ -99,6 +99,15 @@ export default defineConfig({
                   S.listItem().title("📋 All Resources").child(S.documentTypeList("resource").title("All Resources")),
                 ])
               ),
+                        S.divider(),
+            S.listItem()
+              .title("💻 SIBTECH AFRICA Products")
+              .child(
+                S.list().title("SIBTECH AFRICA Products").items([
+                  S.listItem().title("➕ Add a New Product").child(S.document().schemaType("sibtechProduct").title("New SIBTECH AFRICA Product")),
+                  S.listItem().title("📋 All Products").child(S.documentTypeList("sibtechProduct").title("All SIBTECH AFRICA Products")),
+                ])
+              ),
             S.divider(),
             S.listItem()
               .title("📅 Events")

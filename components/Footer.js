@@ -21,6 +21,7 @@ export default function Footer() {
               <li><Link href="/books">Books</Link></li>
               <li><Link href="/blog">Blog</Link></li>
               <li><Link href="/store">Store</Link></li>
+              <li><Link href="/sibtechafrica">SIBTECH AFRICA</Link></li>
             </ul>
           </div>
           <div>

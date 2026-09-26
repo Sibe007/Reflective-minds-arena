@@ -14,6 +14,7 @@ import CartDrawer from "./CartDrawer";
   ["/store", "Store"],
   ["/architecture", "Architecture"],
   ["/resources", "Resources"],
+  ["/sibtechafrica", "SIBTECH AFRICA"],
   ["/events", "Events"],
   ["/contact", "Contact"],
 ];

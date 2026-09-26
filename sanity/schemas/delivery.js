@@ -20,7 +20,7 @@ export default {
               name: "type",
               title: "Type",
               type: "string",
-              options: { list: ["ebook", "resource"] },
+                           options: { list: ["ebook", "resource", "sibtech"] },
             },
           ],
         },

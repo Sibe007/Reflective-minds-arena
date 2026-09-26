@@ -114,3 +114,16 @@ export async function getAllEvents() {
     "hasJoinLink": defined(joinLink)
   }`);
 }
+
+export async function getAllSibtechProducts() {
+  return client.fetch(
+    `*[_type == "sibtechProduct" && featured == true] | order(_createdAt asc){ _id, title, "slug": slug.current, tagline, description, whatsIncluded, whoItsFor, price, coverImage, "hasDigitalFile": defined(digitalFile.asset) }`
+  );
+}
+
+export async function getSibtechProductBySlug(slug) {
+  return client.fetch(
+    `*[_type == "sibtechProduct" && slug.current == $slug][0]{ _id, title, "slug": slug.current, tagline, description, whatsIncluded, whoItsFor, price, coverImage, "hasDigitalFile": defined(digitalFile.asset) }`,
+    { slug }
+  );
+}

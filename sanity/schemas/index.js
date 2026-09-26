@@ -1,6 +1,7 @@
 import post from "./post";
 import book from "./book";
 import resource from "./resource";
+import sibtechProduct from "./sibtechProduct";
 import event from "./event";
 import homePage from "./homePage";
 import aboutPage from "./aboutPage";
@@ -17,4 +18,4 @@ import shippingSettings from "./shippingSettings";
 import webinarRegistration from "./webinarRegistration";
 import abandonedCart from "./abandonedCart";
 
-export const schemaTypes = [post, book, resource, event, homePage, aboutPage, contactPage, myStoryPage, architecturePage, project, contactSubmission, subscriber, testimonial, delivery, physicalOrder, shippingSettings, webinarRegistration, abandonedCart];
+export const schemaTypes = [post, book, resource, sibtechProduct, event, homePage, aboutPage, contactPage, myStoryPage, architecturePage, project, contactSubmission, subscriber, testimonial, delivery, physicalOrder, shippingSettings, webinarRegistration, abandonedCart];
