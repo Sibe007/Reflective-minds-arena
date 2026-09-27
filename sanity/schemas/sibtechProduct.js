@@ -22,7 +22,7 @@ export default {
       description: "One line per audience, e.g. \"Small business owners\".",
     },
     { name: "price", title: "Price (₦ Naira)", type: "number", description: "Enter the real Naira amount, e.g. 21999. Charged directly in Naira — no currency conversion.", validation: (Rule) => Rule.required().positive() },
-    { name: "coverImage", title: "Cover Image", type: "image", options: { hotspot: true } },
+        { name: "coverImage", title: "Cover Image", type: "image" },
     {
       name: "digitalFile",
       title: "Digital File (for site checkout delivery)",

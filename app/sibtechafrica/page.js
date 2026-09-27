@@ -1,7 +1,6 @@
 import { getAllSibtechProducts } from "../../sanity/queries";
 import { urlFor } from "../../sanity/image";
 import { PortableText } from "@portabletext/react";
-import Image from "next/image";
 import Link from "next/link";
 import BuySibtechButton from "../../components/BuySibtechButton";
 
@@ -77,18 +76,18 @@ export default async function SibtechAfricaPage() {
                     {products.length > 0 ? (
             <div style={{ display: "flex", flexDirection: "column", gap: 56 }}>
               {products.map((product, index) => (
-                <div key={product._id} style={{ display: "grid", gridTemplateColumns: "280px 1fr", gap: 48, paddingBottom: 56, borderBottom: "1px solid var(--line)" }}>
-                  <div className="book-cover" style={{ aspectRatio: "2/3", position: "relative" }}>
+                                <div key={product._id} style={{ display: "grid", gridTemplateColumns: "360px 1fr", gap: 48, paddingBottom: 56, borderBottom: "1px solid var(--line)" }}>
+                  <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "center" }}>
                     {product.coverImage ? (
-                      <Image
-                        src={urlFor(product.coverImage).width(400).url()}
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={urlFor(product.coverImage).width(700).url()}
                         alt={product.title}
-                        fill
-                        sizes="(max-width: 900px) 40vw, 280px"
-                        style={{ objectFit: "cover" }}
+                        loading="lazy"
+                        style={{ width: "100%", height: "auto", objectFit: "contain", borderRadius: 4 }}
                       />
                     ) : (
-                      <div><div className="title">{product.title}</div></div>
+                      <div className="book-cover" style={{ aspectRatio: "2/3", width: "100%" }}><div className="title">{product.title}</div></div>
                     )}
                   </div>
                   <div>
