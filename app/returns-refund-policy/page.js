@@ -39,7 +39,7 @@ export default function ReturnsRefundPolicyPage() {
               through reflectivemindsarena.com.ng and our Selar store.
             </p>
 
-            <h2>Digital Products (Ebooks &amp; Audiobooks)</h2>
+           <h2>Digital Products (Ebooks, Audiobooks &amp; SIBTECH AFRICA Products)</h2>
 
             <p>
               Because ebooks and audiobooks are delivered digitally and can be
