@@ -56,17 +56,23 @@ export default function Header() {
               🛍️
               {count > 0 && <span className="cart-count">{count}</span>}
             </button>
-            <button className="icon-btn mobile-toggle" aria-label="Menu" onClick={() => setMobileOpen((v) => !v)}>
+                        <button
+              className="icon-btn mobile-toggle"
+              aria-label="Menu"
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-nav"
+              onClick={() => setMobileOpen((v) => !v)}
+            >
               ☰
             </button>
           </div>
         </div>
       </header>
 
-      <div className={`mobile-nav ${mobileOpen ? "open" : ""}`}>
+      <div id="mobile-nav" className={`mobile-nav ${mobileOpen ? "open" : ""}`} aria-hidden={!mobileOpen}>
         {NAV.map(([href, label]) => (
-          <Link key={href} href={href} onClick={() => setMobileOpen(false)}>
-            <button type="button">{label}</button>
+          <Link key={href} href={href} onClick={() => setMobileOpen(false)} tabIndex={mobileOpen ? 0 : -1}>
+            <button type="button" tabIndex={-1}>{label}</button>
           </Link>
         ))}
       </div>

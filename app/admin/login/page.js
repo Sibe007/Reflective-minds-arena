@@ -44,8 +44,12 @@ export default function AdminLoginPage() {
         <p style={{ marginBottom: 24 }}>
           Enter your admin email and we'll send you a sign-in link — no password needed.
         </p>
-        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+          <label htmlFor="admin-email" style={{ fontFamily: "var(--font-ui)", fontSize: ".82rem", fontWeight: 600 }}>
+            Admin email
+          </label>
           <input
+            id="admin-email"
             type="email"
             placeholder="you@example.com"
             value={email}
@@ -53,14 +57,17 @@ export default function AdminLoginPage() {
             required
             style={{ padding: "13px 14px", border: "1px solid var(--line)", borderRadius: "var(--radius)", fontFamily: "var(--font-ui)", fontSize: ".9rem", background: "var(--parchment)", color: "var(--ink)" }}
           />
-          <input
-            type="text"
-            value={hp}
-            onChange={(e) => setHp(e.target.value)}
-            style={{ position: "absolute", left: "-9999px", width: 1, height: 1, opacity: 0 }}
-            tabIndex={-1}
-            autoComplete="off"
-          />
+          <div style={{ position: "absolute", left: "-9999px", top: "-9999px" }} aria-hidden="true">
+            <label htmlFor="admin-website">Leave this field empty</label>
+            <input
+              id="admin-website"
+              type="text"
+              value={hp}
+              onChange={(e) => setHp(e.target.value)}
+              tabIndex={-1}
+              autoComplete="off"
+            />
+          </div>
           <button className="btn btn-primary" type="submit" disabled={status === "loading"}>
             {status === "loading" ? "Sending…" : "Send Sign-In Link"}
           </button>

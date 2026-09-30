@@ -69,10 +69,11 @@ export default function RootLayout({ children }) {
           crossOrigin="anonymous"
         ></script>
       </head>
-      <body>
+            <body>
+        <a href="#main-content" className="skip-link">Skip to main content</a>
         <CartProvider>
           <Header />
-          <main>{children}</main>
+          <main id="main-content">{children}</main>
           <Footer />
         </CartProvider>
         <ScrollReveal />

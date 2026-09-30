@@ -48,7 +48,12 @@ body{
 img{max-width:100%; display:block;}
 a{color:inherit; text-decoration:none;}
 button{font-family:var(--font-ui); cursor:pointer;}
-:focus-visible{outline:2px solid var(--gold-deep); outline-offset:3px;}
+:focus-visible{
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(245,237,225,0.9);
+  border-radius: 1px;
+}
 
 .container{max-width:var(--container); margin:0 auto; padding:0 28px;}
 
@@ -101,6 +106,12 @@ p{margin:0 0 1.1em;}
 .btn:disabled{opacity:.5; cursor:not-allowed;}
 
 /* ===== Header ===== */
+.skip-link{
+  position:absolute; left:-9999px; top:0; z-index:1000;
+  background:var(--ink); color:var(--parchment); padding:14px 22px;
+  font-family:var(--font-ui); font-weight:600; font-size:.9rem; text-decoration:none; border-radius:0 0 4px 0;
+}
+.skip-link:focus{left:0;}
 .site-header{
   position:sticky; top:0; z-index:100;
   background:var(--parchment);
@@ -497,9 +508,9 @@ p{margin:0 0 1.1em;}
 /* Mobile nav drawer */
 .mobile-nav{
   position:fixed; inset:0; background:var(--parchment); z-index:150; padding:90px 28px 28px;
-  transform:translateX(100%); transition:transform var(--transition); display:flex; flex-direction:column; gap:6px;
+  transform:translateX(100%); visibility:hidden; transition:transform var(--transition), visibility 0s linear var(--transition); display:flex; flex-direction:column; gap:6px;
 }
-.mobile-nav.open{transform:translateX(0);}
+.mobile-nav.open{transform:translateX(0); visibility:visible; transition:transform var(--transition);}
 .mobile-nav button{
   background:none; border:none; text-align:left; padding:16px 4px; font-family:var(--font-display);
   font-size:1.4rem; border-bottom:1px solid var(--line); color:var(--ink);
