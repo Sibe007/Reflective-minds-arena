@@ -40,11 +40,19 @@ export async function GET(request) {
       console.error("Digital delivery error (payment still verified):", deliveryErr);
     }
 
+    // What was ordered (e.g. "ebook", "webinar") — lets the success page show the right message.
+    let formats = [];
+    try {
+      const parsed = JSON.parse(paystackData.metadata?.order_items || "[]");
+      formats = parsed.map((i) => i.format || "ebook");
+    } catch (e) {}
+
     return NextResponse.json({
       verified: true,
       amount: paystackData.amount / 100,
       currency: paystackData.currency,
       reference: paystackData.reference,
+      formats,
     });
   } catch (err) {
     console.error(err);
