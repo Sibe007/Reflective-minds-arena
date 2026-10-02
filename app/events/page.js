@@ -1,7 +1,7 @@
 import { getAllEvents } from "../../sanity/queries";
 import { urlFor } from "../../sanity/image";
 import WebinarRegisterForm from "../../components/WebinarRegisterForm";
-import AddToWebinarCartButton from "../../components/AddToWebinarCartButton";
+import WebinarPayButton from "../../components/WebinarPayButton";
 
 export const metadata = {
   title: "Events — Solomon B. Ibe",
@@ -64,7 +64,7 @@ function buildEventJsonLd(events, siteUrl) {
               "@type": "Offer",
               url: `${siteUrl}/events`,
               price: String(e.price),
-              priceCurrency: "USD",
+              priceCurrency: "NGN",
               availability: "https://schema.org/InStock",
             },
           }
@@ -206,7 +206,7 @@ export default async function EventsPage() {
                           Registration closed
                         </span>
                       ) : w.price ? (
-                        <AddToWebinarCartButton
+                        <WebinarPayButton
                           webinar={{
                             slug: w.slug,
                             title: w.title,
