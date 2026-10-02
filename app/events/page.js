@@ -21,10 +21,13 @@ export const revalidate = 30;
 function formatDate(dateStr) {
   if (!dateStr) return null;
 
-  return new Date(dateStr).toLocaleString("en-US", {
-    dateStyle: "full",
-    timeStyle: "short",
-  });
+  return (
+    new Date(dateStr).toLocaleString("en-US", {
+      dateStyle: "full",
+      timeStyle: "short",
+      timeZone: "Africa/Lagos",
+    }) + " (WAT)"
+  );
 }
 
 function buildEventJsonLd(events, siteUrl) {
@@ -55,13 +58,23 @@ function buildEventJsonLd(events, siteUrl) {
         "@type": "Person",
         name: "Solomon B. Ibe",
       },
-      ...(e.ticketUrl && {
-        offers: {
-          "@type": "Offer",
-          url: e.ticketUrl,
-          availability: "https://schema.org/InStock",
-        },
-      }),
+      ...(e.type === "webinar" && e.price
+        ? {
+            offers: {
+              "@type": "Offer",
+              url: `${siteUrl}/events`,
+              price: String(e.price),
+              priceCurrency: "USD",
+              availability: "https://schema.org/InStock",
+            },
+          }
+        : e.ticketUrl && {
+            offers: {
+              "@type": "Offer",
+              url: e.ticketUrl,
+              availability: "https://schema.org/InStock",
+            },
+          }),
     }));
 }
 
@@ -71,6 +84,7 @@ export default async function EventsPage() {
   const webinars = events.filter((e) => e.type === "webinar");
   const otherEvents = events.filter((e) => e.type !== "webinar");
   const siteUrl = "https://reflectivemindsarena.com.ng";
+  const now = new Date();
   const eventsJsonLd = buildEventJsonLd(events, siteUrl);
 
   return (
@@ -157,7 +171,13 @@ export default async function EventsPage() {
                     )}
 
                     {w.description && (
-                      <p style={{ opacity: 0.8, marginBottom: 20 }}>
+                      <p
+                        style={{
+                          opacity: 0.8,
+                          marginBottom: 20,
+                          whiteSpace: "pre-line",
+                        }}
+                      >
                         {w.description}
                       </p>
                     )}
@@ -173,6 +193,17 @@ export default async function EventsPage() {
                           }}
                         >
                           Coming soon
+                        </span>
+                      ) : w.date && new Date(w.date) < now ? (
+                        <span
+                          className="btn btn-dark btn-sm"
+                          style={{
+                            opacity: 0.5,
+                            cursor: "default",
+                            pointerEvents: "none",
+                          }}
+                        >
+                          Registration closed
                         </span>
                       ) : w.price ? (
                         <AddToWebinarCartButton
@@ -209,24 +240,15 @@ export default async function EventsPage() {
               }}
             >
               <p style={{ fontSize: "1.1rem" }}>
-                No upcoming events scheduled at this time.
+                {webinars.length > 0
+                  ? "No other events are scheduled at this time."
+                  : "No upcoming events scheduled at this time."}
               </p>
 
               <p>
-                Check back soon or subscribe to the newsletter to be notified
-                of new events.
+                Check back soon, or use the sign-up form at the bottom of this
+                page to be notified of new events.
               </p>
-
-              <a
-                href="/newsletter"
-                className="btn btn-dark"
-                style={{
-                  marginTop: 14,
-                  display: "inline-flex",
-                }}
-              >
-                Join the Newsletter
-              </a>
             </div>
           ) : (
             <div
@@ -284,6 +306,7 @@ export default async function EventsPage() {
                       style={{
                         opacity: 0.8,
                         marginBottom: e.ticketUrl ? 16 : 0,
+                        whiteSpace: "pre-line",
                       }}
                     >
                       {e.description}
