@@ -13,6 +13,7 @@ export const metadata = {
       "Speaking engagements, book launches, webinars, and appearances by Solomon B. Ibe.",
     url: "https://reflectivemindsarena.com.ng/events",
     type: "website",
+    images: [{ url: "/og-default.jpg", width: 1200, height: 630 }],
   },
 };
 

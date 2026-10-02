@@ -9,10 +9,10 @@ import AnalyticsScripts from "../components/AnalyticsScripts";
 import Script from "next/script";
 
 export const metadata = {
+  metadataBase: new URL("https://reflectivemindsarena.com.ng"),
   title: "Solomon B. Ibe — Author & Independent Publisher",
   description:
     "Solomon B. Ibe is a Nigerian author and independent publisher exploring humanity, culture, resilience, belief, and the power of storytelling through fiction, essays, and memoir.",
-  keywords: "Solomon B. Ibe, Nigerian author, African literature, Igbo culture, philosophy, belief, fear, fiction, nonfiction, Lagos",
   openGraph: {
     title: "Solomon B. Ibe — Author & Independent Publisher",
     description: "Nigerian author exploring belief, culture, identity, and human freedom through fiction and nonfiction.",
@@ -20,13 +20,24 @@ export const metadata = {
     siteName: "Reflective Minds Arena",
     locale: "en_NG",
     type: "website",
+    images: [
+      {
+        url: "/og-default.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Solomon B. Ibe — Nigerian Author & Interior Architect",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/og-default.jpg"],
   },
   robots: {
     index: true,
     follow: true,
   },
 };
-
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
