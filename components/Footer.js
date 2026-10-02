@@ -28,7 +28,7 @@ export default function Footer() {
             <h4>Connect</h4>
             <ul>
               <li><Link href="/contact">Contact</Link></li>
-              <li><Link href="/studio">Content Studio (Admin)</Link></li>
+              
             </ul>
           </div>
           <div>

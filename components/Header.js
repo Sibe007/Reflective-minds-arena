@@ -49,9 +49,7 @@ export default function Header() {
                         <Link href="/account" className="icon-btn" aria-label="My Account">
               👤
             </Link>
-            <Link href="/admin" className="icon-btn" aria-label="Admin Dashboard">
-              🔑
-            </Link>
+            
             <button className="icon-btn" aria-label="Cart" onClick={() => setCartOpen(true)}>
               🛍️
               {count > 0 && <span className="cart-count">{count}</span>}
