@@ -61,7 +61,7 @@ export default {
     },
     {
       name: "price",
-      title: "Webinar Price (USD) — leave empty if free",
+      title: "Webinar Price (₦ Naira) — leave empty if free",
       type: "number",
       description: "Only used when Event Type is Webinar. Leave empty for a free webinar.",
     },
@@ -76,6 +76,11 @@ export default {
       title: "Webinar Join Link (private)",
       type: "url",
       description: "Only used when Event Type is Webinar. The actual Zoom/Meet link. This is NEVER shown on the public site — it is only emailed to people after they register (free) or pay (paid).",
+    },    {
+      name: "bonusFile",
+      title: "Free Guide for Registrants (optional)",
+      type: "file",
+      description: "Only used for Webinars. If you upload a file here, a download link for it is included in the registration confirmation email.",
     },
     {
       name: "coverImage",
