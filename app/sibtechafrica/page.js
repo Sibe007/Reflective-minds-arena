@@ -15,6 +15,7 @@ export const metadata = {
     description: "Digital products and business tools for smarter, more organized businesses.",
     url: "https://reflectivemindsarena.com.ng/sibtechafrica",
     type: "website",
+    images: [{ url: "/og-default.jpg", width: 1200, height: 630 }],
   },
 };
 

@@ -8,6 +8,7 @@ export const metadata = {
       "Our policy on returns, replacements, and refunds for purchases made through reflectivemindsarena.com.ng and our Selar store.",
     url: "https://reflectivemindsarena.com.ng/returns-refund-policy",
     type: "website",
+    images: [{ url: "/og-default.jpg", width: 1200, height: 630 }],
   },
 };
 

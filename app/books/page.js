@@ -11,6 +11,7 @@ export const metadata = {
     description: "Explore books by Solomon B. Ibe.",
     url: "https://reflectivemindsarena.com.ng/books",
     type: "website",
+    images: [{ url: "/og-default.jpg", width: 1200, height: 630 }],
   },
 };
 export const revalidate = 30;

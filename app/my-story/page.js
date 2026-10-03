@@ -9,7 +9,8 @@ export const metadata = {
     title: "My Story — Solomon B. Ibe",
     description: "The personal journey behind Solomon B. Ibe's writing.",
     url: "https://reflectivemindsarena.com.ng/my-story",
-    type: "profile",
+        type: "profile",
+    images: [{ url: "/og-default.jpg", width: 1200, height: 630 }],
   },
 };
 export const revalidate = 30;

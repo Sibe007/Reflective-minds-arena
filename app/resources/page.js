@@ -9,6 +9,7 @@ export const metadata = {
     description: "Free and paid writing resources, guides, and tools for readers and writers.",
     url: "https://reflectivemindsarena.com.ng/resources",
     type: "website",
+    images: [{ url: "/og-default.jpg", width: 1200, height: 630 }],
   },
 };
 export const revalidate = 30;

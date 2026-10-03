@@ -8,6 +8,7 @@ export const metadata = {
     description: "Lost your download link or has it expired? Get a fresh one sent to your email.",
     url: "https://reflectivemindsarena.com.ng/resend-download",
     type: "website",
+    images: [{ url: "/og-default.jpg", width: 1200, height: 630 }],
   },
 };
 

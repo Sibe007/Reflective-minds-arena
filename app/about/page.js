@@ -11,6 +11,7 @@ export const metadata = {
     description: "Nigerian author and Interior Architect exploring belief, identity, and personal transformation.",
     url: "https://reflectivemindsarena.com.ng/about",
     type: "profile",
+        images: [{ url: "/og-default.jpg", width: 1200, height: 630 }],
   },
 };
 export const revalidate = 30;

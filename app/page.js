@@ -11,6 +11,7 @@ export const metadata = {
     description: "Exploring belief, culture, identity, and human freedom through fiction and nonfiction.",
     url: "https://reflectivemindsarena.com.ng",
     type: "website",
+    images: [{ url: "/og-default.jpg", width: 1200, height: 630 }],
   },
 };
 

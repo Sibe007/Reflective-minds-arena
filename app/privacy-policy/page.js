@@ -8,6 +8,7 @@ export const metadata = {
     description: "How Reflective Minds Arena collects, uses, and protects your personal information.",
     url: "https://reflectivemindsarena.com.ng/privacy-policy",
     type: "website",
+    images: [{ url: "/og-default.jpg", width: 1200, height: 630 }],
   },
 };
 

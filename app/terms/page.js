@@ -8,6 +8,7 @@ export const metadata = {
     description: "The terms governing your use of reflectivemindsarena.com.ng.",
     url: "https://reflectivemindsarena.com.ng/terms",
     type: "website",
+    images: [{ url: "/og-default.jpg", width: 1200, height: 630 }],
   },
 };
 

@@ -15,6 +15,7 @@ export const metadata = {
       "Interior architecture and finishing works by Solomon B. Ibe. Residential and commercial spaces built with precision, materiality, and intent.",
     url: "https://reflectivemindsarena.com.ng/architecture",
     type: "website",
+    images: [{ url: "/og-default.jpg", width: 1200, height: 630 }],
   },
 };
 

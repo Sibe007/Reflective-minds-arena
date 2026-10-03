@@ -12,6 +12,7 @@ export const metadata = {
     description: "Buy books by Solomon B. Ibe.",
     url: "https://reflectivemindsarena.com.ng/store",
     type: "website",
+    images: [{ url: "/og-default.jpg", width: 1200, height: 630 }],
   },
 };
 

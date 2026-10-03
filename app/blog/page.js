@@ -9,6 +9,7 @@ export const metadata = {
     description: "Essays and reflections from Solomon B. Ibe.",
     url: "https://reflectivemindsarena.com.ng/blog",
     type: "website",
+    images: [{ url: "/og-default.jpg", width: 1200, height: 630 }],
   },
 };
 export const revalidate = 30;
