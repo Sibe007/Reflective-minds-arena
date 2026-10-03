@@ -52,6 +52,7 @@ const jsonLd = {
         "https://www.instagram.com/isob008",
         "https://x.com/hanetglobal",
         "https://www.facebook.com/share/1az2QAevjT",
+        "https://www.amazon.com/author/beniso_4live",
       ],
     },
     {

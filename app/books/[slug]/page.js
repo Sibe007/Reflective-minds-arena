@@ -36,11 +36,20 @@ export default async function BookPage({ params }) {
 
  const imageUrl = book.coverImage ? urlFor(book.coverImage).width(1000).url() : undefined;
 
-  const jsonLd = {
+    const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Book",
+    "@id": `https://reflectivemindsarena.com.ng/books/${book.slug}#book`,
     name: book.title,
-    author: { "@type": "Person", name: "Solomon B. Ibe" },
+    url: `https://reflectivemindsarena.com.ng/books/${book.slug}`,
+    author: {
+      "@type": "Person",
+      "@id": "https://reflectivemindsarena.com.ng/#person",
+      name: "Solomon B. Ibe",
+    },
+    inLanguage: "en",
+    bookFormat: "https://schema.org/EBook",
+    ...(book.category && { genre: book.category }),
     ...(imageUrl && { image: imageUrl }),
     ...(book.blurb && { description: book.blurb }),
     offers: {
